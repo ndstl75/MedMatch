@@ -1,0 +1,4 @@
+Communication type,Oral_Clinician (%),Oral_LLM (%),Oral_LLM With MedMatch (%),Intravenous_Clinician (%),Intravenous_LLM (%),Intravenous_LLM With MedMatch (%),All_Clinician (%),All_LLM (%),All_LLM With MedMatch (%)
+Formal Written Order,,90.0,1.2,,42.5,5.0,,66.2,3.1
+Brief Written Communication,,82.5,0.0,,86.2,0.0,,84.4,0.0
+Verbal Communication,,43.8,0.0,,42.5,0.0,,43.1,0.0

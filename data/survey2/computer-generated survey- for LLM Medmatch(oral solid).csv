@@ -1,0 +1,241 @@
+﻿Drug,type of order
+Daily baby aspirin,verbal- green
+Aspirin 81,verbal- green
+Aspirin 81mg daily,verbal- green
+Aspirin 81 mg,verbal- green
+Atorvastatin 80,verbal- green
+Atorva 80,verbal- green
+Atorvastatin 80mg daily (or QPM) if preferred by the patient,verbal- green
+Atorvastatin 80,verbal- green
+Carvedilol 25 BID,verbal- green
+Coreg 25 BID,verbal- green
+Carvedilol 25mg twice daily,verbal- green
+Carvedilol 25 mg,verbal- green
+Hydralazine 25 TID,verbal- green
+Hydral 25 TID,verbal- green
+Hydralazine 25mg three times daily,verbal- green
+Hydralazine 25 TID,verbal- green
+PRN Tylenol,verbal- green
+Tylenol 325 q4 PRN for headache,verbal- green
+Tylenol 325mg every 4 hours as needed for headache,verbal- green
+Tylenol 325 q4h PRN headache,verbal- green
+"Warfarin 5mg Monday, Wednesday, Friday",verbal- green
+"Warfarin 5 on Mondays, Wednesdays, and Fridays",verbal- green
+"Warfarin 5mg tablet on Monday, Wednesday, and Friday",verbal- green
+"Warfarin 5 mg on Mondays, Wednesday, and Fridays",verbal- green
+PRN ibuprofen,verbal- green
+Advil 800 q8 PRN,verbal- green
+Ibuprofen 800mg every 8 hours as needed for pain,verbal- green
+Ibuprofen 800 mg PRN pain,verbal- green
+Lisinopril 5,verbal- green
+Lisinopril 5mg in the morning,verbal- green
+Lisinopril 5,verbal- green
+Lisinopril 5 mg,verbal- green
+Magnesium four times daily,verbal- green
+MagOx 400 QID,verbal- green
+Magnesium 400mg 4 times daily,verbal- green
+Magnesium 400 QI,verbal- green
+Rimegepant 75 every other day,verbal- green
+Rimegepant 75 mg every other day,verbal- green
+Rimegepant 75mg every other day,verbal- green
+Rimegepant every other day,verbal- green
+PRN oxy,verbal- green
+Oxy 5 q4 PRN,verbal- green
+Oxycodone 5mg as needed every 4 hours for pain,verbal- green
+Oxycodone 5 q4h PRN severe pain,verbal- green
+Amlodipine 10,verbal- green
+Amlodipine 10,verbal- green
+Amlodipine 10mg daily,verbal- green
+Amlodipine 10 mg,verbal- green
+Cyclobenzaprine QHS,verbal- green
+Cyclobenzaprine 15 mg nightly,verbal- green
+Cyclobenzaprine 15mg at bedtime,verbal- green
+Flexeril 15 mg nightly,verbal- green
+Amoxicillin,verbal- green
+Amoxicillin 500 BID,verbal- green
+Amoxicillin 500mg twice daily,verbal- green
+Amoxicillin 500 mg BID,verbal- green
+Double strength bactrim,verbal- green
+Bactrim double-strength BID,verbal- green
+Bactrim DS tablet twice daily,verbal- green
+Bactrim twice daily,verbal- green
+Prenatal vitamin,verbal- green
+Prenatal vitamin,verbal- green
+Prenatal vitamin daily,verbal- green
+Prenatal vitamin,verbal- green
+Metoprolol tartrate 25 q6,verbal- green
+Metop 25 q6,verbal- green
+Metoprolol tartrate 25mg every 6 hours,verbal- green
+Metoprolol 25 mg every 6 hours,verbal- green
+Sertraline 25,verbal- green
+Sertraline 25 daily,verbal- green
+Sertraline 25mg daily,verbal- green
+Zoloft 25,verbal- green
+Plavix,verbal- green
+Plavix 75,verbal- green
+Clopidogrel 75mg daily,verbal- green
+Plavix 75,verbal- green
+Oxy 10 q12,verbal- green
+Oxy 10 Q12,verbal- green
+Oxycodone 10mg every 12 hours,verbal- green
+Oxycodone 10 twice daily,verbal- green
+Aspirin 81 mg take 1 tablet by mouth daily,formal written-blue
+Aspirin 81 mg by mouth daily,formal written-blue
+Aspirin 81mg given 1 tablet by mouth daily,formal written-blue
+"Aspirin 81 mg tablet, 1 tablet by mouth once daily at 0900",formal written-blue
+Atorvastatin 80mg take 1 tablet by mouth daily,formal written-blue
+Atorvastatin 80 mg by mouth daily,formal written-blue
+Atorvastatin 80mg tablet- take 1 tablet by mouth daily,formal written-blue
+"Atorvastatin 80 mg tablet, 1 tablet by mouth once daily at 0900",formal written-blue
+Carvedilol 25mg take 1 tablet by mouth twice daily,formal written-blue
+Carvedilol 25 mg by mouth twice daily,formal written-blue
+Carvedilol 25mg tablet- take 1 tablet by mouth twice daily,formal written-blue
+"Carvedilol 25 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",formal written-blue
+Hydralazine 25mg take 1 tablet by mouth three times daily,formal written-blue
+Hydralazine 25 mg by mouth three times daily,formal written-blue
+Hydralazine 25mg tablet- take 1 tablet by mouth three times daily,formal written-blue
+"Hydralazine 25 mg tablet, 1 tablet by mouth three times daily",formal written-blue
+Acetaminophen 325mg take 1 tablet by mouth every 4 hours as needed for headache,formal written-blue
+Acetaminophen 325 mg by mouth every 4 hours as needed for headache,formal written-blue
+Acetaminophen 325 mg tablet- take 1 tablet by mouth every 4 hours as needed for a headache,formal written-blue
+"Acetaminophen 325 mg tablet, 1 tablet by mouth every 4 hours as needed for headache",formal written-blue
+"Warfarin 5mg take 1 tablet by mouth on Mondays, Wednesdays, and Fridays",formal written-blue
+"Warfarin 5 mg by mouth every Monday, Wednesday, and Friday",formal written-blue
+"Warfarin 5mg tablet- take 1 (5mg) tablet by mouth 3 times a week on Monday, Wednesday, and Friday",formal written-blue
+"Warfarin 5 mg tablet, 1 tablet by mouth once daily on Mondays, Wednesday, and Fridays at 1800",formal written-blue
+Ibuprofen 200mg take 4 tablets (800mg total) by mouth every 8 hours as needed for pain,formal written-blue
+"Ibuprofen 800 mg, take four (4) 200 mg tablets every 8 hours as needed for pain",formal written-blue
+Ibuprofen 200mg tablet- take 4 tablets by mouth every 8 hours as needed for pain,formal written-blue
+"Ibuprofen 200 mg tablets, 4 tablets by mouth every 8 hours as needed for mild pain (score 1-3)",formal written-blue
+Lisinopril 5mg take 1 tablet by mouth every morning,formal written-blue
+Lisinopril 5 mg by mouth every morning,formal written-blue
+Lisinopril 5mg tablet- take 1 tablet by mouth in the morning,formal written-blue
+"Lisinopril 5 mg tablet, 1 tablet by mouth every morning at 0900",formal written-blue
+Magnesium 400mg take 1 tablet by mouth four times daily,formal written-blue
+Magnesium 400 mg by mouth four times daily,formal written-blue
+Magnesium oxide 400 mg tablet- take 1 tablet by mouth 4 times daily,formal written-blue
+"Magnesium sulfate 400 mg tablet, 1 tablet by mouth four times daily",formal written-blue
+Rimegepant 75mg- take 1 tablet by mouth every other day,formal written-blue
+Rimegepant 75 mg by mouth every other day,formal written-blue
+Rimegepant 75mg oral disintegrating tablet- give 1 tablet by mouth every other day,formal written-blue
+"Rimegepant 75 mg tablet, 1 tablet by mouth every other day at 0900",formal written-blue
+Oxycodone 5mg take 1 tablet by mouth every 4 hours as needed for severe pain,formal written-blue
+Oxycodone 5 mg by mouth every 4 hours as needed for severe pain,formal written-blue
+Oxycodone 5 mg tablet- give 1 tablet by mouth every 4 hours as needed for severe pain,formal written-blue
+"Oxycodone 5 mg tablet, 1 tablet by mouth every 4 hours as needed for severe pain (score 7-10)",formal written-blue
+Amlodipine 10mg take 1 tablet by mouth daily,formal written-blue
+Amlodipine 10 mg by mouth every day,formal written-blue
+Amlodipine 10mg tablet- take 1 tablet by mouth daily,formal written-blue
+"Amlodipine 10 mg tablet, 1 tablet by mouth once daily at 0900",formal written-blue
+Cyclobenzaprine 15mg take 1 tablet by mouth at bedtime,formal written-blue
+Cyclobenzaprine 15 mg by mouth every evening,formal written-blue
+Cyclobenzaprine 15 mg tablet- give 1 tablet by mouth at bedtime,formal written-blue
+"Cyclobenzaprine 15 mg tablet, 1 tablet by mouth every night at 2100",formal written-blue
+Amoxicillin 500mg take 1 capsule by mouth twice daily,formal written-blue
+Amoxicillin 500 mg by mouth twice daily,formal written-blue
+Amoxicillin 500mg tablet- take 1 tablet by mouth twice daily,formal written-blue
+"Amoxicillin 500 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",formal written-blue
+Sulfamethoxazole-trimethoprim (800/160mg) take 1 double strength tablet by mouth every 12 hours,formal written-blue
+Sulfamethoxazole-trimethoprim (800-160) mg by mouth every 12 hours,formal written-blue
+Sulfamethoxazole-trimethoprim 800-160 mg tablet- take 1 tablet by mouth every 12 hours,formal written-blue
+"Sulfamethoxazole-trimethoprim 800-160 mg tablet, 1 tablet by mouth twice daily at 0900",formal written-blue
+Prenatal vitamin take 1 tablet by mouth daily,formal written-blue
+Prenatal vitamin by mouth daily,formal written-blue
+Prenatal vitamin tablet- give 1 tablet by mouth daily,formal written-blue
+"Prenatal vitamin, 1 tablet by mouth once daily at 0900",formal written-blue
+Metoprolol tartrate 25mg take 1 tablet by mouth every 6 hours,formal written-blue
+Metoprolol 25 mg by mouth every 6 hours,formal written-blue
+Metoprolol tartrate 25 mg tablet- take 1 tablet by mouth every 6 hours,formal written-blue
+"Metoprolol tartrate 25 mg tablet, 1 tablet by mouth every 6 hours",formal written-blue
+Sertraline 25mg take 1 tablet by mouth daily,formal written-blue
+Sertraline 25 mg by mouth daily,formal written-blue
+Sertraline 25mg tablet- take 1 tablet by mouth daily,formal written-blue
+"Sertraline 25 mg tablet, 1 tablet by mouth once daily at 0900",formal written-blue
+Clopidogrel 75mg take 1 tablet by mouth daily,formal written-blue
+Clopidogrel 75 mg by mouth daily,formal written-blue
+Clopidogrel 75 mg tablet- take 1 tablet by mouth daily,formal written-blue
+"Clopidogrel 75 mg tablet, 1 tablet by mouth once daily at 0900",formal written-blue
+Oxycodone 10mg take 1 tablet by mouth every 12 hours,formal written-blue
+Oxycodone 10 mg by mouth every 12 hours,formal written-blue
+Oxycodone 10mg tablet- take 1 tablet by mouth every 12 hours,formal written-blue
+"Oxycodone 10 mg tablet, 1 tablet by mouth every 12 hours at 0900 and 2100",formal written-blue
+ASA 81mg,brief written-orange
+Aspirin 81 mg daily,brief written-orange
+Aspirin 81mg QD,brief written-orange
+Aspirin 81 mg PO daily,brief written-orange
+Atorvastatin 80mg,brief written-orange
+Atorvastatin 80mg daily,brief written-orange
+Atorvastatin 80mg QD,brief written-orange
+Atorvastatin 80 mg PO daily,brief written-orange
+Carvedilol 25mg BID,brief written-orange
+Carvedilol 25 mg BID,brief written-orange
+Carvedilol 25mg BID,brief written-orange
+Carvedilol 25 mg PO BID,brief written-orange
+Hydralazine 25mg TID,brief written-orange
+Hydralazine 25mg TID,brief written-orange
+Hydralazine 25mg TID,brief written-orange
+Hydralazine 25 mg PO TID,brief written-orange
+APAP 325mg q4h PRN,brief written-orange
+Acetaminophen 325 q4h PRN headache,brief written-orange
+Tylenol 325mg Q4 PRN HA,brief written-orange
+Acetaminophen 325 mg PO q4h PRN headache,brief written-orange
+Warfarin 5mg MWF,brief written-orange
+Warfarin 5 mg MWF,brief written-orange
+Warfarin 5 mg MWF,brief written-orange
+Warfarin 5 mg PO on MWF,brief written-orange
+Ibuprofen 800 q8h PRN pain,brief written-orange
+Ibuprofen 800mg q8h prn,brief written-orange
+Ibuprofen 800mg Q8h PRN pain,brief written-orange
+Ibuprofen 800 mg PO q8h PRN mild pain,brief written-orange
+Lisinopril 5mg,brief written-orange
+Lisinopril 5 mg daily,brief written-orange
+Lisinopril 5mg QAM,brief written-orange
+Lisinopril 5 mg PO qAM,brief written-orange
+Magnesium 400mg QID,brief written-orange
+Magnesium 400mg QID,brief written-orange
+Oral Mag 400mg QID,brief written-orange
+Magnesium 400 mg PO QID,brief written-orange
+Rimegepant 75mg every other day,brief written-orange
+Rimegepant 75 mg QOD,brief written-orange
+Rimegepant 75mg QOD,brief written-orange
+Rimegepant 75 mg PO every other day,brief written-orange
+PRN oxy 5mg q4h,brief written-orange
+Oxycodone 5mg q4h PRN,brief written-orange
+Oxycodone 5mg Q4h PRN severe pain,brief written-orange
+Oxycodone 5 mg PO q4h PRN severe pain,brief written-orange
+Amlodipine 10mg,brief written-orange
+Amlodipine 10 mg daily,brief written-orange
+Amlodipine 10mg QD,brief written-orange
+Amlodipine 10 mg PO daily,brief written-orange
+Cyclobenzaprine 15mg QHS,brief written-orange
+Cyclobenzaprine 15 mg QHS,brief written-orange
+Cyclobenzaprine 15mg QHS,brief written-orange
+Cyclobenzaprine 15 mg PO nightly,brief written-orange
+Amoxicillin 500mg BID,brief written-orange
+Amoxicillin 500 mg BID,brief written-orange
+Amoxicillin 500mg BID,brief written-orange
+Amoxicillin 500 mg PO BID,brief written-orange
+Bactrim DS q12h,brief written-orange
+Bactrim DS BID,brief written-orange
+Bactrim 800-160mg Q12h,brief written-orange
+Bactrim DS q12h,brief written-orange
+Prenatal vitamin,brief written-orange
+Prenatal vitamin QD,brief written-orange
+Prenatal vitamin QD,brief written-orange
+Prenatal vitamin,brief written-orange
+Metoprolol tartrate 25mg q6h,brief written-orange
+Metoprolol 25mg q6h,brief written-orange
+Metoprolol tartrate 25mg Q6h,brief written-orange
+Metoprolol tartrate 25 mg PO q6h,brief written-orange
+Sertraline 25mg,brief written-orange
+Sertraline 25mg QD,brief written-orange
+Sertraline 25mg daily,brief written-orange
+Sertraline 25 mg PO daily,brief written-orange
+Clopidogrel 75,brief written-orange
+Clopidogrel 75 mg QD,brief written-orange
+Clopidogrel 75mg QD,brief written-orange
+Clopidogrel 75 mg PO daily,brief written-orange
+Oxy 10mg q12h,brief written-orange
+Oxycodone 10 mg Q12h,brief written-orange
+Oxycodone 10mg Q12h,brief written-orange
+Oxycodone 10 mg PO q12h,brief written-orange

@@ -1,0 +1,17 @@
+# Core (prompting + evaluation)
+pandas>=2.0
+tqdm>=4.65
+openai>=1.0
+python-dotenv>=1.0
+
+# RougeRx / survey analysis
+nltk>=3.8
+matplotlib>=3.7
+seaborn>=0.13
+
+# Optional: local GPU inference (install only if needed)
+# vllm>=0.6
+# transformers>=4.40
+
+# Optional: Azure OpenAI
+# azure-identity>=1.15

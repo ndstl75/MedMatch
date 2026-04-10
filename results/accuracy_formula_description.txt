@@ -1,0 +1,71 @@
+ENTITY-LEVEL ACCURACY FORMULA
+============================
+
+Accuracy Calculation Method:
+----------------------------
+For each entity (order component) and each model, accuracy is calculated as the average 
+of per-run accuracies across all evaluation runs.
+
+Step 1: Calculate Per-Run Accuracy
+-----------------------------------
+For each run (Run 1, Run 2, Run 3):
+  Per-Run Accuracy = (Number of order sentences with entity correct) / (Total order sentences) × 100%
+
+Where:
+  - "Order sentences" = medication order samples in the dataset
+  - "Entity correct" = the model's prediction for this entity exactly matches the ground truth
+  - Each entity is evaluated independently (e.g., Drug Name, Dose, Frequency, etc.)
+
+Example:
+  If a dataset has 40 order sentences:
+  - Run 1: 35 order sentences had "Drug Name" correct → 35/40 = 87.5%
+  - Run 2: 36 order sentences had "Drug Name" correct → 36/40 = 90.0%
+  - Run 3: 34 order sentences had "Drug Name" correct → 34/40 = 85.0%
+
+Step 2: Average Across Runs
+----------------------------
+Final Accuracy = Average of all per-run accuracies
+
+Formula:
+  Final Accuracy = (Run 1 Accuracy + Run 2 Accuracy + Run 3 Accuracy) / Number of Runs
+
+Example (continuing from above):
+  Final Accuracy = (87.5% + 90.0% + 85.0%) / 3 = 87.5%
+
+Mathematical Notation:
+----------------------
+For entity e, model m, with R runs:
+
+  Accuracy(e, m) = (1/R) × Σ[Accuracy_run_r(e, m)] for r = 1 to R
+
+Where:
+  Accuracy_run_r(e, m) = (Correct_count_run_r(e, m) / Total_samples_run_r) × 100%
+
+Key Points:
+-----------
+1. Each entity is evaluated independently - an order sentence can have some entities 
+   correct and others incorrect.
+
+2. Accuracy represents the percentage of order sentences where the model correctly 
+   extracted the specific entity.
+
+3. The final accuracy is the average across multiple runs, providing a more stable 
+   estimate of model performance.
+
+4. This metric answers: "For this entity, what percentage of order sentences did the 
+   model extract correctly?"
+
+Example Calculation:
+--------------------
+Dataset: Oral solid (n=40)
+Entity: Drug Name
+Model: GPT-4o-mini
+
+Run 1: 38/40 correct = 95.0%
+Run 2: 39/40 correct = 97.5%
+Run 3: 37/40 correct = 92.5%
+
+Final Accuracy = (95.0 + 97.5 + 92.5) / 3 = 95.0%
+
+This means: On average, GPT-4o-mini correctly extracted the Drug Name entity 
+in 95.0% of the order sentences across the three runs.

@@ -1,0 +1,14 @@
+﻿Drug,type of order
+Prop 5 for RASS 0 to -2,verbal- green
+"Propofol at 5, goal RASS 0 to -2",verbal- green
+Propofol infusion at 5 mcg/kg/min to RASS goal,verbal- green
+Propofol drip,verbal- green
+Norepinephrine 8 mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion and titrate as instructed,formal written-blue
+"Norepinephrine 8 mg/250 mL 0.9% NaCl, continuous intravenous infusion starting at 5 mcg/min and titrating by 5 mcg/min every 5 minutes to maintain MAP &gt; 65 mmHg",formal written-blue
+Propofol 1000mg/100mL administer propofol intravenously as a continuous infusion starting at 5mcg/kg/min and titrated to a Richmond Agitation and Sedation Scale goal of 0 to -2,formal written-blue
+"Propofol 1000 mg in100 mL continuous intravenous infusion, administer at 5 mcg/kg/min and titrate to RASS 0 to -2",formal written-blue
+Propofol 1000mg/100ml solution- administer 5 mcg/kg/min intravenously as a continuous infusion and titrate to RASS 0 to -2,formal written-blue
+"Propofol 1000 mg/100 mL, continuous intravenous infusion starting at 5 mcg/kg/min, titrate by 5 to 10 mcg/kg/min every 5 to 10 minutes to maintain RASS of 0 to -2",formal written-blue
+Propofol 5mcg/kg/min titrated to RASS 0 to -2,brief written-orange
+"Propofol 5 mcg/kg/min, goal RASS 0 to -2",brief written-orange
+Propofol 5 mcg/kg/min to RASS goal,brief written-orange

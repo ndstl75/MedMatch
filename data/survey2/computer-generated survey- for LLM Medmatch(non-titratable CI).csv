@@ -1,0 +1,132 @@
+﻿Drug,type of order
+Vaso .04,verbal- green
+Vaso 0.04,verbal- green
+Vasopressin drip at 0.04 units/min,verbal- green
+Vasopressin drip,verbal- green
+Fent 50,verbal- green
+Fentanyl infusion at 50,verbal- green
+Fentanyl infusion at 50 mcg/hr,verbal- green
+Fentanyl drip at 50,verbal- green
+Midazolam 2,verbal- green
+Versed at 2,verbal- green
+Midazolam drip starting at 2 mg/hr,verbal- green
+Midazolam drip at 2,verbal- green
+Normal saline at 100,verbal- green
+NS at 100,verbal- green
+Normal saline infusion at 100 ml/hour,verbal- green
+Normal saline at 100,verbal- green
+Epi 0.1,verbal- green
+Epi at 0.1,verbal- green
+Epinephrine infusion starting at 0.1mcg/kg/min,verbal- green
+Epinephrine drip at 0.1,verbal- green
+Precedex 0.2,verbal- green
+Precedex at 0.2,verbal- green
+Precedex infusion starting at 0.2 mcg/kg/min,verbal- green
+Precedex at 0.2,verbal- green
+Dopamine 5,verbal- green
+Dopamine infusion at 5 mcg/min,verbal- green
+Dopamine at 5,verbal- green
+Dopamine at 5,verbal- green
+Milrinone 0.125,verbal- green
+Milrinone at 0.125,verbal- green
+Milrinone infusion at 0.125 mcg/kg/min,verbal- green
+Milrinone at 0.125,verbal- green
+Dilaudid 0.5,verbal- green
+Dilaudid at 0.5,verbal- green
+Diluadid drip at 0.5 mg/hr,verbal- green
+Dilaudid drip at 0.5,verbal- green
+D5W at 200/hr,verbal- green
+D5 at 200,verbal- green
+D5W drip at 200 ml/hour,verbal- green
+D5 at 200,verbal- green
+Norepi 5,verbal- green
+Norepi at 5,verbal- green
+Norepinephrine 8 mg/250ml drip starting at 5 mcg/min,verbal- green
+Norepi drip at 5 mcg/min,verbal- green
+Norepinephrine 8mg/250mL 0.9% sodium chloride- administer norepinephrine at 5mcg/min intravenously,formal written-blue
+"Norepinephrine 8 mg in 250 mL intravenous, administer at 5 mcg/min",formal written-blue
+Vasopressin 20 units/100mL 0.9% sodium chloride- administer 0.04units/min intravenously,formal written-blue
+"Vasopressin intravenous, administer at 0.04 units/minute",formal written-blue
+Vasopressin 40 units/100ml in NaCL 0.9% solution- administer 0.04 units/minute intravenously as a continuous infusion,formal written-blue
+"Vasopressin 20 units/100 mL Dextrose 5% in Water, continuous intravenous infusion at 0.04 units/min",formal written-blue
+Fentanyl 2000mcg/100mL 0.9% sodium chloride- administer fentanyl at 50mcg/hr intravenously,formal written-blue
+"Fentanyl continuous intravenous infusion, administer at 50 mcg/hr",formal written-blue
+Fentanyl 2500 mcg/50 ml solution- administer 50 mcg/hr intravenously as a continuous infusion,formal written-blue
+"Fentanyl 2500 mcg/50 mL, continuous intravenous infusion at 50 mcg/h",formal written-blue
+Midazolam 100mg/100mL 0.9% sodium chloride - administer midazolam at 2mg/hr intravenously,formal written-blue
+"Midazolam continuous intravenous infusion, administer at 2 mg/hr",formal written-blue
+Midazolam 100mg/100ml in 0.9% NaCL solution- administer 2 mg/hr intravenously as a continuous infusion,formal written-blue
+"Midazolam 100 mg/100 mL, continuous intravenous infusion at 2 mg/h",formal written-blue
+0.9% sodium chloride intravenously at 100mL/hour,formal written-blue
+"0.9% sodium chloride continuous intravenous infusion, administer at 100 mL/hour",formal written-blue
+Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously as a continuous infusion,formal written-blue
+0.9% sodium chloride continuous intravenous infusion at 100 mL/h,formal written-blue
+Epinephrine 5mg/250mL 0.9% sodium chloride- administer epinephrine at 0.1mcg/kg/min intravenously,formal written-blue
+Epinephrine 5mg/250mL 0.9% sodium chloride- administer epinephrine at 0.1mcg/kg/min intravenously,formal written-blue
+Epinephrine 5mg/250 ml solution-administer 0.1 mcg/kg/min intravenously as a continuous infusion,formal written-blue
+"Epinephrine 5 mg/250 mL0.9% sodium chloride, continuous intravenous infusion at 0.1 mcg/kg/min",formal written-blue
+Dexmedetomidine 400mcg/100mL 0.9% sodium chloride - administer dexmedetomidine intravenously at 0.2mcg/kg/min,formal written-blue
+"Dexmedetomidine continuous intravenous infusion, administer at 0.2 mcg/kg/min",formal written-blue
+Dexmedetomidine 400 mcg/100ml NaCl 0.9% solution- administer 0.2 mcg/kg/min intravenously as a continuous infusion,formal written-blue
+"Dexmedetomidine 1 mg/250 mL, continuous intravenous infusion at 0.2 mcg/kg/min",formal written-blue
+Dopamine 400mg/250mL 0.9% sodium chloride- administer dopamine as a continuous intravenous infusion at 5mcg/min,formal written-blue
+"Dopamine 400 mg in 250 mL continuous intravenous infusion, administer at 5 mcg/min",formal written-blue
+Dopamine 400mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion,formal written-blue
+"Dopamine 400 mg/250 mL, continuous intravenous infusion at 5 mcg/min",formal written-blue
+Milrinone 40mg/200mL 5% dextrose in water administer milrinone as a continuous intravenous infusion at 0.125mcg/kg/min,formal written-blue
+"Milrinone 40 mg in 200 mL D5W continuous intravenous infusion, administer at 0.125 mcg/kg/min",formal written-blue
+Milrinone 40mg/200ml in D5W solution- administer at 0.125 mcg/kg/min intravenously as a continuous infusion,formal written-blue
+"Milrinone 40 mg/200 mL dextrose 5% in water, continuous intravenous infusion at 0.125 mcg/kg/min",formal written-blue
+Hydromorphone 10mg/50mL 0.9% sodium chloride administer hydromorphone as a continuous intravenous infusion at 0.5mg/hr,formal written-blue
+"Hydromorphone 10 mg in 50 mL continuous intravenous infusion, administer at 0.5 mg/hr",formal written-blue
+Hydromorphone 10mg/50mL solution- administer 0.5 mg/hr intravenously as a continuous infusion,formal written-blue
+Hydromorphone 10 mg/50 mL continuous intravenous infusion at 0.5 mg/h,formal written-blue
+Dextrose 5% in water administer dextrose as a continuous infusion at 200ml/hr,formal written-blue
+"Dextrose 5% in water continuous intravenous solution, administer at 200 mL/hr",formal written-blue
+D5W solution- administer 200ml/hr intravenously as a continuous infusion,formal written-blue
+5% Dextrose in Water continuous intravenous infusion at 200 mL/h,formal written-blue
+Norepi 5mcg/min,brief written-orange
+Norepinephrine 5 mcg/min,brief written-orange
+Norepinephrine 8 mg/250ml starting at 5 mcg/min,brief written-orange
+Norepinephrine infusion at 5 mcg/min,brief written-orange
+Vaso 0.04u/min,brief written-orange
+Vasopressin 0.04 u/min,brief written-orange
+Vasopressin 0.04 units/min,brief written-orange
+Vasopressin 0.04 units/min,brief written-orange
+Fentanyl 50mcg/hr,brief written-orange
+Fentanyl infusion 50 mcg/hr,brief written-orange
+Fentanyl 50 mcg/hr drip,brief written-orange
+Fentanyl infusion at 50 mcg/h,brief written-orange
+Midazolam 2mg/hr,brief written-orange
+Midazolam at 2 mg/hr,brief written-orange
+Midazolam 2mg/hr infusion,brief written-orange
+Midazolam infusion at 2 mg/h,brief written-orange
+100ml/hr NS,brief written-orange
+"NS, 100 mL/hr",brief written-orange
+NS 100ml/hour infusion,brief written-orange
+NS at 100 mL/h,brief written-orange
+Epinephrine 0.1mcg/kg/min,brief written-orange
+Epinephrine 0.1 mcg/kg/min,brief written-orange
+Epi infusion at 0.1 mcg/kg/min,brief written-orange
+Epinephrine infusion at 0.1 mcg/kg/min,brief written-orange
+Propofol infusion at 5 mcg/kg/min,brief written-orange
+Precedex 0.2mcg/kg/min,brief written-orange
+Dexmedetomidine 0.2 mcg/kg/min,brief written-orange
+Precedex infusions at 0.2 mcg/kg/min,brief written-orange
+Dexmedetomidine at 0.2 mcg/kg/min,brief written-orange
+Dopamine 5mcg/min,brief written-orange
+Dopamine 5 mcg/min,brief written-orange
+Dopamine drip at 5 mcg/min,brief written-orange
+Dopamine infusion at 5 mcg/min,brief written-orange
+Milrinone 0.125mcg/kg/min,brief written-orange
+Milrinone drip at 0.125 mcg/kg/min,brief written-orange
+Milrinone 0.125 mcg/kg/min,brief written-orange
+Milrinone infusion at 0.125 mcg/kg/min,brief written-orange
+Hydromorphone 0.5mg/hr,brief written-orange
+Hydromorphone 0.5 mg/hr,brief written-orange
+Dilaudid infusion at 0.5 mg/hr,brief written-orange
+Hydromorphone IV infusion at 0.5 mg/h,brief written-orange
+D5W 200ml/hr,brief written-orange
+D5W 200 mL/hr,brief written-orange
+D5 drip at 200ml/hr,brief written-orange
+D5W at 200 mL/h,brief written-orange

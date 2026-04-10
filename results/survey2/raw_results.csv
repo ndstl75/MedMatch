@@ -1,0 +1,481 @@
+order,communication_type,route,medication_category,response_p1,response_p2,llm_appropriate,llm_medmatch_appropriate
+Daily baby aspirin,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorva 80,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Coreg 25 BID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Aspirin 81 mg,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Atorvastatin 80mg daily (or QPM) if preferred by the patient,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Carvedilol 25mg twice daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25 BID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25 TID,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Aspirin 81mg daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydral 25 TID,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Tylenol 325 q4 PRN for headache,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+PRN Tylenol,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Carvedilol 25 mg,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25 TID,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Tylenol 325 q4h PRN headache,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Warfarin 5mg Monday, Wednesday, Friday",verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Tylenol 325mg every 4 hours as needed for headache,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+PRN ibuprofen,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Warfarin 5 mg on Mondays, Wednesday, and Fridays",verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Warfarin 5 on Mondays, Wednesdays, and Fridays",verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Warfarin 5mg tablet on Monday, Wednesday, and Friday",verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ibuprofen 800mg every 8 hours as needed for pain,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Advil 800 q8 PRN,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ibuprofen 800 mg PRN pain,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Lisinopril 5 mg,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Magnesium four times daily,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydralazine 25mg three times daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Magnesium 400mg 4 times daily,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+MagOx 400 QID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Magnesium 400 QI,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Lisinopril 5mg in the morning,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Rimegepant 75 mg every other day,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Rimegepant 75 every other day,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant every other day,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+PRN oxy,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 5 q4h PRN severe pain,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 5mg as needed every 4 hours for pain,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxy 5 q4 PRN,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75mg every other day,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Amlodipine 10,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Amlodipine 10,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cyclobenzaprine 15mg at bedtime,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15 mg nightly,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Amoxicillin,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Amlodipine 10mg daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500 BID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10 mg,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Flexeril 15 mg nightly,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Amoxicillin 500 mg BID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500mg twice daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine QHS,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Bactrim DS tablet twice daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Bactrim double-strength BID,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Bactrim twice daily,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Prenatal vitamin,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Prenatal vitamin,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metop 25 q6,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Metoprolol tartrate 25 q6,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Prenatal vitamin,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Metoprolol 25 mg every 6 hours,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Metoprolol tartrate 25mg every 6 hours,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sertraline 25,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sertraline 25 daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Zoloft 25,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Double strength bactrim,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sertraline 25mg daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Plavix 75,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Plavix,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Plavix 75,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Clopidogrel 75mg daily,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxy 10 q12,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 10mg every 12 hours,verbal,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxy 10 Q12,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Aspirin 81 mg take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81 mg by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80 mg by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81mg given 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10 twice daily,verbal,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Atorvastatin 80mg take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80mg tablet- take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Aspirin 81 mg tablet, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25mg take 1 tablet by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Atorvastatin 80 mg tablet, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25mg tablet- take 1 tablet by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Carvedilol 25 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25 mg by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25mg tablet- take 1 tablet by mouth three times daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25mg take 1 tablet by mouth three times daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Acetaminophen 325 mg by mouth every 4 hours as needed for headache,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Acetaminophen 325mg take 1 tablet by mouth every 4 hours as needed for headache,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25 mg by mouth three times daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Hydralazine 25 mg tablet, 1 tablet by mouth three times daily",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Acetaminophen 325 mg tablet- take 1 tablet by mouth every 4 hours as needed for a headache,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Acetaminophen 325 mg tablet, 1 tablet by mouth every 4 hours as needed for headache",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Warfarin 5mg take 1 tablet by mouth on Mondays, Wednesdays, and Fridays",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Warfarin 5 mg by mouth every Monday, Wednesday, and Friday",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Warfarin 5mg tablet- take 1 (5mg) tablet by mouth 3 times a week on Monday, Wednesday, and Friday",formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Warfarin 5 mg tablet, 1 tablet by mouth once daily on Mondays, Wednesday, and Fridays at 1800",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ibuprofen 200mg take 4 tablets (800mg total) by mouth every 8 hours as needed for pain,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5mg tablet- take 1 tablet by mouth in the morning,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Ibuprofen 200 mg tablets, 4 tablets by mouth every 8 hours as needed for mild pain (score 1-3)",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5 mg by mouth every morning,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Lisinopril 5 mg tablet, 1 tablet by mouth every morning at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5mg take 1 tablet by mouth every morning,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Ibuprofen 800 mg, take four (4) 200 mg tablets every 8 hours as needed for pain",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Magnesium 400mg take 1 tablet by mouth four times daily,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Magnesium 400 mg by mouth four times daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Magnesium sulfate 400 mg tablet, 1 tablet by mouth four times daily",formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Magnesium oxide 400 mg tablet- take 1 tablet by mouth 4 times daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Rimegepant 75 mg by mouth every other day,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Rimegepant 75 mg tablet, 1 tablet by mouth every other day at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Rimegepant 75mg- take 1 tablet by mouth every other day,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75mg oral disintegrating tablet- give 1 tablet by mouth every other day,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 5 mg by mouth every 4 hours as needed for severe pain,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 5mg take 1 tablet by mouth every 4 hours as needed for severe pain,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ibuprofen 200mg tablet- take 4 tablets by mouth every 8 hours as needed for pain,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 5 mg tablet- give 1 tablet by mouth every 4 hours as needed for severe pain,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Oxycodone 5 mg tablet, 1 tablet by mouth every 4 hours as needed for severe pain (score 7-10)",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10mg take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10mg tablet- take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15 mg by mouth every evening,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15 mg tablet- give 1 tablet by mouth at bedtime,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15mg take 1 tablet by mouth at bedtime,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10 mg by mouth every day,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Amlodipine 10 mg tablet, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500mg take 1 capsule by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Cyclobenzaprine 15 mg tablet, 1 tablet by mouth every night at 2100",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500 mg by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sulfamethoxazole-trimethoprim 800-160 mg tablet- take 1 tablet by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sulfamethoxazole-trimethoprim (800/160mg) take 1 double strength tablet by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""YES""}",True,True
+"Amoxicillin 500 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500mg tablet- take 1 tablet by mouth twice daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sulfamethoxazole-trimethoprim (800-160) mg by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin tablet- give 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Sulfamethoxazole-trimethoprim 800-160 mg tablet, 1 tablet by mouth twice daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Prenatal vitamin, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol tartrate 25 mg tablet- take 1 tablet by mouth every 6 hours,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Metoprolol 25 mg by mouth every 6 hours,formal_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sertraline 25mg tablet- take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Sertraline 25 mg tablet, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sertraline 25 mg by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75mg take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sertraline 25mg take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75 mg by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75 mg tablet- take 1 tablet by mouth daily,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10mg tablet- take 1 tablet by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10 mg by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol tartrate 25mg take 1 tablet by mouth every 6 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Oxycodone 10 mg tablet, 1 tablet by mouth every 12 hours at 0900 and 2100",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81 mg daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+ASA 81mg,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10mg take 1 tablet by mouth every 12 hours,formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81 mg PO daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80mg,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Aspirin 81mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Metoprolol tartrate 25 mg tablet, 1 tablet by mouth every 6 hours",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80mg daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Clopidogrel 75 mg tablet, 1 tablet by mouth once daily at 0900",formal_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25 mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25 mg PO BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Atorvastatin 80 mg PO daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25mg TID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25 mg PO TID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25mg TID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Acetaminophen 325 q4h PRN headache,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+APAP 325mg q4h PRN,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Carvedilol 25mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Tylenol 325mg Q4 PRN HA,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Acetaminophen 325 mg PO q4h PRN headache,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydralazine 25mg TID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Warfarin 5 mg MWF,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Warfarin 5 mg MWF,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ibuprofen 800mg Q8h PRN pain,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Warfarin 5mg MWF,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ibuprofen 800 mg PO q8h PRN mild pain,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5 mg daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ibuprofen 800 q8h PRN pain,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5mg,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5 mg PO qAM,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Magnesium 400mg QID,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75mg every other day,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Magnesium 400 mg PO QID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Magnesium 400mg QID,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75mg QOD,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75 mg QOD,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oral Mag 400mg QID,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Rimegepant 75 mg PO every other day,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 5mg q4h PRN,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 5mg Q4h PRN severe pain,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 5 mg PO q4h PRN severe pain,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10 mg PO daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10mg,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Warfarin 5 mg PO on MWF,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ibuprofen 800mg q8h prn,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15mg QHS,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Lisinopril 5mg QAM,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15mg QHS,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15 mg PO nightly,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cyclobenzaprine 15 mg QHS,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500 mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500mg BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amoxicillin 500 mg PO BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+PRN oxy 5mg q4h,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Bactrim DS BID,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10 mg daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Bactrim 800-160mg Q12h,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Bactrim DS q12h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Amlodipine 10mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sertraline 25mg,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol tartrate 25 mg PO q6h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol 25mg q6h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol tartrate 25mg Q6h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sertraline 25 mg PO daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sertraline 25mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sertraline 25mg daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Prenatal vitamin,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Bactrim DS q12h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75 mg QD,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Metoprolol tartrate 25mg q6h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxy 10mg q12h,brief_written,oral_solid,Oral,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Oxycodone 10 mg PO q12h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Clopidogrel 75 mg PO daily,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10mg Q12h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Oxycodone 10 mg Q12h,brief_written,oral_solid,Oral,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1g q24,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 1g every 24 hours,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1 gm daily,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2 q12,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2g every 12 hours,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q12,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2 gm q12h,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q8,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1 q24,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2 q8,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Liter bolus of normal saline,verbal,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+1 liter NS bolus over 30 minutes,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Meropenem 1gm,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+1 L normal saline bolus,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Mero 1g q12,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Meropenem 1 gram twice daily,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1000 mg intravenous every 24 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1000 mg/50ml solution- administer 1000mg intravenously every 24 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2g every 8 hours,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+1 liter of normal saline over 30 minutes,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2 gm q8h,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2000 mg intravenous every 12 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 1 gm twice daily,verbal,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Cefepime 1000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 12 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 1000mg in 100mL 0.9% sodium chloride administer 1000mg intravenously every 24 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 12 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"1000 mL 0.9% sodium chloride bolus, infused intravenously over 30 minutes",formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously once every 12 hours at 0900 and 2100",formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+0.9% sodium chloride administer 1000mL over 30 minutes intravenously,formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 8 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously every 8 hours at 0900, 1700, 0100",formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously over 30 minutes,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"0.9% sodium chloride intravenous solution, administer 1000 mL bolus over 30 minutes",formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Ceftriaxone 2000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2000 mg intravenous every 8 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 8 hours,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 1000mg/100mL sodium chloride administer 1000mg intravenously twice daily over 30 minutes,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 500mg reconstituted solution- administer 1000mg intravenously twice daily,formal_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 1000 mg intravenous twice daily,formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1000mg q24h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 1g Q24,brief_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefepime 1g q24h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 1 gm IV q24h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q12h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2000mg q8h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Meropenem 1000 mg/50 mL, infuse intravenously over 3 hours every 12 hours at 0900 and 2100",formal_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q12h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2 gm IV q12h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q8h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2g q8h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2000mg q12h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 1g BID,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+1 L NS bolus over 30 minutes,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+NS 1L IV bolus,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+1L NS over 30 min,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Meropenem 1gm BID,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefepime 2 gm IV q8h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+1L NS bolus,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Stress dose steroids,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Meropenem 1 gm IV q12h,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 50 q6h,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydrocortisone 50mg IV every 6 hours,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Cefazolin 2000 mg, reconstitute with 5 mL sterile water for injection, then infusion intravenous push over 5 minutes every 8 hours",formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2000mg administer 2000mg IV push every 8 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydrocortisone 50mg administer 50mg as an IV push every 6 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydrocortisone 50 mg intravenous push over 1 minute every 6 hours,formal_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 50 mg intravenous every 6 hours,formal_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 100 mg reconstituted solution- administer 50mg intravenously every 6 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ceftriaxone 2000mg administer 2000mg IV push every 24 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydrocortisone 50 mg IV q6h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 50mg q6h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Rocephin 2gm,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2g daily,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ceftriaxone 2 gm,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocort 50q6,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ancef 2g,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Meropenem 1g BID,brief_written,iv_intermittent,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2000 mg reconstituted vial- administer 2000mg intravenously every 24 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2q8,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ceftriaxone 2000 mg intravenous every 24 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2 gm q8,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefazolin 2000 mg intravenous every 8 hours,formal_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 50mg IV Q6h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2gm q24h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2 g q24,brief_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2000 mg/100ml 4% dextrose solution- administer 2000 mg intravenously every 8 hours,formal_written,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Ceftriaxone 2g q24h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2 gm q24h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydrocortisone 50mg q6h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefazolin 2gm q8h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Propofol infusion at 5 mcg/kg/min to RASS goal,verbal,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Propofol at 5, goal RASS 0 to -2",verbal,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"":""NO""}",True,False
+Prop 5 for RASS 0 to -2,verbal,iv_continuous_titratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Norepinephrine 8 mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion and titrate as instructed,formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Ceftriaxone 2 q24,verbal,iv_push,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2gm q8h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Propofol drip,verbal,iv_continuous_titratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2 g every 8 hours,verbal,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Propofol 1000mg/100mL administer propofol intravenously as a continuous infusion starting at 5mcg/kg/min and titrated to a Richmond Agitation and Sedation Scale goal of 0 to -2,formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Propofol 1000 mg in100 mL continuous intravenous infusion, administer at 5 mcg/kg/min and titrate to RASS 0 to -2",formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Cefazolin 2g q8h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Propofol 1000mg/100ml solution- administer 5 mcg/kg/min intravenously as a continuous infusion and titrate to RASS 0 to -2,formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Propofol 5mcg/kg/min titrated to RASS 0 to -2,brief_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Vaso .04,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Propofol 5 mcg/kg/min, goal RASS 0 to -2",brief_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Cefazolin 2 gm IV q8h,brief_written,iv_push,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fent 50,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Vasopressin drip,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Vasopressin drip at 0.04 units/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl infusion at 50,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Fentanyl infusion at 50 mcg/hr,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl drip at 50,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Norepinephrine 8 mg/250 mL 0.9% NaCl, continuous intravenous infusion starting at 5 mcg/min and titrating by 5 mcg/min every 5 minutes to maintain MAP &gt; 65 mmHg",formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""YES""}",True,True
+Midazolam 2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+NS at 100,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Normal saline at 100,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Propofol 1000 mg/100 mL, continuous intravenous infusion starting at 5 mcg/kg/min, titrate by 5 to 10 mcg/kg/min every 5 to 10 minutes to maintain RASS of 0 to -2",formal_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""YES""}",True,True
+Normal saline infusion at 100 ml/hour,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Versed at 2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Propofol 5 mcg/kg/min to RASS goal,brief_written,iv_continuous_titratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Normal saline at 100,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Vaso 0.04,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Epinephrine infusion starting at 0.1mcg/kg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"":""NO""}",True,False
+Epi at 0.1,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Precedex at 0.2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Epi 0.1,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Precedex 0.2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Precedex at 0.2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Precedex infusion starting at 0.2 mcg/kg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine infusion at 5 mcg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam drip at 2,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Midazolam drip starting at 2 mg/hr,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine at 5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone at 0.125,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone infusion at 0.125 mcg/kg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine 5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone 0.125,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dopamine at 5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone at 0.125,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dilaudid 0.5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Epinephrine drip at 0.1,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dilaudid at 0.5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dilaudid drip at 0.5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+D5 at 200,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Norepi 5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Norepi drip at 5 mcg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepi at 5,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Norepinephrine 8 mg in 250 mL intravenous, administer at 5 mcg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepinephrine 8mg/250mL 0.9% sodium chloride- administer norepinephrine at 5mcg/min intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+D5W drip at 200 ml/hour,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+D5 at 200,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Vasopressin intravenous, administer at 0.04 units/minute",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+D5W at 200/hr,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Vasopressin 20 units/100mL 0.9% sodium chloride- administer 0.04units/min intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Diluadid drip at 0.5 mg/hr,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Norepinephrine 8 mg/250ml drip starting at 5 mcg/min,verbal,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl 2000mcg/100mL 0.9% sodium chloride- administer fentanyl at 50mcg/hr intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Vasopressin 40 units/100ml in NaCL 0.9% solution- administer 0.04 units/minute intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Fentanyl 2500 mcg/50 mL, continuous intravenous infusion at 50 mcg/h",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Fentanyl 2500 mcg/50 ml solution- administer 50 mcg/hr intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Midazolam continuous intravenous infusion, administer at 2 mg/hr",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Fentanyl continuous intravenous infusion, administer at 50 mcg/hr",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam 100mg/100ml in 0.9% NaCL solution- administer 2 mg/hr intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Midazolam 100mg/100mL 0.9% sodium chloride - administer midazolam at 2mg/hr intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Midazolam 100 mg/100 mL, continuous intravenous infusion at 2 mg/h",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+0.9% sodium chloride intravenously at 100mL/hour,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"0.9% sodium chloride continuous intravenous infusion, administer at 100 mL/hour",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+0.9% sodium chloride continuous intravenous infusion at 100 mL/h,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epinephrine 5mg/250mL 0.9% sodium chloride- administer epinephrine at 0.1mcg/kg/min intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Epinephrine 5 mg/250 mL0.9% sodium chloride, continuous intravenous infusion at 0.1 mcg/kg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Epinephrine 5mg/250 ml solution-administer 0.1 mcg/kg/min intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Dexmedetomidine continuous intravenous infusion, administer at 0.2 mcg/kg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epinephrine 5mg/250mL 0.9% sodium chloride- administer epinephrine at 0.1mcg/kg/min intravenously,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dopamine 400mg/250mL 0.9% sodium chloride- administer dopamine as a continuous intravenous infusion at 5mcg/min,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Vasopressin 20 units/100 mL Dextrose 5% in Water, continuous intravenous infusion at 0.04 units/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine 400mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Dopamine 400 mg in 250 mL continuous intravenous infusion, administer at 5 mcg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone 40mg/200mL 5% dextrose in water administer milrinone as a continuous intravenous infusion at 0.125mcg/kg/min,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Dopamine 400 mg/250 mL, continuous intravenous infusion at 5 mcg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Milrinone 40 mg/200 mL dextrose 5% in water, continuous intravenous infusion at 0.125 mcg/kg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""YES""}",True,True
+Milrinone 40mg/200ml in D5W solution- administer at 0.125 mcg/kg/min intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydromorphone 10mg/50mL 0.9% sodium chloride administer hydromorphone as a continuous intravenous infusion at 0.5mg/hr,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dexmedetomidine 400mcg/100mL 0.9% sodium chloride - administer dexmedetomidine intravenously at 0.2mcg/kg/min,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Milrinone 40 mg in 200 mL D5W continuous intravenous infusion, administer at 0.125 mcg/kg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""YES""}",True,True
+Dexmedetomidine 400 mcg/100ml NaCl 0.9% solution- administer 0.2 mcg/kg/min intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dextrose 5% in water administer dextrose as a continuous infusion at 200ml/hr,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Hydromorphone 10mg/50mL solution- administer 0.5 mg/hr intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+"Hydromorphone 10 mg in 50 mL continuous intravenous infusion, administer at 0.5 mg/hr",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Dexmedetomidine 1 mg/250 mL, continuous intravenous infusion at 0.2 mcg/kg/min",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+D5W solution- administer 200ml/hr intravenously as a continuous infusion,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"Dextrose 5% in water continuous intravenous solution, administer at 200 mL/hr",formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+5% Dextrose in Water continuous intravenous infusion at 200 mL/h,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydromorphone 10 mg/50 mL continuous intravenous infusion at 0.5 mg/h,formal_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepi 5mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepinephrine 8 mg/250ml starting at 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Vasopressin 0.04 u/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepinephrine infusion at 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Vaso 0.04u/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Fentanyl infusion 50 mcg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl 50mcg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam 2mg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Vasopressin 0.04 units/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Vasopressin 0.04 units/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Norepinephrine 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+100ml/hr NS,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl 50 mcg/hr drip,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Fentanyl infusion at 50 mcg/h,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+NS 100ml/hour infusion,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam at 2 mg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam infusion at 2 mg/h,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epi infusion at 0.1 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+"NS, 100 mL/hr",brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epinephrine infusion at 0.1 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epinephrine 0.1 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Midazolam 2mg/hr infusion,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Propofol infusion at 5 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Dopamine 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dexmedetomidine 0.2 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine 5mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine drip at 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dexmedetomidine at 0.2 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dopamine infusion at 5 mcg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Precedex 0.2mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+NS at 100 mL/h,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Epinephrine 0.1mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Precedex infusions at 0.2 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Milrinone 0.125mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydromorphone 0.5mg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+Milrinone drip at 0.125 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Milrinone infusion at 0.125 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydromorphone IV infusion at 0.5 mg/h,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Dilaudid infusion at 0.5 mg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+D5W 200ml/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+D5 drip at 200ml/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+D5W 200 mL/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Hydromorphone 0.5 mg/hr,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""NO""}","{""answer"": ""NO""}",False,False
+D5W at 200 mL/h,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False
+Milrinone 0.125 mcg/kg/min,brief_written,iv_continuous_nontitratable,Intravenous,"{""answer"": ""YES""}","{""answer"": ""NO""}",True,False

@@ -1,0 +1,10 @@
+communication_type,medication_category,clinician_pct,llm_pct,llm_medmatch_pct
+Formal Written Order,Oral,,90.0,1.2
+Formal Written Order,Intravenous,,42.5,5.0
+Formal Written Order,All,,66.2,3.1
+Brief Written Communication,Oral,,82.5,0.0
+Brief Written Communication,Intravenous,,86.2,0.0
+Brief Written Communication,All,,84.4,0.0
+Verbal Communication,Oral,,43.8,0.0
+Verbal Communication,Intravenous,,42.5,0.0
+Verbal Communication,All,,43.1,0.0

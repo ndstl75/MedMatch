@@ -1,0 +1,485 @@
+Participant,Q3,Q4,Q5,Q6,Q7,Q8,Q9,Q10,Q11,Q12,Q13,Q14,Q15,Q16,Q17,Q18,Q19,Q20,Q21,Q22,Q23,Q24,Q25,Q26,Q27,Q28,Q29,Q30,Q31,Q32,Q33,Q34,Q35,Q36,Q37,Q38,Q39,Q40,Q41,Q42,Q43,Q44,Q45,Q46,Q47,Q48,Q49,Q50,Q51,Q52,Q53,Q54,Q55,Q56,Q57,Q58,Q59,Q60,Q61,Q62,Q63,Q64,Q65,Q66,Q67,Q68,Q69,Q70,Q71,Q72,Q73,Q74,Q75,Q76,Q77,Q78,Q79,Q80,Q81,Q82,Q83,Q84,Q85,Q86,Q87,Q88,Q89,Q90,Q91,Q92,Q93,Q94,Q95,Q96,Q97,Q98,Q99,Q100,Q101,Q102,Q103,Q104,Q105,Q106,Q107,Q108,Q109,Q110,Q111,Q112,Q113,Q114,Q115,Q116,Q117,Q118,Q119,Q120,Q121,Q122
+Participant,"Prompt: Aspirin 81 mg daily
+
+1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Aspirin 81 mg daily
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Aspirin 81 mg daily
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Atorvastatin 80mg daily
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Atorvastatin 80mg daily
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Atorvastatin 80mg daily
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Carvedilol 25mg BID 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Carvedilol 25mg BID
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Carvedilol 25mg BID
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Hydralazine 25mg TID 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Hydralazine 25mg TID
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Hydralazine 25mg TID
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Acetaminophen 325mg q4h PRN headache
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Acetaminophen 325mg q4h PRN headache
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Acetaminophen 325mg q4h PRN headache
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Warfarin 5mg MWF 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Warfarin 5mg MWF
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Warfarin 5mg MWF
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Ibuprofen 800mg (as 200mg tablets) q8h PRN pain 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Ibuprofen 800mg (as 200mg tablets) q8h PRN pain
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Ibuprofen 800mg (as 200mg tablets) q8h PRN pain
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Lisinopril 5mg qAM
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Lisinopril 5mg qAM
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Lisinopril 5mg qAM
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Magnesium 400mg QID 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Magnesium 400mg QID
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Magnesium 400mg QID
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Rimegepant 75mg QOD
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Rimegepant 75mg QOD
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Rimegepant 75mg QOD
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Oxycodone 5mg q4h prn severe pain
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Oxycodone 5mg q4h prn severe pain
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Oxycodone 5mg q4h prn severe pain
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Amlodipine 10mg every day
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Amlodipine 10mg every day
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Amlodipine 10mg every day
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Cyclobenzaprine 15mg qHS
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Cyclobenzaprine 15mg qHS
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Cyclobenzaprine 15mg qHS
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Amoxicillin 500mg BID
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Amoxicillin 500mg BID
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Amoxicillin 500mg BID
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Sulfamethoxazole-trimethoprim (800-160) mg q12h 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Sulfamethoxazole-trimethoprim (800-160) mg q12h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Sulfamethoxazole-trimethoprim (800-160) mg q12h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Prenatal vitamin daily
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Prenatal vitamin daily
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Prenatal vitamin daily
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Metoprolol 25mg q6 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Metoprolol 25mg q6
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Metoprolol 25mg q6
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Sertraline 25mg q day
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Sertraline 25mg q day
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Sertraline 25mg q day
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Clopidogrel 75mg every day
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Clopidogrel 75mg every day
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Clopidogrel 75mg every day
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Oxycodone 10mg q12h
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Oxycodone 10mg q12h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Oxycodone 10mg q12h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Cefepime 1gm q24h
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Cefepime 1gm q24h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Cefepime 1gm q24h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Cefepime 2gm q12h 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Cefepime 2gm q12h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Cefepime 2gm q12h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Cefepime 2gm q8h
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Cefepime 2gm q8h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Cefepime 2gm q8h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Norepinephrine 8mg/250mL at 5mcg/min
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Norepinephrine 8mg/250mL at 5mcg/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Norepinephrine 8mg/250mL at 5mcg/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Vasopressin at 0.04units/min
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Vasopressin at 0.04units/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Vasopressin at 0.04units/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Fentanyl at 50mcg/hr
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Fentanyl at 50mcg/hr
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Fentanyl at 50mcg/hr
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Midazolam at 2mg/hr
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Midazolam at 2mg/hr
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Midazolam at 2mg/hr
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: 0.9% sodium chloride at 100mL/hour 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: 0.9% sodium chloride at 100mL/hour
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: 0.9% sodium chloride at 100mL/hour
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: 0.9% sodium chloride 1000mL over 30 minutes
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: 0.9% sodium chloride 1000mL over 30 minutes
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: 0.9% sodium chloride 1000mL over 30 minutes
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Epinephrine 5mg/250mL @ 0.1mcg/kg/min
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Epinephrine 5mg/250mL @ 0.1mcg/kg/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Epinephrine 5mg/250mL @ 0.1mcg/kg/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Propofol 1000mg/100mL starting at 5mcg/kg/min titrated to RASS 0 to -2 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Propofol 1000mg/100mL starting at 5mcg/kg/min titrated to RASS 0 to -2
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Propofol 1000mg/100mL starting at 5mcg/kg/min titrated to RASS 0 to -2
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Dexmedetomidine 0.2mcg/kg/min
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Dexmedetomidine 0.2mcg/kg/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Dexmedetomidine 0.2mcg/kg/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Ceftriaxone 2gm q24h 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Ceftriaxone 2gm q24h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Ceftriaxone 2gm q24h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Cefazolin 2gm q8h
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Cefazolin 2gm q8h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Cefazolin 2gm q8h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Meropenem 1gm BID
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Meropenem 1gm BID
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Meropenem 1gm BID
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Dopamine 400mg/250mL @ 5mcg/min
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Dopamine 400mg/250mL @ 5mcg/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Dopamine 400mg/250mL @ 5mcg/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Milrinone 40mg/200mL in D5W at 0.125mcg/kg/min 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Milrinone 40mg/200mL in D5W at 0.125mcg/kg/min
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Milrinone 40mg/200mL in D5W at 0.125mcg/kg/min
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Hydrocortisone 50mg q6h 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Hydrocortisone 50mg q6h
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Hydrocortisone 50mg q6h
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: Hydromorphone 10mg/50mL @ 0.5mg/hr 
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: Hydromorphone 10mg/50mL @ 0.5mg/hr
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: Hydromorphone 10mg/50mL @ 0.5mg/hr
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?","Prompt: D5W @ 200mL/hour
+ 
+ 
+ 
+ 1) Formal Written Order – How would you write this as a thorough and complete medication order?","Prompt: D5W @ 200mL/hour
+ 
+ 
+ 
+ 2) Verbal Communication – How would you communicate this to another healthcare professional during rounds or hand-off?","Prompt: D5W @ 200mL/hour
+ 
+ 
+ 
+ 3) Brief Written Communication – How would you convey this in a brief written message through a secure chat or other written communication with another clinician?"
+ID_1,aspirin 81 mg take 1 tablet by mouth daily,daily baby aspirin,ASA 81mg,atorvastatin 80mg take 1 tablet by mouth daily,atorvastatin 80,atorvastatin 80mg,carvedilol 25mg take 1 tablet by mouth twice daily,carvedilol 25 BID,carvedilol 25mg BID,hydralazine 25mg take 1 tablet by mouth three times daily,hydralazine 25 TID,hydralazine 25mg TID,acetaminophen 325mg take 1 tablet by mouth every 4 hours as needed for headache,prn tylenol,APAP 325mg q4h PRN,"warfarin 5mg take 1 tablet by mouth on Mondays, Wednesdays, and Fridays","warfarin 5mg Monday, Wednesday, Friday",warfarin 5mg MWF,ibuprofen 200mg take 4 tablets (800mg total) by mouth every 8 hours as needed for pain,prn ibuprofen,ibuprofen 800mg q8h prn,lisinopril 5mg take 1 tablet by mouth every morning,lisinopril 5,lisinopril 5mg,magnesium 400mg take 1 tablet by mouth four times daily,magnesium four times daily,magnesium 400mg QID,rimegepant 75mg- take 1 tablet by mouth every other day,rimegepant 75 every other day,rimegepant 75mg every other day,oxycodone 5mg take 1 tablet by mouth every 4 hours as needed for severe pain,prn oxy,prn oxy 5mg q4h,amlodipine 10mg take 1 tablet by mouth daily,amlodipine 10,amlodipine 10mg,cyclobenzaprine 15mg take 1 tablet by mouth at bedtime,cyclobenzaprine QHS,cyclobenzaprine 15mg QHS,amoxicillin 500mg take 1 capsule by mouth twice daily,amoxicillin,amoxicillin 500mg BID,sulfamethoxazole-trimethoprim (800/160mg) take 1 double strength tablet by mouth every 12 hours,double strength bactrim,bactrim DS q12h,prenatal vitamin take 1 tablet by mouth daily,prenatal vitamin,prenatal vitamin,metoprolol tartrate 25mg take 1 tablet by mouth every 6 hours,metoprolol tartrate 25 q6,metoprolol tartrate 25mg q6h,sertraline 25mg take 1 tablet by mouth daily,sertraline 25,sertraline 25mg,clopidogrel 75mg take 1 tablet by mouth daily,plavix,clopidogrel 75,oxycodone 10mg take 1 tablet by mouth every 12 hours,oxy 10 q12,oxy 10mg q12h,cefepime 1000mg in 100mL 0.9% sodium chloride administer 1000mg intravenously every 24 hours,cefepime 1g q24,cefepime 1000mg q24h,cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 12 hours,cefepime 2g q12,cefepime 2000mg q12h,cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 8 hours,cefepime 2g q8,cefepime 2000mg q8h,norepinephrine 8mg/250mL 0.9% sodium chloride- administer norepinephrine at 5mcg/min intravenously,norepi 5,norepi 5mcg/min,vasopressin 20 units/100mL 0.9% sodium chloride- administer 0.04units/min intravenously,vaso .04,vaso 0.04u/min,fentanyl 2000mcg/100mL 0.9% sodium chloride- administer fentanyl at 50mcg/hr intravenously,fent 50,fentanyl 50mcg/hr,midazolam 100mg/100mL 0.9% sodium chloride - administer midazolam at 2mg/hr intravenously,midazolam 2,midazolam 2mg/hr,0.9% sodium chloride intravenously at 100mL/hour,normal saline at 100,100ml/hr NS,0.9% sodium chloride administer 1000mL over 30 minutes intravenously,liter bolus of normal saline,1L NS bolus,epinephrine 5mg/250mL 0.9% sodium chloride- administer epinephrine at 0.1mcg/kg/min intravenously,epi 0.1,epinephrine 0.1mcg/kg/min,propofol 1000mg/100mL administer propofol intravenously as a continuous infusion starting at 5mcg/kg/min and titrated to a Richmond Agitation and Sedation Scale goal of 0 to -2,prop 5 for RASS 0 to -2,propofol 5mcg/kg/min titrated to RASS 0 to -2,dexmedetomidine 400mcg/100mL 0.9% sodium chloride - administer dexmedetomidine intravenously at 0.2mcg/kg/min,precedex 0.2,precedex 0.2mcg/kg/min,ceftriaxone 2000mg administer 2000mg IV push every 24 hours,rocephin 2gm,ceftriaxone 2gm q24h,cefazolin 2000mg administer 2000mg IV push every 8 hours,ancef 2g,cefazolin 2gm q8h,meropenem 1000mg/100mL sodium chloride administer 1000mg intravenously twice daily over 30 minutes,meropenem 1gm,meropenem 1gm BID,dopamine 400mg/250mL 0.9% sodium chloride- administer dopamine as a continuous intravenous infusion at 5mcg/min,dopamine 5,dopamine 5mcg/min,milrinone 40mg/200mL 5% dextrose in water administer milrinone as a continuous intravenous infusion at 0.125mcg/kg/min,milrinone 0.125,milrinone 0.125mcg/kg/min,hydrocortisone 50mg administer 50mg as an IV push every 6 hours,stress dose steroids,hydrocortisone 50mg q6h,hydromorphone 10mg/50mL 0.9% sodium chloride administer hydromorphone as a continuous intravenous infusion at 0.5mg/hr,dilaudid 0.5,hydromorphone 0.5mg/hr,dextrose 5% in water administer dextrose as a continuous infusion at 200ml/hr,D5W at 200/hr,D5W 200ml/hr
+ID_2,aspirin 81 mg by mouth daily,aspirin 81,aspirin 81 mg daily,atorvastatin 80 mg by mouth daily,atorva 80,atorvastatin 80mg daily,cavedilol 25 mg by mouth twice daily,Coreg 25 BID,carvedilol 25 mg BID,hydralazine 25 mg by mouth three times daily,hydral 25 TID,hydralazine 25mg TID,acetaminophen 325 mg by mouth every 4 hours as needed for headache,Tylenol 325 q4 PRN for headache,acetaminophen 325 q4h PRN headache,"warfarin 5 mg by mouth every Monday, Wednesday, and Friday","warfarin 5 on Mondays, Wednesdays, and Fridays",Warfarin 5 mg MWF,"ibuprofen 800 mg, take four (4) 200 mg tablets every 8 hours as needed for pain",Advil 800 q8 PRN,ibuprofen 800 q8h PRN pain,lisinopril 5 mg by mouth every morning,lisinopril 5,lisinopril 5 mg daily,magnesium 400 mg by mouth four times daily,MagOx 400 QID,Magnesium 400mg QID,rimegepant 75 mg by mouth every other day,rimegepant 75 mg every other day,rimegepant 75 mg QOD,oxycodone 5 mg by mouth every 4 hours as needed for severe pain,oxy 5 q4 PRN,oxycodone 5mg q4h PRN,amlodipine 10 mg by mouth every day,amlodipine 10,amlodipine 10 mg daily,cyclobenzaprine 15 mg by mouth every evening,cyclobenzabrine 15 mg nightly,cyclobenzaprine 15 mg QHS,amoxicillin 500 mg by mouth twice daily,amoxicillin 500 BID,amixocillin 500 mg BID,Sulfamethoxazole-trimethoprim (800-160) mg by mouth every 12 hours,Bactrim double-strength BID,Bactrim DS BID,prenatal vitamin by mouth daily,prenatal vitamin,prenatal vitamin QD,metoprolol 25 mg by mouth every 6 hours,metop 25 q6,metoprolol 25mg q6h,sertraline 25 mg by mouth daily,sertraline 25 daily,sertraline 25mg QD,clopidogrel 75 mg by mouth daily,Plavix 75,clopidogrel 75 mg QD,oxycodone 10 mg by mouth every 12 hours,oxy 10 Q12,oxycodone 10 mg Q12h,cefepime 1000 mg intravenous every 24 hours,cefepime 1 q24,cefepime 1g q24h,cefepime 2000 mg intravenous every 12 hours,cefepime 2 q12,cefepime 2g q12h,cefepime 2000 mg intravenous every 8 hours,cefepime 2 q8,cefepime 2g q8h,"norepinephrine 8 mg in 250 mL intravenous, administer at 5 mcg/min",norepi at 5,norepinephrine 5 mcg/min,"vasopressin intravenous, administer at 0.04 units/minute",vaso 0.04,vasopressin 0.04 u/min,"fentanyl continuous intravenous infusion, administer at 50 mcg/hr",fentanyl infusion at 50,fentanyl infusion 50 mcg/hr,"midazolam continuous intravenous infusion, administer at 2 mg/hr",Versed at 2,midazolam at 2 mg/hr,"0.9% sodium chloride continuous intravenous infusion, administer at 100 mL/hour",NS at 100,"NS, 100 mL/hr","0.9% sodium chloride intravenous solution, administer 1000 mL bolus over 30 minutes",1 liter NS bolus over 30 minutes,NS 1L IV bolus,"epinephrine 5 mg in 250 mL continuous intravenous infusion, administer at 0.1 mcg/kg/min",epi at 0.1,epinephrine 0.1 mcg/kg/min,"propofol 1000 mg in100 mL continuous intravenous infusion, administer at 5 mcg/kg/min and titrate to RASS 0 to -2","Propofol at 5, goal RASS 0 to -2","Propfol 5 mcg/kg/min, goal RASS 0 to -2","dexmedetomidine continuous intravenous infusion, administer at 0.2 mcg/kg/min",Precedex at 0.2,Dexmedetomidine 0.2 mcg/kg/min,ceftriaxone 2000 mg intravenous every 24 hours,ceftriaxone 2 q24,ceftriaxone 2g q24h,cefazolin 2000 mg intravenous every 8 hours,cefazolin 2q8,cefazolin 2g q8h,meropenem 1000 mg intravenous twice daily,mero 1g q12,meropenem 1g BID,"dopamine 400 mg in 250 mL continuous intravenous infusion, administer at 5 mcg/min",dopamine at 5,dopamine 5 mcg/min,"milrinone 40 mg in 200 mL D5W continuous intravenous infusion, administer at 0.125 mcg/kg/min",milrinone at 0.125,milrinone 0.125 mcg/kg/min,hydrocortisone 50 mg intravenous every 6 hours,hydrocort 50q6,hydrocortisone 50mg q6h,"hydromorphone 10 mg in 50 mL continuous intravenous infusion, administer at 0.5 mg/hr",Dilaudid at 0.5,hydromorphone 0.5 mg/hr,"Dextrose 5% in water continuous intravenous solution, administer at 200 mL/hr",D5 at 200,D5W 200 mL/hr
+ID_3,Aspirin 81mg given 1 tablet by mouth daily,Aspirin 81mg daily,Aspirin 81mg QD,Atorvastatin 80mg tablet- take 1 tablet by mouth daily,Atorvastatin 80mg daily (or QPM) if preferred by the patient,atorvastatin 80mg QD,Carvedilol 25mg tablet- take 1 tablet by mouth twice daily,Carvedilol 25mg twice daily,Carvedilol 25mg BID,hydralazine 25mg tablet- take 1 tablet by mouth three times daily,Hydralazine 25mg three times daily,Hydralazine 25mg TID,Acetaminophen 325 mg tablet- take 1 tablet by mouth every 4 hours as needed for a headache,Tylenol 325mg every 4 hours as needed for headache,Tylenol 325mg Q4 PRN HA,"Warfarin 5mg tablet- take 1 (5mg) tablet by mouth 3 times a week on Monday, Wednesday, and Friday","Warfarin 5mg tablet on Monday, Wednesday, and Friday",Warfarin 5 mg MWF,Ibuprofen 200mg tablet- take 4 tablets by mouth every 8 hours as needed for pain,Ibuprofen 800mg every 8 hours as needed for pain,Ibuprofen 800mg Q8h PRN pain,lisinopril 5mg tablet- take 1 tablet by mouth in the morning,Lisinopril 5mg in the morning,Lisinopril 5mg QAM,Magnesium oxide 400 mg tablet- take 1 tablet by mouth 4 times daily,magnesium 400mg 4 times daily,oral Mag 400mg QID,Rimegepant 75mg oral disintegrating tablet- give 1 tablet by mouth every other day,Rimegepant 75mg every other day,Rimegepant 75mg QOD,Oxycodone 5 mg tablet- give 1 tablet by mouth every 4 hours as needed for severe pain,Oxycodone 5mg as needed every 4 hours for pain,Oxycodone 5mg Q4h PRN severe pain,Amlodipine 10mg tablet- take 1 tablet by mouth daily,amlodipine 10mg daily,Amlodipine 10mg QD,Cyclobenzaprine 15 mg tablet- give 1 tablet by mouth at bedtime,cyclobenzaprine 15mg at bedtime,Cyclobenzaprine 15mg QHS,Amoxicillin 500mg tablet- take 1 tablet by mouth twice daily,Amoxicillin 500mg twice daily,Amoxicillin 500mg BID,Sulfamethoxazole-trimethoprim 800-160 mg tablet- take 1 tablet by mouth every 12 hours,Bactrim DS tablet twice daily,Bactrim 800-160mg Q12h,Prenatal vitamin tablet- give 1 tablet by mouth daily,prenatal vitamin daily,Prenatal vitamine QD,Metoprolol tartrate 25 mg tablet- take 1 tablet by mouth every 6 hours,Metoprolol tartrate 25mg every 6 hours,Metoprolol tartrate 25mg Q6h,Sertraline 25mg tablet- take 1 tablet by mouth daily,sertraline 25mg daily,Sertraline 25mg daily,Clopidogrel 75 mg tablet- take 1 tablet by mouth daily,Clopidogrel 75mg daily,Clopidogrel 75mg QD,oxycodone 10mg tablet- take 1 tablet by mouth every 12 hours,oxycodone 10mg every 12 hours,oxycodone 10mg Q12h,Cefepime 1000 mg/50ml solution- administer 1000mg intravenously every 24 hours,Cefepime 1g every 24 hours,Cefepime 1g Q24,Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 12 hours,Cefepime 2g every 12 hours,Cefepime 2g q12h,Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 8 hours,Cefepime 2g every 8 hours,Cefepime 2g q8h,norepinephrine 8 mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion and titrate as instructed,Norepinephrine 8 mg/250ml drip starting at 5 mcg/min,Norepinephrine 8 mg/250ml starting at 5 mcg/min,Vasopressin 40 units/100ml in NaCL 0.9% solution- administer 0.04 units/minute intravenously as a continuous infusion,Vasopressin drip at 0.04 units/min,vasopressin 0.04 units/min,Fentanyl 2500 mcg/50 ml solution- administer 50 mcg/hr intravenously as a continuous infusion,fentanyl infusion at 50 mcg/hr,fentanyl 50 mcg/hr drip,Midazolam 100mg/100ml in 0.9% NaCL solution- administer 2 mg/hr intravenously as a continuous infusion,Midazolam drip starting at 2 mg/hr,Midazolam 2mg/hr infusion,Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously as a continuous infusion,Normal saline infusion at 100 ml/hour,NS 100ml/hour infusion,Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously over 30 minutes,1 liter of normal saline over 30 minutes,1L NS over 30 min,Epinephrine 5mg/250 ml solution-administer 0.1 mcg/kg/min intravenously as a continuous infusion,Epinephrine infusion starting at 0.1mcg/kg/min,Epi infusion at 0.1 mcg/kg/min,propofol 1000mg/100ml solution- administer 5 mcg/kg/min intravenously as a continuous infusion and titrate to RASS 0 to -2,Propofol infusion at 5 mcg/kg/min to RASS goal,Propofol 5 mcg/kg/min to RASS goal,Dexmedetomidine 400 mcg/100ml NaCl 0.9% solution- administer 0.2 mcg/kg/min intravenously as a continuous infusion,precedex infusion starting at 0.2 mcg/kg/min,precedex infusions at 0.2 mcg/kg/min,Ceftriaxone 2000 mg reconstituted vial- administer 2000mg intravenously every 24 hours,ceftriaxone 2g daily,ceftriaxone 2 g q24,cefazolin 2000 mg/100ml 4% dextrose solution- administer 2000 mg intravenously every 8 hours,cefazolin 2 g every 8 hours,Cefazolin 2gm q8h,meropenem 500mg reconstituted solution- administer 1000mg intravenously twice daily,meropenem 1 gram twice daily,Meropenem 1g BID,dopamine 400mg/250ml solution- administer 5 mcg/min intravenously as a continuous infusion,dopamine infusion at 5 mcg/min,dopamine drip at 5 mcg/min,Milrinone 40mg/200ml in D5W solution- administer at 0.125 mcg/kg/min intravenously as a continuous infusion,milrinone infusion at 0.125 mcg/kg/min,milrinone drip at 0.125 mcg/kg/min,hydrocortisone 100 mg reconstituted solution- administer 50mg intravenously every 6 hours,hydrocortisone 50mg IV every 6 hours,Hydrocortisone 50mg IV Q6h,Hydromorphone 10mg/50mL solution- administer 0.5 mg/hr intravenously as a continuous infusion,diluadid drip at 0.5 mg/hr,diluadid infusion at 0.5 mg/hr,D5W solution- administer 200ml/hr intravenously as a continuous infusion,D5W drip at 200 ml/hour,D5 drip at 200ml/hr
+ID_4,"aspirin 81 mg tablet, 1 tablet by mouth once daily at 0900",aspirin 81 mg,aspirin 81 mg PO daily,"atorvastatin 80 mg tablet, 1 tablet by mouth once daily at 0900",atorvastatin 80,atorvastatin 80 mg PO daily,"carvedilol 25 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",carvedilol 25 mg,carvedilol 25 mg PO BID,"hydralazine 25 mg tablet, 1 tablet by mouth three times daily",hydralazine 25 TID,hydralazine 25 mg PO TID,"acetaminophen 325 mg tablet, 1 tablet by mouth every 4 hours as needed for headache",Tylenol 325 q4h PRN headache,acetaminophen 325 mg PO q4h PRN headache,"warfarin 5 mg tablet, 1 tablet by mouth once daily on Mondays, Wednesday, and Fridays at 1800","warfarin 5 mg on Mondays, Wednesday, and Fridays",warfarin 5 mg PO on MWF,"ibuprofen 200 mg tablets, 4 tablets by mouth every 8 hours as needed for mild pain (score 1-3)",ibuprofen 800 mg PRN pain,ibuprofen 800 mg PO q8h PRN mild pain,"lisinopril 5 mg tablet, 1 tablet by mouth every morning at 0900",lisinopril 5 mg,lisinopril 5 mg PO qAM,"magnesium sulfate 400 mg tablet, 1 tablet by mouth four times daily",magnesium 400 QID,magnesium 400 mg PO QID,"rimegepant 75 mg tablet, 1 tablet by mouth every other day at 0900",rimegepant every other day,rimegepant 75 mg PO every other day,"oxycodone 5 mg tablet, 1 tablet by mouth every 4 hours as needed for severe pain (score 7-10)",oxycodone 5 q4h PRN severe pain,oxycodone 5 mg PO q4h PRN severe pain,"amlodipine 10 mg tablet, 1 tablet by mouth once daily at 0900",amlodipine 10 mg,amlodipine 10 mg PO daily,"cyclobenzaprine 15 mg tablet, 1 tablet by mouth every night at 2100",Flexeril 15 mg nightly,cyclobenzaprine 15 mg PO nightly,"amoxicillin 500 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",amoxicillin 500 mg BID,amoxicillin 500 mg PO BID,"sulfamethoxazole-trimethoprim 800-160 mg tablet, 1 tablet by mouth twice daily at 0900 and 2100",Bactrim twice daily,Bactrim DS q12h,"prenatal vitamin, 1 tablet by mouth once daily at 0900",prenatal vitamin,prenatal vitamin,"metoprolol tartrate 25 mg tablet, 1 tablet by mouth every 6 hours",metoprolol 25 mg every 6 hours,metoprolol tartrate 25 mg PO q6h,"sertraline 25 mg tablet, 1 tablet by mouth once daily at 0900",Zoloft 25,sertraline 25 mg PO daily,"clopidogrel 75 mg tablet, 1 tablet by mouth once daily at 0900",Plavix 75,clopidogrel 75 mg PO daily,"oxycodone 10 mg tablet, 1 tablet by mouth every 12 hours at 0900 and 2100",oxycodone 10 twice daily,oxycodone 10 mg PO q12h,"cefepime 1000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",cefepime 1 gm daily,cefepime 1 gm IV q24h,"cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously once every 12 hours at 0900 and 2100",cefepime 2 gm q12h,cefepime 2 gm IV q12h,"cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously every 8 hours at 0900, 1700, 0100",cefepime 2 gm q8h,cefepime 2 gm IV q8h,"norepinephrine 8 mg/250 mL 0.9% NaCl, continuous intravenous infusion starting at 5 mcg/min and titrating by 5 mcg/min every 5 minutes to maintain MAP &gt; 65 mmHg",norepi drip at 5 mcg/min,norepinephrine infusion at 5 mcg/min,"vasopressin 20 units/100 mL Dextrose 5% in Water, continuous intravenous infusion at 0.04 units/min",vasopressin drip,vasopressin 0.04 units/min,"fentanyl 2500 mcg/50 mL, continuous intravenous infusion at 50 mcg/h",fentanyl drip at 50,fentanyl infusion at 50 mcg/h,"midazolam 100 mg/100 mL, continuous intravenous infusion at 2 mg/h",midazolam drip at 2,midazolam infusion at 2 mg/h,0.9% sodium chloride continuous intravenous infusion at 100 mL/h,normal saline at 100,NS at 100 mL/h,"1000 mL 0.9% sodium chloride bolus, infused intravenously over 30 minutes",1 L normal saline bolus,1 L NS bolus over 30 minutes,"epinephrine 5 mg/250 mL0.9% sodium chloride, continuous intravenous infusion at 0.1 mcg/kg/min",epinephrine drip at 0.1,epinephrine infusion at 0.1 mcg/kg/min,"propofol 1000 mg/100 mL, continuous intravenous infusion starting at 5 mcg/kg/min, titrate by 5 to 10 mcg/kg/min every 5 to 10 minutes to maintain RASS of 0 to -2",propofol drip,propofol infusion at 5 mcg/kg/min,"dexmedetomidine 1 mg/250 mL, continuous intravenous infusion at 0.2 mcg/kg/min",Precedex at 0.2,dexmedetomidine at 0.2 mcg/kg/min,"ceftriaxone 2000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",ceftriaxone 2 gm,ceftriaxone 2 gm q24h,"cefazolin 2000 mg, reconstitute with 5 mL sterile water for injection, then infusion intravenous push over 5 minutes every 8 hours",cefazolin 2 gm q8,cefazolin 2 gm IV q8h,"meropenem 1000 mg/50 mL, infuse intravenously over 3 hours every 12 hours at 0900 and 2100",meropenem 1 gm twice daily,meropenem 1 gm IV q12h,"dopamine 400 mg/250 mL, continuous intravenous infusion at 5 mcg/min",dopamine at 5,dopamine infusion at 5 mcg/min,"milrinone 40 mg/200 mL dextrose 5% in water, continuous intravenous infusion at 0.125 mcg/kg/min",milrinone at 0.125,milrinone infusion at 0.125 mcg/kg/min,hydrocortisone 50 mg intravenous push over 1 minute every 6 hours,hydrocortisone 50 q6h,hydrocortisone 50 mg IV q6h,hydromorphone 10 mg/50 mL continuous intravenous infusion at 0.5 mg/h,Dilaudid drip at 0.5,hydromorphone IV infusion at 0.5 mg/h,5% Dextrose in Water continuous intravenous infusion at 200 mL/h,D5 at 200,D5W at 200 mL/h
+common words,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

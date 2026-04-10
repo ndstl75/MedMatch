@@ -1,0 +1,62 @@
+﻿Drug,type of order
+Cefepime 1g q24,verbal- green
+Cefepime 1 q24,verbal- green
+Cefepime 1g every 24 hours,verbal- green
+Cefepime 1 gm daily,verbal- green
+Cefepime 2g q12,verbal- green
+Cefepime 2 q12,verbal- green
+Cefepime 2g every 12 hours,verbal- green
+Cefepime 2 gm q12h,verbal- green
+Cefepime 2g q8,verbal- green
+Cefepime 2 q8,verbal- green
+Cefepime 2g every 8 hours,verbal- green
+Cefepime 2 gm q8h,verbal- green
+Liter bolus of normal saline,verbal- green
+1 liter NS bolus over 30 minutes,verbal- green
+1 liter of normal saline over 30 minutes,verbal- green
+1 L normal saline bolus,verbal- green
+Meropenem 1gm,verbal- green
+Mero 1g q12,verbal- green
+Meropenem 1 gram twice daily,verbal- green
+Meropenem 1 gm twice daily,verbal- green
+Cefepime 1000mg in 100mL 0.9% sodium chloride administer 1000mg intravenously every 24 hours,formal written-blue
+Cefepime 1000 mg intravenous every 24 hours,formal written-blue
+Cefepime 1000 mg/50ml solution- administer 1000mg intravenously every 24 hours,formal written-blue
+"Cefepime 1000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",formal written-blue
+Cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 12 hours,formal written-blue
+Cefepime 2000 mg intravenous every 12 hours,formal written-blue
+Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 12 hours,formal written-blue
+"Cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously once every 12 hours at 0900 and 2100",formal written-blue
+Cefepime 2000mg in 100mL 0.9% sodium chloride administer 2000mg intravenously every 8 hours,formal written-blue
+Cefepime 2000 mg intravenous every 8 hours,formal written-blue
+Cefepime 2000 mg/100ml solution- administer 2000mg intravenously every 8 hours,formal written-blue
+"Cefepime 2000 mg/100 mL, infuse over 30 minutes intravenously every 8 hours at 0900, 1700, 0100",formal written-blue
+0.9% sodium chloride administer 1000mL over 30 minutes intravenously,formal written-blue
+"0.9% sodium chloride intravenous solution, administer 1000 mL bolus over 30 minutes",formal written-blue
+Sodium Chloride 0.9% 1000ml solution- administer 100 ml/hr intravenously over 30 minutes,formal written-blue
+"1000 mL 0.9% sodium chloride bolus, infused intravenously over 30 minutes",formal written-blue
+"Ceftriaxone 2000 mg/50 mL, infuse over 30 minutes intravenously once every 24 hours at 0900",formal written-blue
+Meropenem 1000mg/100mL sodium chloride administer 1000mg intravenously twice daily over 30 minutes,formal written-blue
+Meropenem 1000 mg intravenous twice daily,formal written-blue
+Meropenem 500mg reconstituted solution- administer 1000mg intravenously twice daily,formal written-blue
+"Meropenem 1000 mg/50 mL, infuse intravenously over 3 hours every 12 hours at 0900 and 2100",formal written-blue
+Cefepime 1000mg q24h,brief written-orange
+Cefepime 1g q24h,brief written-orange
+Cefepime 1g Q24,brief written-orange
+Cefepime 1 gm IV q24h,brief written-orange
+Cefepime 2000mg q12h,brief written-orange
+Cefepime 2g q12h,brief written-orange
+Cefepime 2g q12h,brief written-orange
+Cefepime 2 gm IV q12h,brief written-orange
+Cefepime 2000mg q8h,brief written-orange
+Cefepime 2g q8h,brief written-orange
+Cefepime 2g q8h,brief written-orange
+Cefepime 2 gm IV q8h,brief written-orange
+1L NS bolus,brief written-orange
+NS 1L IV bolus,brief written-orange
+1L NS over 30 min,brief written-orange
+1 L NS bolus over 30 minutes,brief written-orange
+Meropenem 1gm BID,brief written-orange
+Meropenem 1g BID,brief written-orange
+Meropenem 1g BID,brief written-orange
+Meropenem 1 gm IV q12h,brief written-orange
