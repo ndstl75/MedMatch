@@ -13,6 +13,8 @@ input.txt
 medmatch_local_gemma4/input.txt
 MedMatch Dataset for Experiment_ Final.xlsx
 medmatch_local_gemma4/
+# Rerun artifacts stay local; source-of-truth outputs are regenerated as needed.
+results/med_match/
 results/*.csv
 results/*.json
 src/medmatch.egg-info/
