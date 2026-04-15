@@ -2,11 +2,11 @@
 
 This document describes the **target** architecture for the MedMatch repository and a staged plan for migrating from the current layout to it. It is aspirational — nothing here is live yet. Use it as the reference whenever we move, rename, or consolidate code.
 
-The three experiment families from `CLAUDE.md` and `AGENTS.md` stay first-class throughout: `baseline`, `CoT`, and `Tier 3` (a.k.a. `LLM normalization`). For Tier 3, the distinction between `raw` extraction and `normalized` output is preserved in both code paths and result folders.
+The three experiment families from `CLAUDE.md` and `AGENTS.md` stay first-class throughout: `baseline`, `CoT`, and `normalization` (formerly called `Tier 3`). For normalization, the distinction between `raw` extraction and `normalized` output is preserved in both code paths and result folders.
 
 ## Goals
 
-1. One repo, one package, one mental model — a reader should be able to find baseline, CoT, or Tier 3 code without grepping.
+1. One repo, one package, one mental model — a reader should be able to find baseline, CoT, or normalization code without grepping.
 2. Remove the local/remote script duplication. A single experiment driver runs against either backend via a flag.
 3. Keep manuscript, dataset, and generated outputs out of the source tree.
 4. Make `results/` self-describing by folder, not by filename.
@@ -15,7 +15,7 @@ The three experiment families from `CLAUDE.md` and `AGENTS.md` stay first-class 
 ## Non-Goals
 
 - Rewriting the scorer or changing prompt semantics. Migration is structural only.
-- Merging `IV continuous` into the Tier 3 flow. Continuous stays out of normalization until the clinical GT audit is done.
+- Merging `IV continuous` into the normalization flow. Continuous stays out until the clinical GT audit is done.
 - Publishing the dataset or manuscript files. They stay local.
 
 ## Current Layout (Snapshot)
@@ -94,24 +94,23 @@ MedMatch/
 │   ├── prompts/
 │   │   ├── baseline/                   # one prompt per category
 │   │   ├── cot/                        # IV CoT reasoning prompts
-│   │   └── tier3/                      # oral + IV normalization prompts
+│   │   └── normalization/              # oral + IV normalization prompts
 │   └── experiments/
 │       ├── baseline.py                 # single-pass extraction, all categories
 │       ├── cot.py                      # IV intermittent + IV push CoT
-│       ├── exemplar_rag.py             # IV exemplar-RAG
-│       └── tier3_normalize.py          # oral + IV Tier 3, raw + normalized
+│       └── tier3_normalize.py          # oral + IV normalization, raw + normalized
 ├── scripts/                            # thin CLI drivers — user-facing entry points
 │   ├── run_baseline.py                 #   --backend {local,remote} --category ...
 │   ├── run_cot.py
-│   ├── run_exemplar_rag.py
-│   └── run_tier3.py
+│   ├── run_normalization.py
+│   └── run_tier3.py                    # compatibility alias
 ├── results/                            # gitignored
 │   ├── baseline/
 │   │   └── 2026-04-13_iv_push_local/
 │   │       ├── predictions.csv
 │   │       └── run.json                # metadata: backend, model, prompt hash, seed
 │   ├── cot/
-│   └── tier3/
+│   └── normalization/
 │       └── 2026-04-13_iv_push_local/
 │           ├── raw.csv                 # raw extraction pass
 │           ├── raw.json
@@ -146,9 +145,9 @@ Every experiment driver takes a backend instance, so `iv_prompt_only_remote.py` 
 | --- | --- | --- |
 | baseline | `experiments/baseline.py` | PO Solid, PO Liquid, IV Intermittent, IV Push, IV Continuous |
 | CoT | `experiments/cot.py` | IV Intermittent, IV Push |
-| Tier 3 | `experiments/tier3_normalize.py` | PO Solid, PO Liquid, IV Intermittent, IV Push |
+| normalization | `experiments/tier3_normalize.py` | PO Solid, PO Liquid, IV Intermittent, IV Push |
 
-IV Continuous stays out of the Tier 3 module by design, matching the current project guidance.
+IV Continuous stays out of the normalization module by design, matching the current project guidance.
 
 ### 3. Shared helpers live in `core/`, not in per-script `*_common.py`
 
@@ -157,7 +156,7 @@ IV Continuous stays out of the Tier 3 module by design, matching the current pro
 ### 4. Results are self-describing by folder
 
 Current: `results/IV_push_17_iv_llm_norm_20260413_181603.csv`
-Target: `results/tier3/2026-04-13_iv_push_local/normalized.csv`
+Target: `results/normalization/2026-04-13_iv_push_local/normalized.csv`
 
 Each run folder contains a `run.json` with:
 
@@ -168,14 +167,14 @@ Each run folder contains a `run.json` with:
 - git commit hash
 - timestamp
 
-For Tier 3 runs, `raw.*` and `normalized.*` are always both present. This is the CLAUDE.md rule encoded in the directory layout.
+For normalization runs, `raw.*` and `normalized.*` are always both present. This is the CLAUDE.md rule encoded in the directory layout.
 
 ### 5. Scripts are thin drivers
 
 Example:
 
 ```bash
-python scripts/run_tier3.py --backend local --category iv_push
+python scripts/run_normalization.py --backend local --category iv_push
 python scripts/run_baseline.py --backend remote --category po_solid
 ```
 
@@ -206,27 +205,24 @@ Each step is its own small, scoped commit, matching the pre-push checklist in `C
 
 ### Step 4 — Add unified CLI drivers under `scripts/`
 
-- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_tier3.py`, `scripts/run_exemplar_rag.py`.
+- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_normalization.py`, `scripts/run_tier3.py`.
 - Each driver accepts `--backend` and `--category`. Under the hood they call into `src/medmatch/experiments/*`.
 - Reproduce one existing run per family with the new driver; diff the CSV against the old output. They must match byte-for-byte before moving on.
 
 Status in this refactor branch:
-- `baseline.py`, `cot.py`, `tier3_normalize.py`, and `exemplar_rag.py` now contain the active unified runners.
+- `baseline.py`, `cot.py`, and `tier3_normalize.py` now contain the active unified runners.
 - `scripts/legacy/` and `scripts/legacy/local/` are retained only as migration references and parity fallbacks.
 - Local parity notes now live in:
   - `docs/refactor_parity.md` for the fixed `iv_push` slice
   - `docs/refactor_parity_iv_intermittent.md` for the fixed `iv_intermittent` slice
 - Current parity status:
-  - `baseline`, `CoT`, and `Tier 3` show zero deltas on both local slices
-  - local `exemplar_rag` matches on `iv_push`
-  - local `exemplar_rag` is still unsupported for `iv_intermittent` in both the unified and legacy paths, so that slice is tracked as `skipped` rather than treated as a refactor regression
+  - `baseline`, `CoT`, and `normalization` show zero deltas on both local slices
 
 ### Step 5 — Delete the duplicated local/remote scripts
 
 - Once every family has a verified unified driver, remove:
   - `scripts/legacy/iv_prompt_only_remote.py` + `scripts/legacy/local/iv_prompt_only_local.py`
   - `scripts/legacy/iv_cot_experiment.py` + `scripts/legacy/local/iv_cot_experiment_local.py`
-  - `scripts/legacy/iv_exemplar_rag_remote.py` + `scripts/legacy/local/iv_exemplar_rag_local.py`
   - `scripts/legacy/iv_llm_normalize.py` + `scripts/legacy/local/iv_llm_normalize_local.py` + `scripts/legacy/local/iv_llm_normalize_conditional_local.py`
   - `scripts/legacy/oral_llm_normalize.py` + `scripts/legacy/local/oral_llm_normalize_local.py`
 - Keep `scripts/legacy/local/medmatch_test_local_appendix_exact.py` until baseline parity is verified, then remove.
@@ -246,11 +242,10 @@ Status in this refactor branch:
 
 - Never change a prompt string and a file location in the same commit.
 - Every refactor commit must be able to reproduce at least one prior run's CSV exactly. If it cannot, the commit is not ready.
-- Tier 3 raw vs normalized separation is mandatory at every step. If a refactor collapses them, revert it.
-- IV Continuous is not swept into Tier 3 by any step of the migration.
+- Normalization raw vs normalized separation is mandatory at every step. If a refactor collapses them, revert it.
+- IV Continuous is not swept into normalization by any step of the migration.
 
 ## Open Questions
 
 - Do we want a unified experiment config (YAML / TOML) per run, or keep CLI flags only? YAML makes sweeps easier but adds a dependency.
-- Should `exemplar_rag` stay a separate family or fold into CoT? Current code treats it as its own family; this doc preserves that.
 - Where should `checkpoint/` live long-term — inside `results/` or as a sibling? Leaving as sibling for now.

@@ -1,6 +1,6 @@
 # MedMatch
 
-MedMatch is a medication-order structuring and evaluation project. This repository now carries both the original lab prompt-and-analysis workflow and a newer package-backed experiment stack for baseline, CoT, exemplar-RAG, Tier 3 normalization, and single-case debugging.
+MedMatch is a medication-order structuring and evaluation project. This repository now carries both the original lab prompt-and-analysis workflow and a newer package-backed experiment stack for baseline, CoT, normalization, and single-case debugging.
 
 ## Repository Layout
 
@@ -9,7 +9,7 @@ MedMatch is a medication-order structuring and evaluation project. This reposito
 - `scripts/probing_medmatch.py`: original MedMatch formatting experiments
 - `scripts/probing_medmatch_route_selection_test.py`: original route-selection experiments
 - `scripts/survey2gpt5.py` and `scripts/rougerx.py`: survey analysis entry points
-- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_exemplar_rag.py`, `scripts/run_tier3.py`, `scripts/run_single.py`: unified experiment entry points
+- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_normalization.py`, `scripts/run_tier3.py`, `scripts/run_single.py`: unified experiment entry points
 - `scripts/legacy/` and `scripts/legacy/local/`: migration parity/reference scripts
 - `scripts/local/`: local helper scripts such as the Ollama startup workaround
 - `data/` and `datasets/`: lab datasets and workbook inputs already tracked in the repository
@@ -19,8 +19,7 @@ MedMatch is a medication-order structuring and evaluation project. This reposito
 
 - `baseline`: one extraction call that maps an order directly into MedMatch JSON
 - `CoT`: a reasoning pass before extraction, used mainly for IV experiments
-- `exemplar-RAG`: a retrieval-style prompting variant for IV experiments
-- `Tier 3`: a second LLM pass that rewrites raw JSON into stricter canonical wording while keeping the scorer behavior stable
+- `normalization`: a second LLM pass that rewrites raw JSON into stricter canonical wording while keeping the scorer behavior stable
 
 For a short script map, see [`docs/experiment_overview.md`](docs/experiment_overview.md). For remote parity notes, see [`docs/refactor_remote_parity.md`](docs/refactor_remote_parity.md).
 
@@ -62,19 +61,13 @@ Unified CoT:
 python3 scripts/run_cot.py --backend azure --category iv
 ```
 
-Unified exemplar-RAG:
+Unified normalization:
 
 ```bash
-python3 scripts/run_exemplar_rag.py --backend google --category iv
+python3 scripts/run_normalization.py --backend remote --category iv
 ```
 
-Unified Tier 3:
-
-```bash
-python3 scripts/run_tier3.py --backend remote --category iv
-```
-
-`remote` remains a compatibility alias for the Google-backed remote path, so older unified-runner commands still work.
+`scripts/run_tier3.py` remains as a compatibility alias for the normalization runner, and `remote` remains a compatibility alias for the Google-backed remote path, so older commands still work.
 
 Single ad-hoc local case:
 

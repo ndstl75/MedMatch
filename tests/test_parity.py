@@ -28,9 +28,9 @@ class ParityTests(unittest.TestCase):
             writer.writerow([1, "Lacosamide", "MATCH", "9/9", "YES"])
         return json_path, csv_path
 
-    def make_tier3_pair(self, directory: Path):
-        json_path = directory / "tier3.json"
-        csv_path = directory / "tier3.csv"
+    def make_normalization_pair(self, directory: Path):
+        json_path = directory / "normalization.json"
+        csv_path = directory / "normalization.csv"
         rows = [
             {
                 "run": 1,
@@ -58,10 +58,10 @@ class ParityTests(unittest.TestCase):
             self.assertEqual(summary["metrics"]["fields_correct"], 9)
             self.assertIn("comparison", summary["json_top_keys"])
 
-    def test_summarize_tier3_pair(self):
+    def test_summarize_normalization_pair(self):
         with tempfile.TemporaryDirectory() as tmpdir:
-            json_path, csv_path = self.make_tier3_pair(Path(tmpdir))
-            summary = run_parity.summarize_result_pair(json_path, csv_path, "tier3")
+            json_path, csv_path = self.make_normalization_pair(Path(tmpdir))
+            summary = run_parity.summarize_result_pair(json_path, csv_path, "normalization")
             self.assertEqual(summary["metrics"]["raw"]["overall_correct"], 1)
             self.assertEqual(summary["metrics"]["normalized"]["fields_correct"], 9)
 
@@ -96,28 +96,6 @@ class ParityTests(unittest.TestCase):
         self.assertIn("### baseline", text)
         self.assertIn("overall_delta", text)
         self.assertIn("acceptance: `pass`", text)
-
-    def test_render_markdown_marks_skipped_slice(self):
-        summary = {
-            "backend": "local",
-            "category": "iv_intermittent",
-            "python_bin": "/tmp/python",
-            "model_name": "model",
-            "cases": [
-                {
-                    "family": "exemplar_rag",
-                    "status": "skipped",
-                    "reason": "both unified and legacy entrypoints failed on this slice",
-                    "unified_failure": {"message": "KeyError: 'IV intermittent (16)'"},
-                    "legacy_failure": {"message": "KeyError: 'IV intermittent (16)'"},
-                    "accepted": True,
-                    "failures": [],
-                }
-            ],
-        }
-        text = run_parity.render_markdown(summary)
-        self.assertIn("acceptance: `skipped`", text)
-        self.assertIn("KeyError", text)
 
     def test_build_remote_cases_uses_remote_commands(self):
         cases = run_parity.build_remote_cases("iv_push", "/tmp/python")

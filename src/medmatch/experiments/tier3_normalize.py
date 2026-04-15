@@ -1,4 +1,4 @@
-"""Unified Tier 3 normalization runners."""
+"""Unified normalization runners."""
 
 import csv
 import json
@@ -153,7 +153,7 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
     use_aliases = remote_mode
 
     print(f"Backend: {backend_name} | Family: {family} | Runs: {run_count}")
-    print("Pipeline: extract -> LLM normalize -> score")
+    print("Pipeline: extract -> normalization pass -> score")
 
     for sheet_name, entries in dataset.items():
         cfg = sheet_config[sheet_name]

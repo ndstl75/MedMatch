@@ -21,14 +21,14 @@
 
 - `../scripts/run_baseline.py --backend local`
 - `../scripts/run_cot.py --backend local`
-- `../scripts/run_tier3.py --backend local`
+- `../scripts/run_normalization.py --backend local`
 
 迁移期保留的本地脚本现在位于 `scripts/legacy/local/`：
 
 - `medmatch_test_local_appendix_exact.py`：本地 baseline / 全 5 类评估
 - `iv_cot_experiment_local.py`：IV intermittent / IV push 的两步 CoT 实验
 - `iv_llm_normalize_local.py`：IV intermittent / IV push 的两步 LLM normalization
-- `iv_llm_normalize_conditional_local.py`：IV intermittent / IV push 的 conditional Tier 3
+- `iv_llm_normalize_conditional_local.py`：IV intermittent / IV push 的 conditional normalization
 - `medmatch_test_local.py`
 - `medmatch_single_test_local.py`
 
@@ -40,8 +40,8 @@
 
 说明：
 
-- oral Tier 3 主要覆盖 `PO Solid` 和 `PO liquid`
-- IV Tier 3 主要覆盖 `IV intermittent` 和 `IV push`
+- oral normalization 主要覆盖 `PO Solid` 和 `PO liquid`
+- IV normalization 主要覆盖 `IV intermittent` 和 `IV push`
 - `IV continuous` 目前保留为 baseline / audit 对照，暂不建议继续做 normalization-only 优化
 
 常用示例：

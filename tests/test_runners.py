@@ -1,4 +1,3 @@
-import csv
 import json
 import os
 import tempfile
@@ -6,7 +5,7 @@ import types
 import unittest
 from unittest import mock
 
-from medmatch.experiments import cot, exemplar_rag, tier3_normalize
+from medmatch.experiments import cot, tier3_normalize
 
 
 class FakeBackend:
@@ -108,30 +107,7 @@ class RunnerTests(unittest.TestCase):
             self.assertIn("comparison", payload[0])
             self.assertEqual(payload[0]["fields_total"], 9)
 
-    def test_exemplar_rag_runner_writes_csv_and_json(self):
-        with tempfile.TemporaryDirectory() as tmpdir:
-            with mock.patch.object(exemplar_rag, "make_backend", return_value=FakeBackend()), \
-                 mock.patch.object(exemplar_rag, "load_experiment_dataset", return_value=sample_iv_push_dataset()), \
-                 mock.patch.object(exemplar_rag, "load_legacy_local_module", return_value=self.make_local_common()), \
-                 mock.patch.object(exemplar_rag.time, "sleep", return_value=None):
-                exemplar_rag.run_exemplar_rag(
-                    backend_name="local",
-                    selected_sheets=["IV push (17)"],
-                    num_runs=1,
-                    start_dir=tmpdir,
-                )
-
-            results_dir = os.path.join(tmpdir, "results")
-            self.assertTrue(any(name.endswith(".json") for name in os.listdir(results_dir)))
-            csv_name = next(name for name in os.listdir(results_dir) if name.endswith(".csv"))
-            with open(os.path.join(results_dir, csv_name), newline="", encoding="utf-8") as handle:
-                reader = csv.reader(handle)
-                header = next(reader)
-                first_row = next(reader)
-            self.assertIn("Medication", header)
-            self.assertEqual(first_row[1], "Lacosamide")
-
-    def test_tier3_runner_writes_raw_and_normalized_fields(self):
+    def test_normalization_runner_writes_raw_and_normalized_fields(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             with mock.patch.object(tier3_normalize, "make_backend", return_value=FakeBackend()), \
                  mock.patch.object(tier3_normalize, "load_experiment_dataset", return_value=sample_iv_push_dataset()), \

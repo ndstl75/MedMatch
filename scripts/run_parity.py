@@ -60,17 +60,9 @@ def build_local_cases(category: str, python_bin: str) -> list[CaseSpec]:
             result_prefix=result_prefix,
         ),
         CaseSpec(
-            family="tier3",
-            unified_cmd=[python_bin, "scripts/run_tier3.py", "--backend", "local", "--category", category],
+            family="normalization",
+            unified_cmd=[python_bin, "scripts/run_normalization.py", "--backend", "local", "--category", category],
             legacy_cmd=[python_bin, "scripts/legacy/local/iv_llm_normalize_local.py"],
-            unified_results_dir=ROOT / "results",
-            legacy_results_dir=ROOT / "scripts" / "legacy" / "local" / "results",
-            result_prefix=result_prefix,
-        ),
-        CaseSpec(
-            family="exemplar_rag",
-            unified_cmd=[python_bin, "scripts/run_exemplar_rag.py", "--backend", "local", "--category", category],
-            legacy_cmd=[python_bin, "scripts/legacy/local/iv_exemplar_rag_local.py"],
             unified_results_dir=ROOT / "results",
             legacy_results_dir=ROOT / "scripts" / "legacy" / "local" / "results",
             result_prefix=result_prefix,
@@ -110,17 +102,9 @@ def build_remote_cases(category: str, python_bin: str) -> list[CaseSpec]:
             result_prefix=result_prefix,
         ),
         CaseSpec(
-            family="tier3",
-            unified_cmd=[python_bin, "scripts/run_tier3.py", "--backend", "remote", "--category", category],
+            family="normalization",
+            unified_cmd=[python_bin, "scripts/run_normalization.py", "--backend", "remote", "--category", category],
             legacy_cmd=[python_bin, "scripts/legacy/iv_llm_normalize.py"],
-            unified_results_dir=ROOT / "results",
-            legacy_results_dir=ROOT / "scripts" / "legacy" / "results",
-            result_prefix=result_prefix,
-        ),
-        CaseSpec(
-            family="exemplar_rag",
-            unified_cmd=[python_bin, "scripts/run_exemplar_rag.py", "--backend", "remote", "--category", category],
-            legacy_cmd=[python_bin, "scripts/legacy/iv_exemplar_rag_remote.py"],
             unified_results_dir=ROOT / "results",
             legacy_results_dir=ROOT / "scripts" / "legacy" / "results",
             result_prefix=result_prefix,
@@ -190,7 +174,7 @@ def summarize_standard_rows(rows: list[dict]) -> dict:
     }
 
 
-def summarize_tier3_rows(rows: list[dict]) -> dict:
+def summarize_normalization_rows(rows: list[dict]) -> dict:
     entries = len(rows)
     raw_fields_correct = sum(int(row["raw_fields_correct"]) for row in rows)
     norm_fields_correct = sum(int(row["norm_fields_correct"]) for row in rows)
@@ -225,15 +209,15 @@ def summarize_result_pair(json_path: Path, csv_path: Path, family: str) -> dict:
         "json_top_keys": sorted(rows[0].keys()) if rows else [],
         "csv_header": load_csv_header(csv_path),
     }
-    if family == "tier3":
-        summary["metrics"] = summarize_tier3_rows(rows)
+    if family == "normalization":
+        summary["metrics"] = summarize_normalization_rows(rows)
     else:
         summary["metrics"] = summarize_standard_rows(rows)
     return summary
 
 
 def compare_metrics(unified: dict, legacy: dict, family: str) -> dict:
-    if family == "tier3":
+    if family == "normalization":
         return {
             "raw_overall_delta": unified["metrics"]["raw"]["overall_correct"] - legacy["metrics"]["raw"]["overall_correct"],
             "raw_field_delta": unified["metrics"]["raw"]["fields_correct"] - legacy["metrics"]["raw"]["fields_correct"],
