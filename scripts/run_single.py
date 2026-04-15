@@ -16,10 +16,14 @@ if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
 from medmatch.llm.config import SUPPORTED_BACKENDS
-from medmatch.core.schema import BASELINE_SHEET_CONFIG, SYSTEM_PROMPT
+from medmatch.core.paper_baseline import (
+    PAPER_BASELINE_SHEET_CONFIG,
+    build_zero_shot_prompt_pair,
+    expected_keys_for_baseline_sheet,
+)
 from medmatch.core.scorer import compare_results
-from medmatch.experiments.baseline import build_instruction
 from medmatch.experiments.common import make_backend, normalize_for_backend
+from prompt_medmatch import SYSTEM_PROMPT
 
 
 CATEGORY_TO_SHEET = {
@@ -139,13 +143,11 @@ def main():
         ground_truth_text = parsed["ground_truth_text"] if parsed["ground_truth_text"] is not None else ground_truth_text
 
     sheet_name = CATEGORY_TO_SHEET[category]
-    config = BASELINE_SHEET_CONFIG[sheet_name]
-    expected_keys = list(config["ground_truth_cols"].keys())
-    instruction = build_instruction(sheet_name, config["instruction"], expected_keys, args.backend)
-    user_prompt = f"{instruction}\n\nNow process this medication order:\n{prompt}"
+    expected_keys = expected_keys_for_baseline_sheet(sheet_name)
+    system_prompt, user_prompt = build_zero_shot_prompt_pair(sheet_name, prompt)
 
     backend = make_backend(args.backend)
-    payload, raw_response = backend.generate_json(SYSTEM_PROMPT, user_prompt, expected_keys)
+    payload, raw_response = backend.generate_json(system_prompt or SYSTEM_PROMPT, user_prompt, expected_keys)
 
     print("=" * 72)
     print(f"Backend:  {args.backend}")

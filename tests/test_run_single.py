@@ -15,7 +15,7 @@ class RunSingleTests(unittest.TestCase):
                     [
                         "IV Push",
                         "Famotidine 20 mg, 2 mL of a 20 mg/2 mL vial, was administered twice daily via intravenous push.",
-                        json.dumps({"drug name": "famotidine"}),
+                        json.dumps({"drug_name": "famotidine"}),
                         "both",
                     ]
                 ),
@@ -23,7 +23,7 @@ class RunSingleTests(unittest.TestCase):
             )
             parsed = run_single.parse_input_file(path)
             self.assertEqual(parsed["category"], "iv_push")
-            self.assertEqual(parsed["ground_truth_json"]["drug name"], "famotidine")
+            self.assertEqual(parsed["ground_truth_json"]["drug_name"], "famotidine")
 
     def test_normalize_category_name_accepts_sheet_labels(self):
         self.assertEqual(run_single.normalize_category_name("IV push (17)"), "iv_push")
@@ -31,8 +31,8 @@ class RunSingleTests(unittest.TestCase):
 
     def test_flatten_output_preserves_expected_order(self):
         text = run_single.flatten_output(
-            ["drug name", "numerical dose", "frequency"],
-            {"frequency": "once", "drug name": "adenosine", "numerical dose": 6},
+            ["drug_name", "numerical_dose", "frequency"],
+            {"frequency": "once", "drug_name": "adenosine", "numerical_dose": 6},
         )
         self.assertEqual(text, "adenosine 6 once")
 

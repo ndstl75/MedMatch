@@ -6,9 +6,8 @@ import os
 import sys
 from datetime import datetime
 
-from medmatch.core.dataset import load_dataset, resolve_project_file
 from medmatch.core.schema import BASELINE_SHEET_CONFIG, IV_BASELINE_SHEET_CONFIG, ORAL_BASELINE_SHEET_CONFIG, SYSTEM_PROMPT
-from medmatch.core.scorer import all_fields_match, normalize_relaxed, normalize_strict, parse_json_response
+from medmatch.core.scorer import all_fields_match, coerce_output_object, normalize_strict, parse_json_response
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name, is_remote_backend
 from medmatch.llm.local_ollama import LocalOllamaBackend
 from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
@@ -29,6 +28,8 @@ def make_backend(name):
 
 
 def load_experiment_dataset(start_dir, sheet_config, selected_sheets=None, max_entries_per_sheet=0):
+    from medmatch.core.dataset import load_dataset, resolve_project_file
+
     xlsx_path = resolve_project_file("MedMatch Dataset for Experiment_ Final.xlsx", start_dir=start_dir)
     return load_dataset(
         xlsx_path,
@@ -49,7 +50,8 @@ def timestamp_now():
 
 
 def normalize_for_backend(backend_name):
-    return normalize_relaxed if is_remote_backend(backend_name) else normalize_strict
+    del backend_name
+    return normalize_strict
 
 
 def compare_results_backend(llm_output, ground_truth, backend_name):
@@ -64,29 +66,6 @@ def compare_results_backend(llm_output, ground_truth, backend_name):
             "match": expected_value == actual_value,
         }
     return results
-
-
-def coerce_output_object(parsed, expected_keys, *, use_aliases=True):
-    from medmatch.core.schema import KEY_ALIASES
-
-    if parsed is None:
-        return {key: "" for key in expected_keys}
-    if isinstance(parsed, list):
-        if len(parsed) == 1 and isinstance(parsed[0], dict):
-            parsed = parsed[0]
-        else:
-            parsed = dict(zip(expected_keys, parsed))
-    if not isinstance(parsed, dict):
-        return {key: "" for key in expected_keys}
-
-    normalized = {}
-    for key, value in parsed.items():
-        normalized_key = str(key).strip().lower()
-        normalized_key = " ".join(normalized_key.split())
-        if use_aliases:
-            normalized_key = KEY_ALIASES.get(normalized_key, normalized_key)
-        normalized[normalized_key] = value
-    return {key: normalized.get(key, "") for key in expected_keys}
 
 
 def generate_text(backend, system_prompt, prompt, *, temperature=None):
