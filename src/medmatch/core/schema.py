@@ -1,9 +1,4 @@
-"""Shared MedMatch prompts, sheet configs, and schema helpers."""
-
-SYSTEM_PROMPT = (
-    "You are a clinical pharmacist who formats medication orders. "
-    "Only output the MedMatch JSON format."
-)
+"""Shared MedMatch sheet configs and schema helpers."""
 
 KEY_ALIASES = {
     "rate": "starting rate",
@@ -279,4 +274,3 @@ ORAL_BASELINE_SHEET_CONFIG = {
 
 def expected_keys_for_sheet(sheet_name):
     return list(BASELINE_SHEET_CONFIG[sheet_name]["ground_truth_cols"].keys())
-
