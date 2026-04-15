@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unified single-case MedMatch debug runner."""
+"""Single-case MedMatch debugger."""
 
 from __future__ import annotations
 
@@ -12,26 +12,102 @@ from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
-if SRC not in sys.path:
-    sys.path.insert(0, SRC)
+for candidate in (ROOT, SRC):
+    if candidate not in sys.path:
+        sys.path.insert(0, candidate)
 
-from medmatch.llm.config import SUPPORTED_BACKENDS
-from medmatch.core.paper_baseline import (
-    PAPER_BASELINE_SHEET_CONFIG,
-    build_zero_shot_prompt_pair,
-    expected_keys_for_baseline_sheet,
+from medmatch.core.scorer import compare_results, normalize_strict
+from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
+from medmatch.llm.local_ollama import LocalOllamaBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
+from medmatch.llm.remote_gemma import RemoteGemmaBackend
+from prompt_medmatch import (
+    SYSTEM_PROMPT,
+    build_iv_continuous_messages_zero_shot,
+    build_iv_intermit_messages_zero_shot,
+    build_iv_push_messages_zero_shot,
+    build_po_liquid_messages_zero_shot,
+    build_po_solid_messages_zero_shot,
 )
-from medmatch.core.scorer import compare_results
-from medmatch.experiments.common import make_backend, normalize_for_backend
-from prompt_medmatch import SYSTEM_PROMPT
 
 
-CATEGORY_TO_SHEET = {
-    "po_solid": "PO Solid (40)",
-    "po_liquid": "PO liquid (10)",
-    "iv_intermittent": "IV intermittent (16)",
-    "iv_push": "IV push (17)",
-    "iv_continuous": "IV continuous (16)",
+CATEGORY_CONFIG = {
+    "po_solid": {
+        "sheet_name": "PO Solid (40)",
+        "builder": build_po_solid_messages_zero_shot,
+        "expected_keys": [
+            "drug_name",
+            "numerical_dose",
+            "abbreviated_unit_strength_of_dose",
+            "amount",
+            "formulation",
+            "route",
+            "frequency",
+        ],
+    },
+    "po_liquid": {
+        "sheet_name": "PO liquid (10)",
+        "builder": build_po_liquid_messages_zero_shot,
+        "expected_keys": [
+            "drug_name",
+            "numerical_dose",
+            "abbreviated_unit_strength_of_dose",
+            "numerical_volume",
+            "volume_unit_of_measure",
+            "concentration_of_formulation",
+            "formulation_unit_of_measure",
+            "formulation",
+            "route",
+            "frequency",
+        ],
+    },
+    "iv_intermittent": {
+        "sheet_name": "IV intermittent (16)",
+        "builder": build_iv_intermit_messages_zero_shot,
+        "expected_keys": [
+            "drug_name",
+            "numerical_dose",
+            "abbreviated_unit_strength_of_dose",
+            "amount_of_diluent_volume",
+            "volume_unit_of_measure",
+            "compatible_diluent_type",
+            "infusion_time",
+            "frequency",
+        ],
+    },
+    "iv_push": {
+        "sheet_name": "IV push (17)",
+        "builder": build_iv_push_messages_zero_shot,
+        "expected_keys": [
+            "drug_name",
+            "numerical_dose",
+            "abbreviated_unit_strength_of_dose",
+            "amount_of_volume",
+            "volume_unit_of_measure",
+            "concentration_of_solution",
+            "concentration_unit_of_measure",
+            "formulation",
+            "frequency",
+        ],
+    },
+    "iv_continuous": {
+        "sheet_name": "IV continuous (16)",
+        "builder": build_iv_continuous_messages_zero_shot,
+        "expected_keys": [
+            "drug_name",
+            "numerical_dose",
+            "abbreviated_unit_strength_of_dose",
+            "diluent_volume",
+            "volume_unit_of_measure",
+            "compatible_diluent_type",
+            "starting_rate",
+            "unit_of_measure",
+            "titration_dose",
+            "titration_unit_of_measure",
+            "titration_frequency",
+            "titration_goal_based_on_physiologic_response_laboratory_result_or_assessment_score",
+        ],
+    },
 }
 
 ROUTE_LABEL_TO_CATEGORY = {
@@ -49,8 +125,7 @@ ROUTE_LABEL_TO_CATEGORY = {
 
 
 def normalize_category_name(raw: str) -> str:
-    key = raw.strip().lower()
-    key = " ".join(key.split())
+    key = " ".join(raw.strip().lower().split())
     if key not in ROUTE_LABEL_TO_CATEGORY:
         raise ValueError(f"Unsupported category/route label: {raw}")
     return ROUTE_LABEL_TO_CATEGORY[key]
@@ -68,7 +143,6 @@ def parse_input_file(path: Path) -> dict:
 
     for line in lines[2:]:
         if line.lower() in {"zero", "one", "both"}:
-            # Legacy input.txt modes are ignored by the unified runner.
             continue
         try:
             ground_truth_json = json.loads(line)
@@ -81,6 +155,24 @@ def parse_input_file(path: Path) -> dict:
         "ground_truth_json": ground_truth_json,
         "ground_truth_text": ground_truth_text,
     }
+
+
+def build_zero_shot_prompt_pair(category: str, medication_prompt: str) -> tuple[str, str]:
+    messages = CATEGORY_CONFIG[category]["builder"](medication_prompt)
+    if len(messages) != 2:
+        raise ValueError(f"Expected zero-shot prompt to have 2 messages, got {len(messages)}")
+    return messages[0]["content"], messages[1]["content"]
+
+
+def make_backend(name: str):
+    mode = canonical_backend_name(name)
+    if mode == "local":
+        return LocalOllamaBackend()
+    if mode == "openai":
+        return OpenAICompatibleBackend()
+    if mode == "azure":
+        return AzureOpenAIBackend()
+    return RemoteGemmaBackend()
 
 
 def word_set(value):
@@ -108,9 +200,8 @@ def load_ground_truth(args) -> tuple[dict | None, str | None]:
     return None, None
 
 
-def print_field_comparison(payload, ground_truth, *, backend_name):
-    normalizer = normalize_for_backend(backend_name)
-    comparison = compare_results(payload, ground_truth, normalizer=normalizer)
+def print_field_comparison(payload, ground_truth):
+    comparison = compare_results(payload, ground_truth, normalizer=normalize_strict)
     matches = sum(1 for value in comparison.values() if value["match"])
     for key, value in comparison.items():
         status = "MATCH" if value["match"] else "MISS"
@@ -121,7 +212,7 @@ def print_field_comparison(payload, ground_truth, *, backend_name):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--backend", choices=SUPPORTED_BACKENDS, required=True)
-    parser.add_argument("--category", choices=sorted(CATEGORY_TO_SHEET))
+    parser.add_argument("--category", choices=sorted(CATEGORY_CONFIG))
     parser.add_argument("--prompt")
     parser.add_argument("--input-file")
     parser.add_argument("--ground-truth-json")
@@ -142,9 +233,8 @@ def main():
         ground_truth_json = parsed["ground_truth_json"] if parsed["ground_truth_json"] is not None else ground_truth_json
         ground_truth_text = parsed["ground_truth_text"] if parsed["ground_truth_text"] is not None else ground_truth_text
 
-    sheet_name = CATEGORY_TO_SHEET[category]
-    expected_keys = expected_keys_for_baseline_sheet(sheet_name)
-    system_prompt, user_prompt = build_zero_shot_prompt_pair(sheet_name, prompt)
+    expected_keys = CATEGORY_CONFIG[category]["expected_keys"]
+    system_prompt, user_prompt = build_zero_shot_prompt_pair(category, prompt)
 
     backend = make_backend(args.backend)
     payload, raw_response = backend.generate_json(system_prompt or SYSTEM_PROMPT, user_prompt, expected_keys)
@@ -161,7 +251,7 @@ def main():
 
     if ground_truth_json:
         print("\n--- Field Comparison ---")
-        print_field_comparison(payload, ground_truth_json, backend_name=args.backend)
+        print_field_comparison(payload, ground_truth_json)
     elif ground_truth_text:
         llm_string = flatten_output(expected_keys, payload)
         print("\n--- Jaccard Similarity ---")

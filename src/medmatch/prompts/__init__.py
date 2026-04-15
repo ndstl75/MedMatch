@@ -1,2 +1,0 @@
-"""Prompt modules for MedMatch."""
-

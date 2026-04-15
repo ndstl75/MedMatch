@@ -1,93 +1,59 @@
 """
-MedMatch prompting runner.
+Canonical MedMatch runner.
 
-Loads MedMatch CSVs (PO, IV intermittent, IV push, IV continuous), builds
-formatting prompts, and queries the selected LLM. Outputs JSONL files per
-model/run with prompts, ground truth, and model responses.
-
-Supports zero-shot, few-shot, and single-turn one-shot prompting. Results are saved in separate directories:
-- ./results/med_match/zero-shot/ for zero-shot prompting
-- ./results/med_match/few-shot/ for few-shot/multi-turn prompting
-- ./results/med_match/one-shot/ for single-turn one-shot prompting
-
-Files are named as: {model_name}_run{run_id}.jsonl
-
-Examples (from repository root; see README.md for environment variables):
-
-    python scripts/probing_medmatch.py --mode openai --model_name gpt-4o-mini \\
-        --prompting_type zero --num_runs 3 --temperature 0.7 --batch_size 10
-
-    CUDA_VISIBLE_DEVICES=0,1 python scripts/probing_medmatch.py --mode vllm \\
-        --model_name google/medgemma-27b-text-it --prompting_type zero \\
-        --num_runs 3 --batch_size 50
-
-    python scripts/probing_medmatch.py --mode azure --model_name azure-gpt-5-chat \\
-        --prompting_type one_shot --num_runs 3 --temperature 1.2 --batch_size 5
+This keeps the lab CSV-backed runner as the main entrypoint for baseline
+prompting and extends it with CoT and normalization modes so we do not carry
+parallel runner loops in `src/medmatch/experiments/`.
 """
 
+from __future__ import annotations
+
 import argparse
+import csv
+import importlib.util
 import json
 import os
 import random
 import sys
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Any, Dict, List, Optional, Tuple
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional
 
-# Repository root (parent of scripts/) on sys.path for `import src`
+
 _REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, _REPO_ROOT)
+_SRC_ROOT = os.path.join(_REPO_ROOT, "src")
+for candidate in (_REPO_ROOT, _SRC_ROOT):
+    if candidate not in sys.path:
+        sys.path.insert(0, candidate)
 
-import pandas as pd
-from tqdm import tqdm
-
-# Optional: load environment variables from .env if available
-try:
-    from dotenv import load_dotenv, find_dotenv
-
-    load_dotenv(find_dotenv(), override=True)
-except ImportError:
-    pass
-
-from src.prompt_medmatch import (
-    build_po_solid_messages_zero_shot,
-    build_po_solid_messages_one_shot,
-    build_po_solid_messages_one_shot_multi_turn,
-    build_po_liquid_messages_zero_shot,
-    build_po_liquid_messages_one_shot,
-    build_po_liquid_messages_one_shot_multi_turn,
-    build_iv_intermit_messages_zero_shot,
-    build_iv_intermit_messages_one_shot,
-    build_iv_intermit_messages_one_shot_multi_turn,
-    build_iv_push_messages_zero_shot,
-    build_iv_push_messages_one_shot,
-    build_iv_push_messages_one_shot_multi_turn,
-    build_iv_continuous_messages_zero_shot,
+from prompt_medmatch import (
+    SYSTEM_PROMPT,
+    build_cot_extract_prompt,
+    build_cot_reason_prompt,
     build_iv_continuous_messages_one_shot,
     build_iv_continuous_messages_two_shot_multi_turn,
+    build_iv_continuous_messages_zero_shot,
+    build_iv_intermit_messages_one_shot,
+    build_iv_intermit_messages_one_shot_multi_turn,
+    build_iv_intermit_messages_zero_shot,
+    build_iv_push_messages_one_shot,
+    build_iv_push_messages_one_shot_multi_turn,
+    build_iv_push_messages_zero_shot,
+    build_po_liquid_messages_one_shot,
+    build_po_liquid_messages_one_shot_multi_turn,
+    build_po_liquid_messages_zero_shot,
+    build_po_solid_messages_one_shot,
+    build_po_solid_messages_one_shot_multi_turn,
+    build_po_solid_messages_zero_shot,
+    build_remote_normalization_oral_instruction,
+    build_remote_normalization_prompt,
+    get_cot_reason_system_prompt,
 )
-
-# Optional providers
-try:
-    from openai import OpenAI, AzureOpenAI
-
-    OPENAI_AVAILABLE = True
-    AZURE_OPENAI_AVAILABLE = True
-except ImportError:
-    try:
-        from openai import OpenAI
-
-        OPENAI_AVAILABLE = True
-        AZURE_OPENAI_AVAILABLE = False
-    except ImportError:
-        OPENAI_AVAILABLE = False
-        AZURE_OPENAI_AVAILABLE = False
-
-try:
-    from azure.identity import DefaultAzureCredential, get_bearer_token_provider
-
-    AZURE_IDENTITY_AVAILABLE = True
-except ImportError:
-    AZURE_IDENTITY_AVAILABLE = False
+from medmatch.core.schema import BASELINE_SHEET_CONFIG
+from medmatch.core.scorer import all_fields_match, coerce_output_object, compare_results, normalize_strict, parse_json_response
+from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
+from medmatch.llm.local_ollama import LocalOllamaBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
+from medmatch.llm.remote_gemma import RemoteGemmaBackend
 
 try:
     from vllm import LLM, SamplingParams
@@ -95,21 +61,108 @@ try:
     VLLM_AVAILABLE = True
 except ImportError:
     VLLM_AVAILABLE = False
+    LLM = None
+    SamplingParams = None
 
 try:
     from transformers import AutoTokenizer
+
     HF_TOKENIZER_AVAILABLE = True
 except ImportError:
     HF_TOKENIZER_AVAILABLE = False
+    AutoTokenizer = None
+
+
+PROMPTING_CHOICES = ("zero", "few", "one_shot", "cot", "normalization")
+MODE_CHOICES = tuple(SUPPORTED_BACKENDS) + ("vllm",)
+REMOTE_STYLE_MODES = {"openai", "azure", "remote", "google"}
+DATASET_ORDER = ["po_solid", "po_liquid", "iv_intermit", "iv_push", "iv_continuous"]
+OUTPUT_SUBDIRS = {
+    "zero": "zero-shot",
+    "few": "few-shot",
+    "one_shot": "one-shot",
+    "cot": "cot",
+    "normalization": "normalization",
+}
+
+
+DATASET_SPECS = {
+    "po_solid": {
+        "sheet_name": "PO Solid (40)",
+        "filename": "med_match - po_solid.csv",
+        "prompt_text_col": 2,
+        "ground_truth_text_col": 1,
+        "family": "oral",
+    },
+    "po_liquid": {
+        "sheet_name": "PO liquid (10)",
+        "filename": "med_match - po_liquid.csv",
+        "prompt_text_col": 2,
+        "ground_truth_text_col": 1,
+        "family": "oral",
+    },
+    "iv_intermit": {
+        "sheet_name": "IV intermittent (16)",
+        "filename": "med_match - iv_i.csv",
+        "prompt_text_col": 2,
+        "ground_truth_text_col": 1,
+        "family": "iv",
+    },
+    "iv_push": {
+        "sheet_name": "IV push (17)",
+        "filename": "med_match - iv_p.csv",
+        "prompt_text_col": 2,
+        "ground_truth_text_col": 1,
+        "family": "iv",
+    },
+    "iv_continuous": {
+        "sheet_name": "IV continuous (16)",
+        "filename": "med_match - iv_c.csv",
+        "prompt_text_col": 2,
+        "ground_truth_text_col": 1,
+        "family": "iv",
+    },
+}
+
+
+BASELINE_BUILDERS = {
+    "zero": {
+        "PO Solid (40)": build_po_solid_messages_zero_shot,
+        "PO liquid (10)": build_po_liquid_messages_zero_shot,
+        "IV intermittent (16)": build_iv_intermit_messages_zero_shot,
+        "IV push (17)": build_iv_push_messages_zero_shot,
+        "IV continuous (16)": build_iv_continuous_messages_zero_shot,
+    },
+    "few": {
+        "PO Solid (40)": build_po_solid_messages_one_shot_multi_turn,
+        "PO liquid (10)": build_po_liquid_messages_one_shot_multi_turn,
+        "IV intermittent (16)": build_iv_intermit_messages_one_shot_multi_turn,
+        "IV push (17)": build_iv_push_messages_one_shot_multi_turn,
+        "IV continuous (16)": build_iv_continuous_messages_two_shot_multi_turn,
+    },
+    "one_shot": {
+        "PO Solid (40)": build_po_solid_messages_one_shot,
+        "PO liquid (10)": build_po_liquid_messages_one_shot,
+        "IV intermittent (16)": build_iv_intermit_messages_one_shot,
+        "IV push (17)": build_iv_push_messages_one_shot,
+        "IV continuous (16)": build_iv_continuous_messages_one_shot,
+    },
+}
+
 
 def sanitize_model_name(model_name: str) -> str:
     return model_name.replace("/", "_").replace(" ", "_")
 
 
+def sheet_safe_name(sheet_name: str) -> str:
+    return sheet_name.replace(" ", "_").replace("(", "").replace(")", "")
+
+
+def is_remote_style_mode(mode: str) -> bool:
+    return mode in REMOTE_STYLE_MODES
+
+
 def messages_to_prompt(messages: List[Dict[str, str]]) -> str:
-    """
-    Flatten chat messages into a simple prompt for vLLM generation.
-    """
     parts = []
     for msg in messages:
         role = msg.get("role", "user").capitalize()
@@ -118,323 +171,480 @@ def messages_to_prompt(messages: List[Dict[str, str]]) -> str:
     return "\n".join(parts)
 
 
-def load_dataframe(path: str, subset_size: Optional[int]) -> pd.DataFrame:
-    df = pd.read_csv(path)
-    if subset_size and subset_size < len(df):
-        return df.sample(n=subset_size, random_state=42).reset_index(drop=True)
-    return df
+def _read_cell(raw: List[str], index: int) -> str:
+    if index < 0 or index >= len(raw):
+        return ""
+    value = raw[index]
+    return "" if value is None else str(value).strip()
 
 
-def build_datasets(base_dir: str, prompting_type: str) -> Dict[str, Dict]:
-    """Configure datasets with paths and prompt builders."""
-    # Choose builders based on prompting type
-    if prompting_type == "zero":
-        po_solid_builder = build_po_solid_messages_zero_shot
-        po_liquid_builder = build_po_liquid_messages_zero_shot
-        iv_intermit_builder = build_iv_intermit_messages_zero_shot
-        iv_push_builder = build_iv_push_messages_zero_shot
-        iv_continuous_builder = build_iv_continuous_messages_zero_shot
-    elif prompting_type == "few":
-        po_solid_builder = build_po_solid_messages_one_shot_multi_turn
-        po_liquid_builder = build_po_liquid_messages_one_shot_multi_turn
-        iv_intermit_builder = build_iv_intermit_messages_one_shot_multi_turn
-        iv_push_builder = build_iv_push_messages_one_shot_multi_turn
-        iv_continuous_builder = build_iv_continuous_messages_two_shot_multi_turn
-    elif prompting_type == "one_shot":
-        # Single-turn one-shot prompting for all datasets
-        po_solid_builder = build_po_solid_messages_one_shot
-        po_liquid_builder = build_po_liquid_messages_one_shot
-        iv_intermit_builder = build_iv_intermit_messages_one_shot
-        iv_push_builder = build_iv_push_messages_one_shot
-        iv_continuous_builder = build_iv_continuous_messages_one_shot
-    else:
-        raise ValueError(f"Invalid prompting_type: {prompting_type}. Must be 'zero', 'few', or 'one_shot'.")
+def _sample_rows(rows: List[Dict[str, Any]], subset_size: Optional[int]) -> List[Dict[str, Any]]:
+    if subset_size and subset_size < len(rows):
+        rng = random.Random(42)
+        return rng.sample(rows, subset_size)
+    return rows
 
+
+def load_csv_rows(data_dir: str, dataset_key: str, subset_size: Optional[int]) -> List[Dict[str, Any]]:
+    spec = DATASET_SPECS[dataset_key]
+    sheet_name = spec["sheet_name"]
+    sheet_config = BASELINE_SHEET_CONFIG[sheet_name]
+    path = os.path.join(data_dir, spec["filename"])
+
+    rows: List[Dict[str, Any]] = []
+    with open(path, newline="", encoding="utf-8") as handle:
+        reader = csv.reader(handle)
+        next(reader, None)
+        for raw in reader:
+            prompt = _read_cell(raw, spec["prompt_text_col"])
+            if not prompt:
+                break
+            ground_truth = {
+                key: _read_cell(raw, col_idx - 1)
+                for key, col_idx in sheet_config["ground_truth_cols"].items()
+            }
+            rows.append(
+                {
+                    "dataset_key": dataset_key,
+                    "sheet_name": sheet_name,
+                    "medication": _read_cell(raw, 0),
+                    "prompt": prompt,
+                    "ground_truth_text": _read_cell(raw, spec["ground_truth_text_col"]),
+                    "ground_truth": ground_truth,
+                }
+            )
+    return _sample_rows(rows, subset_size)
+
+
+def build_datasets(data_dir: str, prompting_type: str, subset_size: Optional[int], dataset_keys: Iterable[str]) -> Dict[str, List[Dict[str, Any]]]:
+    del prompting_type
     return {
-        "po_solid": {
-            "path": os.path.join(base_dir, "med_match - po_solid.csv"),
-            "prompt_col": "Medication prompt (sentence format)",
-            "gt_col": "Medication JSON (ground truth)",
-            "builder": po_solid_builder,
-        },
-        "po_liquid": {
-            "path": os.path.join(base_dir, "med_match - po_liquid.csv"),
-            "prompt_col": "Medication prompt (sentence format)",
-            "gt_col": "Medication JSON (ground truth)",
-            "builder": po_liquid_builder,
-        },
-        "iv_intermit": {
-            "path": os.path.join(base_dir, "med_match - iv_i.csv"),
-            "prompt_col": "Medication prompt (sentence format)",
-            "gt_col": "Medication JSON",
-            "builder": iv_intermit_builder,
-        },
-        "iv_push": {
-            "path": os.path.join(base_dir, "med_match - iv_p.csv"),
-            "prompt_col": "Medication prompt (sentence format)",
-            "gt_col": "Medication JSON",
-            "builder": iv_push_builder,
-        },
-        "iv_continuous": {
-            "path": os.path.join(base_dir, "med_match - iv_c.csv"),
-            "prompt_col": "Medication prompt (sentence format)",
-            "gt_col": "Medication JSON",
-            "builder": iv_continuous_builder,
-        },
+        DATASET_SPECS[key]["sheet_name"]: load_csv_rows(data_dir, key, subset_size)
+        for key in dataset_keys
     }
 
 
-def get_openai_client():
-    if not OPENAI_AVAILABLE:
-        raise ImportError("openai package not available.")
-    if not os.getenv("OPENAI_API_KEY"):
-        try:
-            from dotenv import load_dotenv, find_dotenv
-            load_dotenv(find_dotenv(), override=True)
-        except ImportError:
-            pass
-    if not os.getenv("OPENAI_API_KEY"):
-        raise EnvironmentError("OPENAI_API_KEY missing for OpenAI mode (.env).")
-    return OpenAI()
+def build_baseline_messages(sheet_name: str, prompting_type: str, medication_prompt: str) -> List[Dict[str, str]]:
+    return BASELINE_BUILDERS[prompting_type][sheet_name](medication_prompt)
 
 
-def get_azure_client(model_name: str) -> Tuple[Any, str]:
-    """
-    Create Azure OpenAI client and deployment name.
-    model_name: e.g. 'azure-gpt-5-chat' or 'gpt-5-chat' (with --mode azure).
-    Returns (client, deployment_name).
-    """
-    if not AZURE_OPENAI_AVAILABLE or not AZURE_IDENTITY_AVAILABLE:
-        raise ImportError(
-            "Azure mode requires: pip install azure-identity openai"
+def create_backend(mode: str, model_name: str, temperature: float):
+    mode = canonical_backend_name(mode)
+    selected_model = model_name
+    if mode in {"local", "remote", "google"} and model_name == "gpt-4o-mini":
+        selected_model = None
+    if mode == "local":
+        return LocalOllamaBackend(model=selected_model, temperature=temperature)
+    if mode == "openai":
+        return OpenAICompatibleBackend(model=selected_model, temperature=temperature)
+    if mode == "azure":
+        return AzureOpenAIBackend(model=selected_model, temperature=temperature)
+    return RemoteGemmaBackend(model=selected_model, temperature=temperature)
+
+
+def init_runtime(args) -> Dict[str, Any]:
+    if args.mode == "vllm":
+        if not VLLM_AVAILABLE:
+            raise ImportError("vllm package not available.")
+        runtime: Dict[str, Any] = {
+            "kind": "vllm",
+            "llm": LLM(
+                model=args.model_name,
+                tensor_parallel_size=max(1, args.number_gpus),
+                trust_remote_code=True,
+                gpu_memory_utilization=args.gpu_memory_utilization,
+                max_model_len=args.max_model_len,
+            ),
+            "sampling_params": SamplingParams(
+                temperature=args.temperature,
+                top_p=args.top_p,
+                max_tokens=args.max_new_tokens,
+            ),
+            "tokenizer": None,
+        }
+        if "qwen" in args.model_name.lower():
+            if not HF_TOKENIZER_AVAILABLE:
+                raise RuntimeError(
+                    "Qwen models require transformers tokenizer to disable thinking. "
+                    "Install transformers or choose a non-Qwen model."
+                )
+            runtime["tokenizer"] = AutoTokenizer.from_pretrained(args.model_name, trust_remote_code=True)
+        return runtime
+
+    return {
+        "kind": "backend",
+        "backend": create_backend(args.mode, args.model_name, args.temperature),
+        "temperature": args.temperature,
+    }
+
+
+def render_messages_for_runtime(runtime: Dict[str, Any], messages: List[Dict[str, str]]) -> str:
+    if runtime["kind"] == "vllm":
+        tokenizer = runtime.get("tokenizer")
+        if tokenizer is not None:
+            return tokenizer.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+    return messages_to_prompt(messages)
+
+
+def generate_text_from_messages(runtime: Dict[str, Any], messages: List[Dict[str, str]]) -> str:
+    if runtime["kind"] == "vllm":
+        prompt = render_messages_for_runtime(runtime, messages)
+        outputs = runtime["llm"].generate([prompt], sampling_params=runtime["sampling_params"])
+        return outputs[0].outputs[0].text.strip()
+
+    backend = runtime["backend"]
+    if len(messages) == 2 and messages[0].get("role") == "system" and messages[1].get("role") == "user":
+        return backend.generate_text(messages[0]["content"], messages[1]["content"], temperature=runtime["temperature"])
+    return backend.generate_text("", messages_to_prompt(messages), temperature=runtime["temperature"])
+
+
+def generate_text(runtime: Dict[str, Any], system_prompt: str, user_prompt: str) -> str:
+    if runtime["kind"] == "vllm":
+        return generate_text_from_messages(
+            runtime,
+            [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
         )
-    if not model_name.startswith("azure-"):
-        model_name = f"azure-{model_name}"
-    deployment = model_name.replace("azure-", "")
-    endpoint = (os.getenv("AZURE_OPENAI_ENDPOINT") or "").strip().rstrip("/")
-    if not endpoint:
-        raise EnvironmentError(
-            "Set AZURE_OPENAI_ENDPOINT to your Azure OpenAI HTTPS endpoint "
-            "(Azure Portal: resource URL, e.g. https://<resource-name>.openai.azure.com)"
+    return runtime["backend"].generate_text(system_prompt, user_prompt, temperature=runtime["temperature"])
+
+
+def generate_json(runtime: Dict[str, Any], system_prompt: str, user_prompt: str, expected_keys: List[str], *, use_aliases: bool) -> tuple[Dict[str, Any], str]:
+    text = generate_text(runtime, system_prompt, user_prompt)
+    parsed = parse_json_response(text)
+    return coerce_output_object(parsed, expected_keys, use_aliases=use_aliases), text
+
+
+def select_dataset_keys(prompting_type: str, dataset_keys: Optional[Iterable[str]] = None) -> List[str]:
+    requested = list(dataset_keys or [])
+    if prompting_type in {"zero", "few", "one_shot"}:
+        allowed = DATASET_ORDER
+    elif prompting_type == "cot":
+        allowed = ["iv_intermit", "iv_push", "iv_continuous"]
+    elif prompting_type == "normalization":
+        allowed = ["po_solid", "po_liquid", "iv_intermit", "iv_push"]
+    else:
+        raise ValueError(f"Unsupported prompting_type: {prompting_type}")
+
+    if not requested:
+        return allowed
+
+    invalid = [key for key in requested if key not in allowed]
+    if invalid:
+        raise ValueError(
+            f"Prompting type '{prompting_type}' does not support datasets: {', '.join(invalid)}"
         )
-    credential = DefaultAzureCredential(exclude_managed_identity_credential=True)
-    token_provider = get_bearer_token_provider(
-        credential, "https://cognitiveservices.azure.com/.default"
+    return [key for key in allowed if key in requested]
+
+
+def write_record(handle, record: Dict[str, Any]) -> None:
+    handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+def titration_fields_present(ground_truth: Dict[str, Any]) -> bool:
+    fields = [
+        "titration dose",
+        "titration unit of measure",
+        "titration frequency",
+        "titration goal based on physiologic response, laboratory result, or assessment score",
+    ]
+    return any(str(ground_truth.get(field, "")).strip() for field in fields)
+
+
+def load_legacy_local_module(relative_path: str, module_name: str):
+    path = os.path.join(_REPO_ROOT, relative_path)
+    module_dir = os.path.dirname(path)
+    added = False
+    if module_dir not in sys.path:
+        sys.path.insert(0, module_dir)
+        added = True
+    try:
+        spec = importlib.util.spec_from_file_location(module_name, path)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        return module
+    finally:
+        if added and module_dir in sys.path:
+            sys.path.remove(module_dir)
+
+
+def get_local_normalization_resources(family: str):
+    if family == "oral":
+        module = load_legacy_local_module(
+            os.path.join("scripts", "legacy", "local", "oral_llm_normalize_local.py"),
+            "medmatch_local_oral_normalization",
+        )
+        return module.SHEET_CONFIG, module.NORMALIZE_PROMPT
+
+    module = load_legacy_local_module(
+        os.path.join("scripts", "legacy", "local", "iv_llm_normalize_local.py"),
+        "medmatch_local_iv_normalization",
     )
-    client = AzureOpenAI(
-        azure_endpoint=endpoint,
-        azure_ad_token_provider=token_provider,
-        api_version="2024-02-15-preview",
-    )
-    return client, deployment
+    return module.SHEET_CONFIG, module.IV_NORMALIZE_PROMPT
 
 
-def init_vllm(model_name: str, number_gpus: int, gpu_mem_util: float, max_model_len: int):
-    if not VLLM_AVAILABLE:
-        raise ImportError("vllm package not available.")
-    return LLM(
-        model=model_name,
-        tensor_parallel_size=max(1, number_gpus),
-        trust_remote_code=True,
-        gpu_memory_utilization=gpu_mem_util,
-        max_model_len=max_model_len,
+def build_normalization_extract_prompt(instruction: str, prompt: str, expected_keys: List[str]) -> str:
+    return (
+        f"{instruction}\n\n"
+        "Return one JSON object only.\n"
+        "Do not wrap the JSON in markdown.\n"
+        f"Use exactly these keys in this order: {', '.join(expected_keys)}.\n\n"
+        f"Now process this medication order:\n{prompt}"
     )
 
 
-def run_openai(client, model_name: str, messages: List[Dict[str, str]], temperature: float, top_p: float, max_new_tokens: int) -> str:
-    response = client.chat.completions.create(
-        model=model_name,
-        messages=messages,
+def process_baseline_entry(runtime: Dict[str, Any], prompting_type: str, row: Dict[str, Any], model_name: str, run_id: int) -> Dict[str, Any]:
+    messages = build_baseline_messages(row["sheet_name"], prompting_type, row["prompt"])
+    response = generate_text_from_messages(runtime, messages)
+    return {
+        "dataset": row["dataset_key"],
+        "run": run_id,
+        "model": model_name,
+        "medication": row["medication"],
+        "prompt": row["prompt"],
+        "ground_truth": row["ground_truth_text"],
+        "response": response,
+    }
+
+
+def process_cot_entry(runtime: Dict[str, Any], mode: str, row: Dict[str, Any], run_id: int) -> Dict[str, Any]:
+    sheet_name = row["sheet_name"]
+    spec = BASELINE_SHEET_CONFIG[sheet_name]
+    expected_keys = list(spec["ground_truth_cols"].keys())
+    remote_mode = is_remote_style_mode(mode)
+
+    reasoning = generate_text(
+        runtime,
+        get_cot_reason_system_prompt(),
+        build_cot_reason_prompt(sheet_name, row["prompt"], remote_mode=remote_mode),
+    )
+    extract_prompt = build_cot_extract_prompt(
+        sheet_name,
+        reasoning,
+        row["prompt"],
+        spec["instruction"],
+        expected_keys,
+        remote_mode=remote_mode,
+    )
+    llm_output, raw_extract = generate_json(
+        runtime,
+        SYSTEM_PROMPT,
+        extract_prompt,
+        expected_keys,
+        use_aliases=remote_mode,
+    )
+    comparison = compare_results(llm_output, row["ground_truth"], normalizer=normalize_strict)
+    fields_correct = sum(1 for value in comparison.values() if value["match"])
+    entry_correct = all_fields_match(comparison)
+    entry_type = None
+    if sheet_name == "IV continuous (16)":
+        entry_type = "titratable" if titration_fields_present(row["ground_truth"]) else "non-titratable"
+
+    return {
+        "run": run_id,
+        "medication": row["medication"],
+        "prompt": row["prompt"],
+        "ground_truth": row["ground_truth"],
+        "reasoning": reasoning,
+        "llm_output": llm_output,
+        "raw_extract_response": raw_extract,
+        "comparison": comparison,
+        "fields_correct": fields_correct,
+        "fields_total": len(expected_keys),
+        "all_fields_correct": entry_correct,
+        "entry_type": entry_type,
+    }
+
+
+def process_normalization_entry(runtime: Dict[str, Any], mode: str, row: Dict[str, Any], run_id: int) -> Dict[str, Any]:
+    sheet_name = row["sheet_name"]
+    family = DATASET_SPECS[row["dataset_key"]]["family"]
+    remote_mode = is_remote_style_mode(mode)
+
+    if remote_mode:
+        instruction = (
+            build_remote_normalization_oral_instruction(sheet_name)
+            if family == "oral"
+            else BASELINE_SHEET_CONFIG[sheet_name]["instruction"]
+        )
+        normalize_prompt_template = None
+    else:
+        sheet_config, normalize_prompt_template = get_local_normalization_resources(family)
+        instruction = sheet_config[sheet_name]["instruction"]
+
+    expected_keys = list(BASELINE_SHEET_CONFIG[sheet_name]["ground_truth_cols"].keys())
+    extract_prompt = build_normalization_extract_prompt(instruction, row["prompt"], expected_keys)
+    raw_obj, raw_text = generate_json(
+        runtime,
+        SYSTEM_PROMPT,
+        extract_prompt,
+        expected_keys,
+        use_aliases=remote_mode,
+    )
+
+    raw_json = json.dumps(raw_obj, indent=2, default=str)
+    normalize_prompt = (
+        build_remote_normalization_prompt(row["prompt"], raw_json, family=family)
+        if normalize_prompt_template is None
+        else normalize_prompt_template.format(sentence=row["prompt"], raw_json=raw_json)
+    )
+    normalize_text = generate_text(runtime, SYSTEM_PROMPT, normalize_prompt)
+    parsed = parse_json_response(normalize_text)
+    if isinstance(parsed, dict):
+        normalized_obj = {key: parsed.get(key, raw_obj.get(key, "")) for key in expected_keys}
+    else:
+        normalized_obj = dict(raw_obj)
+
+    comparison_raw = compare_results(raw_obj, row["ground_truth"], normalizer=normalize_strict)
+    comparison_normalized = compare_results(normalized_obj, row["ground_truth"], normalizer=normalize_strict)
+    raw_fields_correct = sum(1 for value in comparison_raw.values() if value["match"])
+    norm_fields_correct = sum(1 for value in comparison_normalized.values() if value["match"])
+
+    return {
+        "run": run_id,
+        "medication": row["medication"],
+        "prompt": row["prompt"],
+        "ground_truth": row["ground_truth"],
+        "raw_output": raw_obj,
+        "raw_response": raw_text,
+        "normalized_output": normalized_obj,
+        "normalized_response": normalize_text,
+        "comparison_raw": comparison_raw,
+        "comparison_normalized": comparison_normalized,
+        "raw_fields_correct": raw_fields_correct,
+        "norm_fields_correct": norm_fields_correct,
+        "raw_all_correct": all_fields_match(comparison_raw),
+        "norm_all_correct": all_fields_match(comparison_normalized),
+    }
+
+
+def run_medmatch_pipeline(
+    *,
+    mode: str,
+    model_name: str,
+    prompting_type: str,
+    num_runs: int,
+    temperature: float,
+    top_p: float,
+    max_new_tokens: int,
+    data_dir: str,
+    output_dir: Optional[str],
+    subset_size: Optional[int],
+    dataset_keys: Optional[Iterable[str]] = None,
+    batch_size: int = 10,
+    number_gpus: int = 2,
+    gpu_memory_utilization: float = 0.85,
+    max_model_len: int = 4096,
+) -> Dict[str, List[Dict[str, Any]]]:
+    del batch_size
+
+    runtime_args = argparse.Namespace(
+        mode=mode,
+        model_name=model_name,
         temperature=temperature,
+        number_gpus=number_gpus,
+        gpu_memory_utilization=gpu_memory_utilization,
+        max_model_len=max_model_len,
         top_p=top_p,
-        max_tokens=max_new_tokens,
+        max_new_tokens=max_new_tokens,
     )
-    return response.choices[0].message.content.strip()
+    runtime = init_runtime(runtime_args)
+    selected_keys = select_dataset_keys(prompting_type, dataset_keys)
+    datasets = build_datasets(data_dir, prompting_type, subset_size, selected_keys)
+    results_by_sheet = {sheet_name: [] for sheet_name in datasets}
+
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
+    for run_id in range(1, num_runs + 1):
+        output_path = None
+        output_handle = None
+        if output_dir:
+            output_path = os.path.join(output_dir, f"{sanitize_model_name(model_name)}_run{run_id}.jsonl")
+            output_handle = open(output_path, "w", encoding="utf-8")
+
+        try:
+            for dataset_key in selected_keys:
+                sheet_name = DATASET_SPECS[dataset_key]["sheet_name"]
+                for row in datasets[sheet_name]:
+                    if prompting_type in {"zero", "few", "one_shot"}:
+                        record = process_baseline_entry(runtime, prompting_type, row, model_name, run_id)
+                    elif prompting_type == "cot":
+                        record = process_cot_entry(runtime, mode, row, run_id)
+                    else:
+                        record = process_normalization_entry(runtime, mode, row, run_id)
+
+                    results_by_sheet[sheet_name].append(record)
+                    if output_handle is not None:
+                        write_record(output_handle, record)
+        finally:
+            if output_handle is not None:
+                output_handle.close()
+
+    return results_by_sheet
 
 
-def run_vllm(
-    llm: "LLM",
-    sampling_params: "SamplingParams",
-    messages: List[Dict[str, str]],
-) -> str:
-    prompt = messages_to_prompt(messages)
-    outputs = llm.generate([prompt], sampling_params=sampling_params)
-    return outputs[0].outputs[0].text.strip()
-
-
-def write_record(f, record: Dict):
-    f.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
-def chunked(iterable, size: int):
-    for i in range(0, len(iterable), size):
-        yield i, iterable[i : i + size]
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Run MedMatch prompting against multiple datasets.")
+def build_args() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Run MedMatch prompting against the lab CSV datasets.")
     parser.add_argument(
         "--mode",
-        choices=["openai", "azure", "vllm"],
+        choices=MODE_CHOICES,
         default="openai",
-        help="openai | azure (Azure OpenAI, e.g. azure-gpt-5-chat) | vllm.",
+        help="openai | azure | local | remote | google | vllm.",
     )
     parser.add_argument("--model_name", default="gpt-4o-mini")
-    parser.add_argument("--prompting_type", choices=["zero", "few", "one_shot"], default="zero",
-                       help="Prompting type: 'zero' for zero-shot, 'few' for few-shot/multi-turn, 'one_shot' for single-turn one-shot")
+    parser.add_argument(
+        "--prompting_type",
+        choices=PROMPTING_CHOICES,
+        default="zero",
+        help="zero | few | one_shot | cot | normalization",
+    )
     parser.add_argument("--num_runs", type=int, default=3)
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_p", type=float, default=0.95)
     parser.add_argument("--max_new_tokens", type=int, default=512)
-    parser.add_argument("--data_dir", default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "med_match")))
+    parser.add_argument(
+        "--data_dir",
+        default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "med_match")),
+    )
     parser.add_argument("--output_dir", default="./results/med_match")
     parser.add_argument("--subset_size", type=int, default=None, help="Optional subset size for quick tests.")
-    parser.add_argument("--batch_size", type=int, default=10, help="vLLM batch size (if used).")
+    parser.add_argument("--batch_size", type=int, default=10, help="Reserved for compatibility.")
     parser.add_argument("--number_gpus", type=int, default=2, help="Tensor parallel size for vLLM.")
     parser.add_argument("--gpu_memory_utilization", type=float, default=0.85, help="vLLM GPU memory utilization fraction.")
-    parser.add_argument("--max_model_len", type=int, default=4096, help="vLLM maximum sequence length to reserve KV cache for.")
+    parser.add_argument("--max_model_len", type=int, default=4096, help="vLLM maximum sequence length.")
+    return parser
+
+
+def main() -> None:
+    parser = build_args()
     args = parser.parse_args()
+    output_dir = os.path.join(args.output_dir, OUTPUT_SUBDIRS[args.prompting_type])
 
-    # Create prompting-type specific subdirectory
-    if args.prompting_type == "zero":
-        prompting_subdir = "zero-shot"
-    elif args.prompting_type == "few":
-        prompting_subdir = "few-shot"
-    elif args.prompting_type == "one_shot":
-        prompting_subdir = "one-shot"
-    else:
-        prompting_subdir = args.prompting_type  # fallback
-
-    output_dir = os.path.join(args.output_dir, prompting_subdir)
-    os.makedirs(output_dir, exist_ok=True)
-    datasets = build_datasets(args.data_dir, args.prompting_type)
-
-    client = None
-    llm = None
-    sampling_params = None
-    azure_model_name = None
-
-    if args.mode == "openai":
-        client = get_openai_client()
-    elif args.mode == "azure":
-        client, azure_model_name = get_azure_client(args.model_name)
-    else:
-        llm = init_vllm(
-            args.model_name,
-            args.number_gpus,
-            args.gpu_memory_utilization,
-            args.max_model_len,
-        )
-        sampling_params = SamplingParams(
-            temperature=args.temperature,
-            top_p=args.top_p,
-            max_tokens=args.max_new_tokens,
-        )
-        tokenizer = None
-        if "qwen" in args.model_name.lower() and HF_TOKENIZER_AVAILABLE:
-            tokenizer = AutoTokenizer.from_pretrained(args.model_name, trust_remote_code=True)
-        if "qwen" in args.model_name.lower() and tokenizer is None:
-            raise RuntimeError(
-                "Qwen models require transformers tokenizer to disable thinking. "
-                "Install transformers or set a non-Qwen model."
-            )
-
-    for run_id in range(1, args.num_runs + 1):
-        # Set fixed random seed for fully reproducible results across runs
-        # random.seed(42)  # Same seed for all runs for deterministic evaluation
-
-        output_path = os.path.join(
-            output_dir, f"{sanitize_model_name(args.model_name)}_run{run_id}.jsonl"
-        )
-        with open(output_path, "w", encoding="utf-8") as f:
-            for name, cfg in datasets.items():
-                df = load_dataframe(cfg["path"], args.subset_size)
-
-                # Prepare prompts and metadata
-                prompt_rows = []
-                for idx, (_, row) in enumerate(df.iterrows()):
-                    messages = cfg["builder"](row[cfg["prompt_col"]])
-                    
-                    # Print the first data prompt
-                    if run_id == 1 and idx == 0 and name == list(datasets.keys())[0]:
-                        print(f"\n{'='*80}")
-                        print(f"First Data Prompt - Dataset: {name}")
-                        print(f"{'='*80}")
-                        # print(f"Input prompt: {row[cfg['prompt_col']]}")
-                        print(f"\nBuilt messages:")
-                        for msg in messages:
-                            content = msg.get('content', '')
-                            # Print full content or truncate if too long
-                            if len(content) > 500:
-                                print(f"  {msg['role'].capitalize()}: {content}")
-                            else:
-                                print(f"  {msg['role'].capitalize()}: {content}")
-                        print(f"{'='*80}\n")
-                    if args.mode == "vllm":
-                        if "qwen" in args.model_name.lower() and "tokenizer" in locals() and tokenizer:
-                            prompt_text = tokenizer.apply_chat_template(
-                                messages,
-                                tokenize=False,
-                                add_generation_prompt=True,
-                                enable_thinking=False,
-                            )
-                        else:
-                            prompt_text = messages_to_prompt(messages)
-                        prompt_rows.append({"prompt_text": prompt_text, "row": row})
-                    else:
-                        prompt_rows.append({"messages": messages, "row": row})
-
-                if args.mode in ("openai", "azure"):
-                    max_workers = max(1, min(args.batch_size, len(prompt_rows)))
-                    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                        futures = {
-                            executor.submit(
-                                run_openai,
-                                client,
-                                azure_model_name or args.model_name,
-                                item["messages"],
-                                args.temperature,
-                                args.top_p,
-                                args.max_new_tokens,
-                            ): item
-                            for item in prompt_rows
-                        }
-                        for future in tqdm(as_completed(futures), total=len(futures), desc=f"{name} run{run_id}"):
-                            item = futures[future]
-                            response = future.result()
-                            row = item["row"]
-                            record = {
-                                "dataset": name,
-                                "run": run_id,
-                                "model": args.model_name,
-                                "medication": row.get("Medication"),
-                                "prompt": row[cfg["prompt_col"]],
-                                "ground_truth": row.get(cfg["gt_col"]),
-                                "response": response,
-                            }
-                            write_record(f, record)
-                else:
-                    # Batch vLLM requests
-                    for _, batch in tqdm(
-                        chunked(prompt_rows, args.batch_size),
-                        total=(len(prompt_rows) + args.batch_size - 1) // args.batch_size,
-                        desc=f"{name} run{run_id} (vllm batches)",
-                    ):
-                        batch_prompts = [b["prompt_text"] for b in batch]
-                        outputs = llm.generate(batch_prompts, sampling_params=sampling_params)
-                        for item, out in zip(batch, outputs):
-                            response = out.outputs[0].text.strip()
-                            row = item["row"]
-                            record = {
-                                "dataset": name,
-                                "run": run_id,
-                                "model": args.model_name,
-                                "medication": row.get("Medication"),
-                                "prompt": row[cfg["prompt_col"]],
-                                "ground_truth": row.get(cfg["gt_col"]),
-                                "response": response,
-                            }
-                            write_record(f, record)
+    run_medmatch_pipeline(
+        mode=args.mode,
+        model_name=args.model_name,
+        prompting_type=args.prompting_type,
+        num_runs=args.num_runs,
+        temperature=args.temperature,
+        top_p=args.top_p,
+        max_new_tokens=args.max_new_tokens,
+        data_dir=args.data_dir,
+        output_dir=output_dir,
+        subset_size=args.subset_size,
+        dataset_keys=None,
+        batch_size=args.batch_size,
+        number_gpus=args.number_gpus,
+        gpu_memory_utilization=args.gpu_memory_utilization,
+        max_model_len=args.max_model_len,
+    )
 
 
 if __name__ == "__main__":
