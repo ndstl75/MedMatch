@@ -8,6 +8,8 @@ import openpyxl
 def resolve_project_file(filename, start_dir=None):
     base_dir = os.path.abspath(start_dir or os.getcwd())
     candidates = [
+        os.path.join(base_dir, "datasets", filename),
+        os.path.join(os.path.dirname(base_dir), "datasets", filename),
         os.path.join(base_dir, filename),
         os.path.join(os.path.dirname(base_dir), filename),
     ]
@@ -52,4 +54,3 @@ def load_dataset(xlsx_path, sheet_config, selected_sheets=None, max_entries_per_
                 break
         dataset[sheet_name] = rows
     return dataset
-

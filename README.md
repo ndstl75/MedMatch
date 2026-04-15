@@ -1,91 +1,166 @@
 # MedMatch
 
-MedMatch is a medication-order structuring and evaluation project. This repository now carries both the original lab prompt-and-analysis workflow and a newer package-backed experiment stack for baseline, CoT, normalization, and single-case debugging.
+**Structured medication order formatting for LLMs and downstream evaluation.**
 
-## Repository Layout
+Python 3.10+ · Prompting backends: OpenAI-compatible APIs, Azure OpenAI, vLLM (optional)
 
-- `src/`: original prompt builders used by the lab scripts
-- `src/medmatch/`: shared package code for unified runners, scoring, dataset loading, and LLM backends
-- `scripts/probing_medmatch.py`: original MedMatch formatting experiments
-- `scripts/probing_medmatch_route_selection_test.py`: original route-selection experiments
-- `scripts/survey2gpt5.py` and `scripts/rougerx.py`: survey analysis entry points
-- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_normalization.py`, `scripts/run_tier3.py`, `scripts/run_single.py`: unified experiment entry points
-- `scripts/legacy/` and `scripts/legacy/local/`: migration parity/reference scripts
-- `scripts/local/`: local helper scripts such as the Ollama startup workaround
-- `data/` and `datasets/`: lab datasets and workbook inputs already tracked in the repository
-- `docs/`: experiment notes, parity reports, and local workflow guidance
+MedMatch turns free-text medication instructions into a fixed JSON slot schema (drug name, dose, units, route, frequency, and route-specific fields for oral vs intravenous orders). This repository contains prompt builders, dataset CSVs, runners that log model outputs as JSONL, and scripts to score routes, entity-level agreement, and survey-based appropriateness.
 
-## Experiment Modes
+---
 
-- `baseline`: one extraction call that maps an order directly into MedMatch JSON
-- `CoT`: a reasoning pass before extraction, used mainly for IV experiments
-- `normalization`: a second LLM pass that rewrites raw JSON into stricter canonical wording while keeping the scorer behavior stable
+## Core idea
 
-For a short script map, see [`docs/experiment_overview.md`](docs/experiment_overview.md). For remote parity notes, see [`docs/refactor_remote_parity.md`](docs/refactor_remote_parity.md).
+1. **Slot-filling JSON** — Each formulation and administration class (e.g. oral solid, IV intermittent) has a defined set of keys; prompts require the model to output a single JSON object with those keys.
+2. **Multi-setting evaluation** — Same codebase supports zero-shot, few-shot, and one-shot prompting, plus auxiliary tasks such as **route-only** prediction from de-routed text.
+3. **Traceable runs** — Runners write JSONL files under `results/` so you can reproduce and aggregate scores offline.
 
-## Setup
+---
 
-The unified runners are packaged through `pyproject.toml`:
+## Repository layout
 
-```bash
-cd "$(git rev-parse --show-toplevel)"
-pip install -e .
+```
+MedMatch/
+├── src/                         # Prompt builders
+│   ├── prompt_medmatch.py       # MedMatch formatting prompts (PO / IV)
+│   ├── prompt_rougerx.py        # RougeRx component-extraction prompts
+│   └── medmatch/                # Shared helpers used by merged-in local/unified runners
+├── scripts/                     # Entry points (run from repo root)
+│   ├── probing_medmatch.py      # Full MedMatch formatting experiments
+│   ├── probing_medmatch_route_selection_test.py
+│   ├── survey2gpt5.py           # Survey 2 appropriateness + tables
+│   ├── rougerx.py               # RougeRx survey analysis
+│   ├── run_baseline.py          # Added baseline runner
+│   ├── run_cot.py               # Added CoT runner
+│   ├── run_normalization.py     # Added normalization runner
+│   └── run_single.py            # Added single-case debugging runner
+├── data/
+│   ├── med_match/               # MedMatch CSV benchmarks
+│   ├── survey1/                 # RougeRx CSV
+│   └── survey2/                 # Second-survey CSVs
+├── datasets/                    # Workbook inputs used by added IV / normalization flows
+├── results/                     # JSONL outputs + derived tables (git may omit large files)
+├── requirements.txt
+└── README.md
 ```
 
-Set credentials in the environment or a local `.env` file:
+The original lab scripts remain the primary public workflow. The added `run_*.py` scripts are supplemental entry points for local debugging and merged-in follow-up experiments; they are meant to fit inside the same repo layout rather than replace it.
 
-- `GOOGLE_API_KEY` for `--backend remote` or `--backend google`
-- `OPENAI_API_KEY` for `--backend openai`
-- `AZURE_OPENAI_ENDPOINT` plus Azure login/identity for `--backend azure`
-- `MEDMATCH_NUM_RUNS`, `MEDMATCH_RETRY_DELAY`, `MEDMATCH_SLEEP_SECONDS`, `MEDMATCH_SHEETS`, and `MEDMATCH_MAX_ENTRIES` as optional runtime controls
+---
 
-This repository ignores `.env`; never commit credentials.
+## Data layout
 
-## Quick Start
+- **`data/med_match/`** — Per-task CSVs (oral solid/liquid, IV push/intermittent/continuous, with or without route columns). Baseline runners default to this directory.
+- **`data/survey2/`** — CSVs for the “computer-generated survey” appropriateness task consumed by `scripts/survey2gpt5.py`.
+- **`data/survey1/rougerx.csv`** — RougeRx respondent data for `scripts/rougerx.py`.
+- **`datasets/MedMatch Dataset for Experiment_ Final.xlsx`** — Workbook used by the added CoT / normalization follow-up flows.
 
-Run commands from the repository root:
+---
 
-```bash
-cd "$(git rev-parse --show-toplevel)"
-```
-
-Unified baseline:
+## Installation
 
 ```bash
-MEDMATCH_NUM_RUNS=1 python3 scripts/run_baseline.py --backend openai --category all
+git clone https://github.com/AIChemist-Lab/MedMatch.git
+cd MedMatch
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-Unified CoT:
+Set credentials in the environment or a `.env` file (never commit secrets):
+
+- **OpenAI-compatible API:** `OPENAI_API_KEY`
+- **Azure OpenAI:** `AZURE_OPENAI_ENDPOINT` (your resource URL, e.g. `https://<resource-name>.openai.azure.com`) plus Azure identity / CLI login as required by `azure-identity`
+- **Google-backed remote path:** `GOOGLE_API_KEY` when using the added `run_*.py` remote helpers
+
+For vLLM, install the optional `vllm` / `transformers` stack in the same environment.
+
+Download **NLTK** tokenizers once if you use RougeRx:
 
 ```bash
-python3 scripts/run_cot.py --backend azure --category iv
+python -c "import nltk; nltk.download('punkt')"
 ```
 
-Unified normalization:
+---
+
+## Quick start
+
+Run all commands from the **repository root** so default paths resolve.
+
+### MedMatch formatting (zero-shot example)
 
 ```bash
-python3 scripts/run_normalization.py --backend remote --category iv
+python scripts/probing_medmatch.py \
+  --mode openai \
+  --model_name gpt-4o-mini \
+  --prompting_type zero \
+  --num_runs 3 \
+  --temperature 0.7 \
+  --batch_size 10
 ```
 
-`scripts/run_tier3.py` remains as a compatibility alias for the normalization runner, and `remote` remains a compatibility alias for the Google-backed remote path, so older commands still work.
+Outputs default to `results/med_match/` (override with `--output_dir`). Use `--data_dir` to point at another MedMatch CSV folder.
 
-Single ad-hoc local case:
+### Route selection only
 
 ```bash
-python3 scripts/run_single.py --backend local --category iv_push --prompt "Famotidine 20 mg, 2 mL of a 20 mg/2 mL vial, was administered twice daily via intravenous push."
+python scripts/probing_medmatch_route_selection_test.py \
+  --mode openai \
+  --model_name gpt-4o-mini \
+  --num_runs 3 \
+  --output_dir results/route
 ```
 
-Original lab prompt experiments remain available:
+### Survey 2 (appropriateness / Percentage Appropriate table)
 
 ```bash
-python3 scripts/probing_medmatch.py --mode openai --model_name gpt-4o-mini --prompting_type zero --num_runs 3
-python3 scripts/probing_medmatch_route_selection_test.py --mode openai --model_name gpt-4o-mini --num_runs 3
+python scripts/survey2gpt5.py --mode openai --model_name gpt-4o-mini
 ```
 
-## Local Workflow
+### RougeRx (quick import test)
 
-For the local Ollama setup and the preserved local parity scripts, see [`docs/local_workflow.md`](docs/local_workflow.md).
+```bash
+PYTHONPATH=. python -c "from scripts.rougerx import quick_test; quick_test()"
+```
 
-## Repository Hygiene
+Or run the full script pipeline:
 
-Generated outputs, caches, checkpoints, local review artifacts, private notes, and local `.env` files should stay out of Git. Before pushing, verify that staged changes contain only intentional source code and stable docs.
+```bash
+python scripts/rougerx.py
+```
+
+### Added local / follow-up runners
+
+```bash
+python3 scripts/run_baseline.py --backend local --category iv_push
+python3 scripts/run_cot.py --backend local --category iv
+python3 scripts/run_normalization.py --backend local --category iv_push
+python3 scripts/run_single.py --backend local --category iv_push --prompt "..."
+```
+
+`scripts/run_tier3.py` is kept as a compatibility alias for `scripts/run_normalization.py`.
+
+---
+
+## Evaluation utilities
+
+Python modules under `results/` (e.g. `evaluation_match.py`, `evaluation_route.py`, `convert_table.py`) consume JSONL outputs and emit CSV / JSON summaries. Paths inside those scripts may still be machine-specific in places; adjust file locations to match your clone.
+
+---
+
+## Citation
+
+If you use this repository in research, please cite the relevant paper(s) for your project and, if applicable, add:
+
+```bibtex
+@misc{medmatch2026codebase,
+  title        = {MedMatch: Structured Medication Order Formatting and Evaluation},
+  howpublished = {\url{https://github.com/AIChemist-Lab/MedMatch}},
+  year         = {2026}
+}
+```
+
+---
+
+## License
+
+Add a `LICENSE` file to the repository root if you intend to distribute the code; until then, all rights are reserved unless you specify otherwise.

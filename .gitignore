@@ -1,74 +1,18 @@
-# ---------- OS ----------
 .DS_Store
-**/.DS_Store
-Thumbs.db
-
-# ---------- Secrets ----------
-.env
-.env.*
-!.env.example
-
-# ---------- Claude / editor workspace ----------
-.claude/
-.vscode/
-.idea/
-
-# ---------- Python ----------
 __pycache__/
-**/__pycache__/
 *.py[cod]
-*$py.class
 .Python
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.ipynb_checkpoints/
-*.egg-info/
-build/
-dist/
-
-# ---------- Virtual envs ----------
 .venv/
 venv/
-env/
-
-# ---------- Generated experiment outputs ----------
+.env
+*.log
+.claude/
 checkpoint/
-results/
-**/results/
-medmatch_local_gemma4/results/
-
-# ---------- Audit / reviewer artifacts ----------
 audit/
-error_analysis_*.xlsx
-
-# ---------- Office lockfiles ----------
-~$*
-*.tmp
-
-# ---------- Manuscript & supplemental (large binary docs) ----------
-manuscript/
-*.docx
-*.numbers
-*.pdf
-
-# ---------- Dataset (large binary) ----------
-data/
-MedMatch Dataset for Experiment_ Final.xlsx
-MedMatch_Dataset_Final.xlsx
-
-# ---------- PI-facing private drafts ----------
-pi_email_draft.md
-pi_progress_update.tex
-pi_summary.tex
-medmatch_project_summary.tex
-
-# ---------- Demo / scratch ----------
-prompt_demo.txt
 input.txt
 medmatch_local_gemma4/input.txt
-scratch/
-tmp/
-
-# ---------- Logs ----------
-*.log
+MedMatch Dataset for Experiment_ Final.xlsx
+medmatch_local_gemma4/
+results/*.csv
+results/*.json
+src/medmatch.egg-info/
