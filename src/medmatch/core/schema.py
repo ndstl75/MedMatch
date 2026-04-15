@@ -1,5 +1,9 @@
 """Shared MedMatch sheet configs and schema helpers."""
 
+from prompt_medmatch import (
+    build_local_normalization_oral_instruction,
+)
+
 KEY_ALIASES = {
     "rate": "starting rate",
     "volume amount": "numerical volume",
@@ -269,6 +273,32 @@ IV_BASELINE_SHEET_CONFIG = {
 
 ORAL_BASELINE_SHEET_CONFIG = {
     name: config for name, config in BASELINE_SHEET_CONFIG.items() if name.startswith("PO ")
+}
+
+LOCAL_NORMALIZATION_ORAL_SHEET_CONFIG = {
+    "PO Solid (40)": {
+        "instruction": build_local_normalization_oral_instruction("PO Solid (40)"),
+        "prompt_col": BASELINE_SHEET_CONFIG["PO Solid (40)"]["prompt_col"],
+        "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["PO Solid (40)"]["ground_truth_cols"]),
+    },
+    "PO liquid (10)": {
+        "instruction": build_local_normalization_oral_instruction("PO liquid (10)"),
+        "prompt_col": BASELINE_SHEET_CONFIG["PO liquid (10)"]["prompt_col"],
+        "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["PO liquid (10)"]["ground_truth_cols"]),
+    },
+}
+
+LOCAL_NORMALIZATION_IV_SHEET_CONFIG = {
+    "IV intermittent (16)": {
+        "instruction": BASELINE_SHEET_CONFIG["IV intermittent (16)"]["instruction"],
+        "prompt_col": BASELINE_SHEET_CONFIG["IV intermittent (16)"]["prompt_col"],
+        "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["IV intermittent (16)"]["ground_truth_cols"]),
+    },
+    "IV push (17)": {
+        "instruction": BASELINE_SHEET_CONFIG["IV push (17)"]["instruction"],
+        "prompt_col": BASELINE_SHEET_CONFIG["IV push (17)"]["prompt_col"],
+        "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["IV push (17)"]["ground_truth_cols"]),
+    },
 }
 
 

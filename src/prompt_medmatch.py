@@ -955,6 +955,88 @@ The MedMatch JSON format for oral liquid dosage form medications is:
 [frequency]: How often the medication is administered.""",
 }
 
+LOCAL_NORMALIZATION_ORAL_INSTRUCTIONS = {
+    "PO Solid (40)": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
+
+The MedMatch JSON format for oral solid dosage form medications is:
+[drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
+
+[drug name]: The generic or brand name of the medication.
+[numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
+[abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
+[amount]: The number of dosage units taken per administration (e.g., 1, 2).
+[formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet). Copy the dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
+by mouth: The route of administration, fixed as oral.
+[frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours). Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.
+
+Example of input:
+Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet).
+Example of MedMatch JSON format:
+{ "drug name": "benztropine",
+"numerical dose": 1,
+"abbreviated unit strength of dose": "mg",
+"amount": 1,
+"formulation": "tablet",
+"route": "by mouth",
+"frequency": "four times daily as needed"}
+
+Example of preserving full frequency text:
+Administer oral methocarbamol, 750 mg (1 tablet), three times daily as needed for muscle spasms.
+Example of MedMatch JSON format:
+{ "drug name": "methocarbamol",
+"numerical dose": 750,
+"abbreviated unit strength of dose": "mg",
+"amount": 1,
+"formulation": "tablet",
+"route": "by mouth",
+"frequency": "three times daily as needed for muscle spasms"}
+""",
+    "PO liquid (10)": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
+
+The MedMatch JSON format for oral liquid dosage form medications is:
+[drug name][numerical dose][abbreviated unit strength of dose][numerical volume][abbreviated unit strength of volume] of the [concentration of formulation][formulation unit of measure][formulation] by mouth [frequency]
+
+[drug name]: The generic or brand name of the medication.
+[numerical dose]: The numeric amount of drug administered per dose (e.g., 250, 5).
+[abbreviated unit strength of dose]: The standardized abbreviated unit for the drug dose (e.g., mg, mcg).
+[numerical volume]: The numeric volume administered per dose (e.g., 5, 10).
+[abbreviated unit strength of volume]: The standardized abbreviated unit for volume (e.g., mL).
+[concentration of formulation]: The strength of the medication per 1 mL. For example, if the sentence says 250 mg/5 mL, write 50 here.
+[formulation unit of measure]: The unit used in the concentration denominator (e.g., mL).
+[formulation]: The oral liquid dosage form (e.g., solution, suspension, syrup).
+[route]: The route of administration, fixed as oral.
+[frequency]: How often the medication is administered (e.g., once daily, every 6 hours).
+
+Example of input:
+An oral solution of diazepam (1mg/mL) is used to administer 5mg (5mL) dose by mouth once daily.
+Example of MedMatch JSON Format:
+{ "drug name": "diazepam",
+"numerical dose": 5,
+"abbreviated unit strength of dose": "mg",
+"numerical volume": 5,
+"volume unit of measure": "mL",
+"concentration of formulation": 1,
+"formulation unit of measure": "mg/mL",
+"formulation": "solution",
+"route": "by mouth",
+"frequency": "once daily"}
+
+Example of concentration conversion:
+Using a 250mg/5mL solution, administer a dose of 500mg of valproic acid (10mL) every 6 hours by mouth.
+Example of MedMatch JSON Format:
+{ "drug name": "valproic acid",
+"numerical dose": 500,
+"abbreviated unit strength of dose": "mg",
+"numerical volume": 10,
+"volume unit of measure": "mL",
+"concentration of formulation": 50,
+"formulation unit of measure": "mg/mL",
+"formulation": "solution",
+"route": "by mouth",
+"frequency": "every 6 hours"}
+""",
+}
+
 REMOTE_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
 
 Apply these normalization rules:
@@ -981,6 +1063,56 @@ Apply these normalization rules:
 4. Compound dose units — preserve qualifiers like "/kg" exactly as they appear.
 5. Concentration per 1 mL (IV push only) — if the order expresses X unit / Y mL with Y greater than 1, reduce to per-mL concentration.
 6. Drug name typography — use ASCII hyphens only.
+7. Do not change numeric values (other than rule 5), do not change drug identity, and do not add or remove fields. Return every key that appeared in the input JSON with the same key spelling.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON object only. No extra text, no markdown fences."""
+
+LOCAL_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
+
+Apply these normalization rules:
+1. Frequency: If the schedule means once per day, write "once daily" (not just "daily"). Preserve all qualifiers like "as needed", "at bedtime", indication text (e.g., "as needed for pain"), and day-of-week schedules. Keep the order: frequency first, then qualifiers (e.g., "every 4 hours as needed for pain", not "as needed for pain every 4 hours"). If the order specifies specific days, write as "once daily on [days]".
+2. Formulation: Use hyphens for multi-word dosage forms: "extended-release tablet" not "extended release tablet". Use singular form (e.g., "tablet" not "tablets", "capsule" not "capsules") unless the amount field is greater than 1, in which case use plural.
+3. Route: Always write "by mouth" (not "oral" or "po").
+4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
+5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON only. No extra text."""
+
+LOCAL_IV_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured IV medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
+
+Apply these normalization rules:
+
+1. Frequency canonical form — write schedules in spelled-out canonical English:
+   - "daily" or "once per day" -> "once daily"
+   - "BID" or "twice a day" -> "twice daily"
+   - "TID" -> "three times daily"
+   - "QID" -> "four times daily"
+   - "prn" or "PRN" -> "as needed"
+   - Keep "once" as "once" when it means a one-time dose rather than a daily schedule.
+   Preserve all qualifiers verbatim (e.g., "as needed for phosphorous replacement", "at bedtime", indication text). Preserve day-of-week schedules and multi-part intervals unchanged (e.g., "every 8 hours", "every 12 hours").
+
+2. Infusion time — use the noun form "X minutes" or "X hours", not the hyphenated adjective form. Example: "30-minute" -> "30 minutes", "3-hour" -> "3 hours".
+
+3. IV push formulation — for IV push orders, the canonical formulation is "vial solution" unless the order explicitly specifies a different injectable dosage form (e.g., "prefilled syringe"). If the extracted formulation is just "vial", just "solution", or blank, replace it with "vial solution".
+
+4. Compound dose units — preserve qualifiers like "/kg" exactly as they appear in the order. For example, if the order says "5 mg/kg", the abbreviated unit strength of dose is "mg/kg", not "mg".
+
+5. Concentration per 1 mL (IV push only) — if the order expresses drug strength as X [unit] / Y mL with Y greater than 1 (for example "20 mg/2 mL"), set "concentration of solution" to X divided by Y and set "concentration unit of measure" to "[unit]/mL". Example: 20 mg / 2 mL -> concentration of solution = 10, concentration unit of measure = mg/mL. If Y equals 1 (e.g., "50 mcg/mL"), the concentration is already per-mL — keep it as-is.
+
+6. Drug name typography — use ASCII hyphens only. Replace unicode en-dash "\u2013" or em-dash "\u2014" inside a drug name with an ASCII hyphen "-". Example: "piperacillin\u2013tazobactam" -> "piperacillin-tazobactam". Keep lowercase except for proper brand names.
+
 7. Do not change numeric values (other than rule 5), do not change drug identity, and do not add or remove fields. Return every key that appeared in the input JSON with the same key spelling.
 
 Original medication order sentence:
@@ -1032,6 +1164,17 @@ def build_remote_normalization_oral_instruction(sheet_name: str) -> str:
 def build_remote_normalization_prompt(sentence: str, raw_json: str, *, family: str) -> str:
     """Return the remote normalization prompt for oral or IV runs."""
     template = REMOTE_ORAL_NORMALIZE_PROMPT if family == "oral" else REMOTE_IV_NORMALIZE_PROMPT
+    return template.format(sentence=sentence, raw_json=raw_json)
+
+
+def build_local_normalization_oral_instruction(sheet_name: str) -> str:
+    """Return the local oral extraction instruction used by normalization runs."""
+    return LOCAL_NORMALIZATION_ORAL_INSTRUCTIONS[sheet_name]
+
+
+def build_local_normalization_prompt(sentence: str, raw_json: str, *, family: str) -> str:
+    """Return the local normalization prompt for oral or IV runs."""
+    template = LOCAL_ORAL_NORMALIZE_PROMPT if family == "oral" else LOCAL_IV_NORMALIZE_PROMPT
     return template.format(sentence=sentence, raw_json=raw_json)
 
 

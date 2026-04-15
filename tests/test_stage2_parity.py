@@ -21,6 +21,7 @@ sys.path.insert(0, str(REPO_ROOT / "src"))
 from prompt_medmatch import (  # noqa: E402
     build_cot_extract_prompt,
     build_cot_reason_prompt,
+    build_local_normalization_prompt,
     build_remote_normalization_oral_instruction,
     build_remote_normalization_prompt,
 )
@@ -88,20 +89,28 @@ class Stage2ParityTests(unittest.TestCase):
         current["norm_remote_oral_prompt"] = build_remote_normalization_prompt(SAMPLE_PROMPT, SAMPLE_JSON, family="oral")
         current["norm_remote_iv_prompt"] = build_remote_normalization_prompt(SAMPLE_PROMPT, SAMPLE_JSON, family="iv")
 
-        oral_sheet_config, oral_normalize = new_runner.get_local_normalization_resources("oral")
-        iv_sheet_config, iv_normalize = new_runner.get_local_normalization_resources("iv")
+        oral_sheet_config = new_runner.get_local_normalization_resources("oral")
+        iv_sheet_config = new_runner.get_local_normalization_resources("iv")
         current["norm_local_oral_extract"] = new_runner.build_normalization_extract_prompt(
             oral_sheet_config["PO Solid (40)"]["instruction"],
             SAMPLE_PROMPT,
             list(BASELINE_SHEET_CONFIG["PO Solid (40)"]["ground_truth_cols"].keys()),
         )
-        current["norm_local_oral_prompt"] = oral_normalize.format(sentence=SAMPLE_PROMPT, raw_json=SAMPLE_JSON)
+        current["norm_local_oral_prompt"] = build_local_normalization_prompt(
+            SAMPLE_PROMPT,
+            SAMPLE_JSON,
+            family="oral",
+        )
         current["norm_local_iv_extract"] = new_runner.build_normalization_extract_prompt(
             iv_sheet_config["IV push (17)"]["instruction"],
             SAMPLE_PROMPT,
             list(BASELINE_SHEET_CONFIG["IV push (17)"]["ground_truth_cols"].keys()),
         )
-        current["norm_local_iv_prompt"] = iv_normalize.format(sentence=SAMPLE_PROMPT, raw_json=SAMPLE_JSON)
+        current["norm_local_iv_prompt"] = build_local_normalization_prompt(
+            SAMPLE_PROMPT,
+            SAMPLE_JSON,
+            family="iv",
+        )
 
         old = run_pre_stage2_python(
             f"""

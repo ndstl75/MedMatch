@@ -10,12 +10,10 @@ from __future__ import annotations
 
 import argparse
 import csv
-import importlib.util
 import json
 import os
 import random
 import sys
-from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
 
@@ -38,6 +36,7 @@ from prompt_medmatch import (
     build_iv_push_messages_one_shot,
     build_iv_push_messages_one_shot_multi_turn,
     build_iv_push_messages_zero_shot,
+    build_local_normalization_prompt,
     build_po_liquid_messages_one_shot,
     build_po_liquid_messages_one_shot_multi_turn,
     build_po_liquid_messages_zero_shot,
@@ -48,7 +47,11 @@ from prompt_medmatch import (
     build_remote_normalization_prompt,
     get_cot_reason_system_prompt,
 )
-from medmatch.core.schema import BASELINE_SHEET_CONFIG
+from medmatch.core.schema import (
+    BASELINE_SHEET_CONFIG,
+    LOCAL_NORMALIZATION_IV_SHEET_CONFIG,
+    LOCAL_NORMALIZATION_ORAL_SHEET_CONFIG,
+)
 from medmatch.core.scorer import all_fields_match, coerce_output_object, compare_results, normalize_strict, parse_json_response
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
 from medmatch.llm.local_ollama import LocalOllamaBackend
@@ -357,37 +360,10 @@ def titration_fields_present(ground_truth: Dict[str, Any]) -> bool:
     return any(str(ground_truth.get(field, "")).strip() for field in fields)
 
 
-def load_legacy_local_module(relative_path: str, module_name: str):
-    path = os.path.join(_REPO_ROOT, relative_path)
-    module_dir = os.path.dirname(path)
-    added = False
-    if module_dir not in sys.path:
-        sys.path.insert(0, module_dir)
-        added = True
-    try:
-        spec = importlib.util.spec_from_file_location(module_name, path)
-        module = importlib.util.module_from_spec(spec)
-        assert spec.loader is not None
-        spec.loader.exec_module(module)
-        return module
-    finally:
-        if added and module_dir in sys.path:
-            sys.path.remove(module_dir)
-
-
 def get_local_normalization_resources(family: str):
     if family == "oral":
-        module = load_legacy_local_module(
-            os.path.join("scripts", "legacy", "local", "oral_llm_normalize_local.py"),
-            "medmatch_local_oral_normalization",
-        )
-        return module.SHEET_CONFIG, module.NORMALIZE_PROMPT
-
-    module = load_legacy_local_module(
-        os.path.join("scripts", "legacy", "local", "iv_llm_normalize_local.py"),
-        "medmatch_local_iv_normalization",
-    )
-    return module.SHEET_CONFIG, module.IV_NORMALIZE_PROMPT
+        return LOCAL_NORMALIZATION_ORAL_SHEET_CONFIG
+    return LOCAL_NORMALIZATION_IV_SHEET_CONFIG
 
 
 def build_normalization_extract_prompt(instruction: str, prompt: str, expected_keys: List[str]) -> str:
@@ -474,9 +450,8 @@ def process_normalization_entry(runtime: Dict[str, Any], mode: str, row: Dict[st
             if family == "oral"
             else BASELINE_SHEET_CONFIG[sheet_name]["instruction"]
         )
-        normalize_prompt_template = None
     else:
-        sheet_config, normalize_prompt_template = get_local_normalization_resources(family)
+        sheet_config = get_local_normalization_resources(family)
         instruction = sheet_config[sheet_name]["instruction"]
 
     expected_keys = list(BASELINE_SHEET_CONFIG[sheet_name]["ground_truth_cols"].keys())
@@ -492,8 +467,8 @@ def process_normalization_entry(runtime: Dict[str, Any], mode: str, row: Dict[st
     raw_json = json.dumps(raw_obj, indent=2, default=str)
     normalize_prompt = (
         build_remote_normalization_prompt(row["prompt"], raw_json, family=family)
-        if normalize_prompt_template is None
-        else normalize_prompt_template.format(sentence=row["prompt"], raw_json=raw_json)
+        if remote_mode
+        else build_local_normalization_prompt(row["prompt"], raw_json, family=family)
     )
     normalize_text = generate_text(runtime, SYSTEM_PROMPT, normalize_prompt)
     parsed = parse_json_response(normalize_text)
