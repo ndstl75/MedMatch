@@ -1,145 +1,94 @@
 # MedMatch
 
-**Structured medication order formatting for LLMs and downstream evaluation.**
+MedMatch is a medication-order structuring and evaluation project. This repository now carries both the original lab prompt-and-analysis workflow and a newer package-backed experiment stack for baseline, CoT, exemplar-RAG, Tier 3 normalization, and single-case debugging.
 
-Python 3.10+ · Prompting backends: OpenAI-compatible APIs, Azure OpenAI, vLLM (optional)
+## Repository Layout
 
-MedMatch turns free-text medication instructions into a fixed JSON slot schema (drug name, dose, units, route, frequency, and route-specific fields for oral vs intravenous orders). This repository contains prompt builders, dataset CSVs, runners that log model outputs as JSONL, and scripts to score routes, entity-level agreement, and survey-based appropriateness.
+- `src/`: original prompt builders used by the lab scripts
+- `src/medmatch/`: shared package code for unified runners, scoring, dataset loading, and LLM backends
+- `scripts/probing_medmatch.py`: original MedMatch formatting experiments
+- `scripts/probing_medmatch_route_selection_test.py`: original route-selection experiments
+- `scripts/survey2gpt5.py` and `scripts/rougerx.py`: survey analysis entry points
+- `scripts/run_baseline.py`, `scripts/run_cot.py`, `scripts/run_exemplar_rag.py`, `scripts/run_tier3.py`, `scripts/run_single.py`: unified experiment entry points
+- `scripts/legacy/` and `scripts/legacy/local/`: migration parity/reference scripts
+- `scripts/local/`: local helper scripts such as the Ollama startup workaround
+- `data/` and `datasets/`: lab datasets and workbook inputs already tracked in the repository
+- `docs/`: experiment notes, parity reports, and local workflow guidance
 
----
+## Experiment Modes
 
-## Core idea
+- `baseline`: one extraction call that maps an order directly into MedMatch JSON
+- `CoT`: a reasoning pass before extraction, used mainly for IV experiments
+- `exemplar-RAG`: a retrieval-style prompting variant for IV experiments
+- `Tier 3`: a second LLM pass that rewrites raw JSON into stricter canonical wording while keeping the scorer behavior stable
 
-1. **Slot-filling JSON** — Each formulation and administration class (e.g. oral solid, IV intermittent) has a defined set of keys; prompts require the model to output a single JSON object with those keys.
-2. **Multi-setting evaluation** — Same codebase supports zero-shot, few-shot, and one-shot prompting, plus auxiliary tasks such as **route-only** prediction from de-routed text.
-3. **Traceable runs** — Runners write JSONL files under `results/` so you can reproduce and aggregate scores offline.
+For a short script map, see [`docs/experiment_overview.md`](docs/experiment_overview.md). For remote parity notes, see [`docs/refactor_remote_parity.md`](docs/refactor_remote_parity.md).
 
----
+## Setup
 
-## Repository layout
-
-```
-MedMatch/
-├── src/                         # Prompt builders
-│   ├── prompt_medmatch.py       # MedMatch formatting prompts (PO / IV)
-│   └── prompt_rougerx.py        # RougeRx component-extraction prompts
-├── scripts/                     # Entry points (run from repo root)
-│   ├── probing_medmatch.py      # Full MedMatch formatting experiments
-│   ├── probing_medmatch_route_selection_test.py
-│   ├── survey2gpt5.py           # Survey 2 appropriateness + tables
-│   └── rougerx.py               # RougeRx survey analysis
-├── data/
-│   ├── med_match/               # MedMatch CSV benchmarks
-│   ├── survey1/                 # RougeRx CSV
-│   └── survey2/                 # Second-survey CSVs
-├── results/                     # JSONL outputs + derived tables (git may omit large files)
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Data layout
-
-- **`data/med_match/`** — Per-task CSVs (oral solid/liquid, IV push/intermittent/continuous, with or without route columns). Runners default to this directory via `--data_dir`.
-- **`data/survey2/`** — CSVs for the “computer-generated survey” appropriateness task consumed by `scripts/survey2gpt5.py`.
-- **`data/survey1/rougerx.csv`** — RougeRx respondent data for `scripts/rougerx.py`.
-
----
-
-## Installation
+The unified runners are packaged through `pyproject.toml`:
 
 ```bash
-git clone https://github.com/AIChemist-Lab/MedMatch.git
-cd MedMatch
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+cd "$(git rev-parse --show-toplevel)"
+pip install -e .
 ```
 
-Set credentials in the environment or a `.env` file (never commit secrets):
+Set credentials in the environment or a local `.env` file:
 
-- **OpenAI-compatible API:** `OPENAI_API_KEY`
-- **Azure OpenAI:** `AZURE_OPENAI_ENDPOINT` (your resource URL, e.g. `https://<resource-name>.openai.azure.com`) plus Azure identity / CLI login as required by `azure-identity`
+- `GOOGLE_API_KEY` for the remote Gemma path
+- `MEDMATCH_NUM_RUNS`, `MEDMATCH_RETRY_DELAY`, `MEDMATCH_SLEEP_SECONDS`, `MEDMATCH_SHEETS`, and `MEDMATCH_MAX_ENTRIES` as optional runtime controls
 
-For vLLM, install the optional `vllm` / `transformers` stack in the same environment.
+This repository ignores `.env`; never commit credentials.
 
-Download **NLTK** tokenizers once if you use RougeRx:
+## Quick Start
+
+Run commands from the repository root:
 
 ```bash
-python -c "import nltk; nltk.download('punkt')"
+cd "$(git rev-parse --show-toplevel)"
 ```
 
----
-
-## Quick start
-
-Run all commands from the **repository root** so default paths resolve.
-
-### MedMatch formatting (zero-shot example)
+Unified baseline:
 
 ```bash
-python scripts/probing_medmatch.py \
-  --mode openai \
-  --model_name gpt-4o-mini \
-  --prompting_type zero \
-  --num_runs 3 \
-  --temperature 0.7 \
-  --batch_size 10
+MEDMATCH_NUM_RUNS=1 python3 scripts/run_baseline.py --backend remote --category all
 ```
 
-Outputs default to `results/med_match/` (override with `--output_dir`). Use `--data_dir` to point at another MedMatch CSV folder.
-
-### Route selection only
+Unified CoT:
 
 ```bash
-python scripts/probing_medmatch_route_selection_test.py \
-  --mode openai \
-  --model_name gpt-4o-mini \
-  --num_runs 3 \
-  --output_dir results/route
+python3 scripts/run_cot.py --backend remote --category iv
 ```
 
-### Survey 2 (appropriateness / Percentage Appropriate table)
+Unified exemplar-RAG:
 
 ```bash
-python scripts/survey2gpt5.py --mode openai --model_name gpt-4o-mini
+python3 scripts/run_exemplar_rag.py --backend remote --category iv
 ```
 
-### RougeRx (quick import test)
+Unified Tier 3:
 
 ```bash
-PYTHONPATH=. python -c "from scripts.rougerx import quick_test; quick_test()"
+python3 scripts/run_tier3.py --backend remote --category iv
 ```
 
-Or run the full script pipeline:
+Single ad-hoc local case:
 
 ```bash
-python scripts/rougerx.py
+python3 scripts/run_single.py --backend local --category iv_push --prompt "Famotidine 20 mg, 2 mL of a 20 mg/2 mL vial, was administered twice daily via intravenous push."
 ```
 
----
+Original lab prompt experiments remain available:
 
-## Evaluation utilities
-
-Python modules under `results/` (e.g. `evaluation_match.py`, `evaluation_route.py`, `convert_table.py`) consume JSONL outputs and emit CSV / JSON summaries. Paths inside those scripts may still be machine-specific in places; adjust file locations to match your clone.
-
----
-
-## Citation
-
-If you use this repository in research, please cite the relevant paper(s) for your project and, if applicable, add:
-
-```bibtex
-@misc{medmatch2026codebase,
-  title        = {MedMatch: Structured Medication Order Formatting and Evaluation},
-  howpublished = {\url{https://github.com/AIChemist-Lab/MedMatch}},
-  year         = {2026}
-}
+```bash
+python3 scripts/probing_medmatch.py --mode openai --model_name gpt-4o-mini --prompting_type zero --num_runs 3
+python3 scripts/probing_medmatch_route_selection_test.py --mode openai --model_name gpt-4o-mini --num_runs 3
 ```
 
----
+## Local Workflow
 
-## License
+For the local Ollama setup and the preserved local parity scripts, see [`docs/local_workflow.md`](docs/local_workflow.md).
 
-Add a `LICENSE` file to the repository root if you intend to distribute the code; until then, all rights are reserved unless you specify otherwise.
+## Repository Hygiene
+
+Generated outputs, caches, checkpoints, local review artifacts, private notes, and local `.env` files should stay out of Git. Before pushing, verify that staged changes contain only intentional source code and stable docs.
