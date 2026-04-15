@@ -11,10 +11,12 @@ SRC = os.path.join(ROOT, "src")
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
+from medmatch.llm.config import SUPPORTED_BACKENDS
+
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--backend", choices=["local", "remote"], required=True)
+    parser.add_argument("--backend", choices=SUPPORTED_BACKENDS, required=True)
     parser.add_argument("--category", default="all")
     parser.add_argument("--max-entries", type=int, default=int(os.environ.get("MEDMATCH_MAX_ENTRIES", "0")))
     parser.add_argument("--runs", type=int)

@@ -8,8 +8,8 @@ from medmatch.core.dataset import load_dataset, resolve_project_file, selected_s
 from medmatch.core.io import build_flat_result_paths, ensure_results_dir, write_flat_results
 from medmatch.core.schema import BASELINE_SHEET_CONFIG, IV_BASELINE_SHEET_CONFIG, SYSTEM_PROMPT
 from medmatch.core.scorer import all_fields_match, compare_results, normalize_relaxed, normalize_strict
-from medmatch.llm.local_ollama import LocalOllamaBackend
-from medmatch.llm.remote_gemma import RemoteGemmaBackend
+from medmatch.llm.config import is_remote_backend
+from medmatch.experiments.common import make_backend
 
 
 IV_PROMPT_ADDENDUM = {
@@ -40,16 +40,6 @@ Cisatracurium 200 mg/100 mL 0.9% sodium chloride was initiated at 2 mcg/kg/min a
 { "drug name": "cisatracurium", "numerical dose": 200, "abbreviated unit strength of dose": "mg", "diluent volume": 100, "volume unit of measure": "mL", "compatible diluent type": "0.9% sodium chloride", "starting rate": 2, "unit of measure": "mcg/kg/min", "titration dose": "25-50", "titration unit of measure": "%", "titration frequency": "every 2 minutes", "titration goal based on physiologic response, laboratory result, or assessment score": "ventilator synchrony" }
 """,
 }
-
-
-def make_backend(name):
-    if name == "remote":
-        return RemoteGemmaBackend()
-    if name == "local":
-        return LocalOllamaBackend()
-    raise ValueError(f"Unsupported backend: {name}")
-
-
 def build_instruction(sheet_name, base_instruction, expected_keys, backend_name):
     extra_lines = [
         "Return one JSON object only.",
@@ -107,7 +97,7 @@ def run_baseline(
     )
     run_count = int(os.environ.get("MEDMATCH_NUM_RUNS", "3") if num_runs is None else num_runs)
     sleep_between_calls = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1"))
-    normalizer = normalize_relaxed if (score_mode or backend_name) == "remote" else normalize_strict
+    normalizer = normalize_relaxed if is_remote_backend(score_mode or backend_name) else normalize_strict
 
     totals = {
         "entries": 0,
@@ -194,4 +184,3 @@ def run_baseline(
     print("SUMMARY")
     print(f"  Field accuracy: {totals['fields_correct']}/{totals['fields']} ({field_accuracy:.1f}%)")
     print(f"  Overall accuracy: {totals['correct']}/{totals['entries']} ({overall_accuracy:.1f}%)")
-

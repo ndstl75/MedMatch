@@ -3,11 +3,19 @@
 import os
 import time
 
-from google import genai
-from google.genai import errors, types
-
 from medmatch.core.scorer import coerce_output_object, parse_json_response
 from medmatch.llm.base import LLMBackend
+
+try:
+    from google import genai
+    from google.genai import errors, types
+
+    GOOGLE_GENAI_AVAILABLE = True
+except ImportError:  # pragma: no cover
+    genai = None
+    errors = None
+    types = None
+    GOOGLE_GENAI_AVAILABLE = False
 
 
 def load_google_api_key():
@@ -36,6 +44,8 @@ def build_response_schema(expected_keys):
 
 class RemoteGemmaBackend(LLMBackend):
     def __init__(self, model=None, temperature=None, retries=None, retry_delay=None):
+        if not GOOGLE_GENAI_AVAILABLE:
+            raise ImportError("google-genai package is required for the Google remote backend.")
         self.model = model or os.environ.get("GOOGLE_MODEL_NAME", "gemma-3-27b-it")
         self.temperature = float(
             os.environ.get("MEDMATCH_TEMPERATURE", "0.1") if temperature is None else temperature
@@ -110,4 +120,3 @@ class RemoteGemmaBackend(LLMBackend):
                 if attempt == self.retries - 1:
                     return {key: "" for key in expected_keys}, raw_text
                 time.sleep(self.retry_delay)
-

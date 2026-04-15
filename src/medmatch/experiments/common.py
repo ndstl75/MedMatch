@@ -9,13 +9,20 @@ from datetime import datetime
 from medmatch.core.dataset import load_dataset, resolve_project_file
 from medmatch.core.schema import BASELINE_SHEET_CONFIG, IV_BASELINE_SHEET_CONFIG, ORAL_BASELINE_SHEET_CONFIG, SYSTEM_PROMPT
 from medmatch.core.scorer import all_fields_match, normalize_relaxed, normalize_strict, parse_json_response
+from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name, is_remote_backend
 from medmatch.llm.local_ollama import LocalOllamaBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
 from medmatch.llm.remote_gemma import RemoteGemmaBackend
 
 
 def make_backend(name):
-    if name == "remote":
+    name = canonical_backend_name(name)
+    if name in {"remote", "google"}:
         return RemoteGemmaBackend()
+    if name == "openai":
+        return OpenAICompatibleBackend()
+    if name == "azure":
+        return AzureOpenAIBackend()
     if name == "local":
         return LocalOllamaBackend()
     raise ValueError(f"Unsupported backend: {name}")
@@ -42,7 +49,7 @@ def timestamp_now():
 
 
 def normalize_for_backend(backend_name):
-    return normalize_relaxed if backend_name == "remote" else normalize_strict
+    return normalize_relaxed if is_remote_backend(backend_name) else normalize_strict
 
 
 def compare_results_backend(llm_output, ground_truth, backend_name):
@@ -87,7 +94,7 @@ def generate_text(backend, system_prompt, prompt, *, temperature=None):
 
 
 def generate_json(backend, backend_name, system_prompt, prompt, expected_keys, *, use_aliases=True, temperature=None):
-    if backend_name == "remote" and use_aliases:
+    if is_remote_backend(backend_name) and use_aliases:
         return backend.generate_json(system_prompt, prompt, expected_keys, temperature=temperature)
     text = backend.generate_text(system_prompt, prompt, temperature=temperature)
     parsed = parse_json_response(text)
@@ -127,4 +134,3 @@ def oral_sheet_config():
 
 def baseline_sheet_config():
     return BASELINE_SHEET_CONFIG
-

@@ -11,10 +11,12 @@ SRC = os.path.join(ROOT, "src")
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
+from medmatch.llm.config import SUPPORTED_BACKENDS
+
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--backend", choices=["local", "remote"], required=True)
+    parser.add_argument("--backend", choices=SUPPORTED_BACKENDS, required=True)
     parser.add_argument("--category", default="iv")
     args = parser.parse_args()
 

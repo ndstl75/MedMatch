@@ -11,6 +11,7 @@ from medmatch.experiments.common import (
     ensure_results_dir,
     generate_json,
     generate_text,
+    is_remote_backend,
     iv_sheet_config,
     load_experiment_dataset,
     load_legacy_local_module,
@@ -97,9 +98,10 @@ Return the normalized JSON object only. No extra text, no markdown fences."""
 
 def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, max_entries_per_sheet=0, num_runs=None):
     backend = make_backend(backend_name)
+    remote_mode = is_remote_backend(backend_name)
     if category in {"po_solid", "po_liquid", "oral"}:
         family = "oral"
-        sheet_config = REMOTE_ORAL_SHEET_CONFIG if backend_name == "remote" else oral_sheet_config()
+        sheet_config = REMOTE_ORAL_SHEET_CONFIG if remote_mode else oral_sheet_config()
         if category == "po_solid":
             sheet_names = ["PO Solid (40)"]
         elif category == "po_liquid":
@@ -120,7 +122,7 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
         else:
             sheet_names = list(sheet_config.keys())
 
-    if backend_name == "local":
+    if not remote_mode:
         local_module = load_legacy_local_module(
             start_dir,
             os.path.join(
@@ -147,8 +149,8 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
     results_dir = ensure_results_dir(start_dir)
     timestamp = timestamp_now()
     run_count = int(os.environ.get("MEDMATCH_NUM_RUNS", "3") if num_runs is None else num_runs)
-    sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1" if backend_name == "remote" else "0.5"))
-    use_aliases = backend_name == "remote"
+    sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1" if remote_mode else "0.5"))
+    use_aliases = remote_mode
 
     print(f"Backend: {backend_name} | Family: {family} | Runs: {run_count}")
     print("Pipeline: extract -> LLM normalize -> score")
@@ -265,4 +267,3 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
                 writer.writerow(out)
         print(f"  Saved: {json_path}")
         print(f"  Saved: {csv_path}")
-

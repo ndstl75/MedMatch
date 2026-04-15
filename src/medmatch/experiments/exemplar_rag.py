@@ -11,6 +11,7 @@ from medmatch.experiments.common import (
     compare_results_backend,
     ensure_results_dir,
     generate_json,
+    is_remote_backend,
     iv_sheet_config,
     load_experiment_dataset,
     load_legacy_local_module,
@@ -103,16 +104,17 @@ def run_exemplar_rag(*, backend_name, selected_sheets=None, max_entries_per_shee
     run_count = int(os.environ.get("MEDMATCH_NUM_RUNS", "3") if num_runs is None else num_runs)
     top_k = int(os.environ.get("MEDMATCH_RAG_TOP_K", "2"))
     sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1"))
-    use_aliases = backend_name == "remote"
+    remote_mode = is_remote_backend(backend_name)
+    use_aliases = remote_mode
 
-    if backend_name == "local":
+    if not remote_mode:
         local_common = load_legacy_local_module(
             start_dir,
             os.path.join("scripts", "legacy", "local", "iv_clean_common_local.py"),
             "medmatch_legacy_local_common",
         )
 
-    exemplar_bank = build_remote_exemplar_bank(dataset) if backend_name == "remote" else None
+    exemplar_bank = build_remote_exemplar_bank(dataset) if remote_mode else None
 
     print(f"Backend: {backend_name} | Runs: {run_count}")
     print(f"RAG top-k: {top_k}")
@@ -135,7 +137,7 @@ def run_exemplar_rag(*, backend_name, selected_sheets=None, max_entries_per_shee
             print(f"\n  --- Run {run_idx}/{run_count} ---")
             for idx, entry in enumerate(entries, 1):
                 print(f"  [{idx}/{len(entries)}] {entry['medication']}...", end=" ", flush=True)
-                if backend_name == "remote":
+                if remote_mode:
                     exemplars = retrieve_remote_exemplars(exemplar_bank, sheet_name, entry["prompt"], entry["medication"], top_k)
                     parts = [
                         config["instruction"],
@@ -220,7 +222,7 @@ def run_exemplar_rag(*, backend_name, selected_sheets=None, max_entries_per_shee
                 print(f"\n  Run {run_idx}: {run_ok}/{len(entries)} = {run_ok / len(entries) * 100:.1f}%")
 
         safe = sheet_name.replace(" ", "_").replace("(", "").replace(")", "")
-        suffix = "exemplar_rag" if backend_name == "remote" else "rag"
+        suffix = "exemplar_rag" if remote_mode else "rag"
         json_path = os.path.join(results_dir, f"{safe}_{backend_name}_{suffix}_{timestamp}.json")
         csv_path = os.path.join(results_dir, f"{safe}_{backend_name}_{suffix}_{timestamp}.csv")
         with open(json_path, "w", encoding="utf-8") as handle:
@@ -242,4 +244,3 @@ def run_exemplar_rag(*, backend_name, selected_sheets=None, max_entries_per_shee
     print(f"SUMMARY ({backend_name} exemplar-RAG)")
     print(f"  Field accuracy: {total_fields_ok}/{total_fields} ({(total_fields_ok / total_fields * 100) if total_fields else 0:.1f}%)")
     print(f"  Overall accuracy: {total_correct}/{total_entries} ({(total_correct / total_entries * 100) if total_entries else 0:.1f}%)")
-

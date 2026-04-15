@@ -15,6 +15,7 @@ SRC = os.path.join(ROOT, "src")
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
+from medmatch.llm.config import SUPPORTED_BACKENDS
 from medmatch.core.schema import BASELINE_SHEET_CONFIG, SYSTEM_PROMPT
 from medmatch.core.scorer import compare_results
 from medmatch.experiments.baseline import build_instruction
@@ -115,7 +116,7 @@ def print_field_comparison(payload, ground_truth, *, backend_name):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--backend", choices=["local", "remote"], required=True)
+    parser.add_argument("--backend", choices=SUPPORTED_BACKENDS, required=True)
     parser.add_argument("--category", choices=sorted(CATEGORY_TO_SHEET))
     parser.add_argument("--prompt")
     parser.add_argument("--input-file")

@@ -35,7 +35,9 @@ pip install -e .
 
 Set credentials in the environment or a local `.env` file:
 
-- `GOOGLE_API_KEY` for the remote Gemma path
+- `GOOGLE_API_KEY` for `--backend remote` or `--backend google`
+- `OPENAI_API_KEY` for `--backend openai`
+- `AZURE_OPENAI_ENDPOINT` plus Azure login/identity for `--backend azure`
 - `MEDMATCH_NUM_RUNS`, `MEDMATCH_RETRY_DELAY`, `MEDMATCH_SLEEP_SECONDS`, `MEDMATCH_SHEETS`, and `MEDMATCH_MAX_ENTRIES` as optional runtime controls
 
 This repository ignores `.env`; never commit credentials.
@@ -51,19 +53,19 @@ cd "$(git rev-parse --show-toplevel)"
 Unified baseline:
 
 ```bash
-MEDMATCH_NUM_RUNS=1 python3 scripts/run_baseline.py --backend remote --category all
+MEDMATCH_NUM_RUNS=1 python3 scripts/run_baseline.py --backend openai --category all
 ```
 
 Unified CoT:
 
 ```bash
-python3 scripts/run_cot.py --backend remote --category iv
+python3 scripts/run_cot.py --backend azure --category iv
 ```
 
 Unified exemplar-RAG:
 
 ```bash
-python3 scripts/run_exemplar_rag.py --backend remote --category iv
+python3 scripts/run_exemplar_rag.py --backend google --category iv
 ```
 
 Unified Tier 3:
@@ -71,6 +73,8 @@ Unified Tier 3:
 ```bash
 python3 scripts/run_tier3.py --backend remote --category iv
 ```
+
+`remote` remains a compatibility alias for the Google-backed remote path, so older unified-runner commands still work.
 
 Single ad-hoc local case:
 

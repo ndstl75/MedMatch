@@ -9,6 +9,7 @@ from medmatch.core.schema import (
     expected_keys_for_sheet,
 )
 from medmatch.experiments.common import coerce_output_object, compare_results_backend
+from medmatch.llm.config import SUPPORTED_BACKENDS
 
 
 class SchemaTests(unittest.TestCase):
@@ -70,12 +71,21 @@ class SchemaTests(unittest.TestCase):
         output = {"unit of measure": "mg/hr", "drug name": "Drug—A"}
 
         remote = compare_results_backend(output, ground_truth, "remote")
+        openai = compare_results_backend(output, ground_truth, "openai")
+        azure = compare_results_backend(output, ground_truth, "azure")
+        google = compare_results_backend(output, ground_truth, "google")
         local = compare_results_backend(output, ground_truth, "local")
 
         self.assertTrue(remote["unit of measure"]["match"])
         self.assertTrue(remote["drug name"]["match"])
+        self.assertTrue(openai["unit of measure"]["match"])
+        self.assertTrue(azure["unit of measure"]["match"])
+        self.assertTrue(google["drug name"]["match"])
         self.assertFalse(local["unit of measure"]["match"])
         self.assertFalse(local["drug name"]["match"])
+
+    def test_supported_backends_preserve_remote_and_local_entries(self):
+        self.assertEqual(SUPPORTED_BACKENDS, ("local", "remote", "google", "openai", "azure"))
 
 
 if __name__ == "__main__":

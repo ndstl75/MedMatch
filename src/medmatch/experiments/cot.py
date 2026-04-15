@@ -10,6 +10,7 @@ from medmatch.experiments.common import (
     ensure_results_dir,
     generate_json,
     generate_text,
+    is_remote_backend,
     iv_sheet_config,
     load_experiment_dataset,
     make_backend,
@@ -199,11 +200,12 @@ def run_cot(*, backend_name, selected_sheets=None, max_entries_per_sheet=0, num_
     results_dir = ensure_results_dir(start_dir)
     timestamp = timestamp_now()
     run_count = int(os.environ.get("MEDMATCH_NUM_RUNS", "3") if num_runs is None else num_runs)
-    sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1" if backend_name == "remote" else "0.5"))
-    reason_prompts = REMOTE_REASON_PROMPTS if backend_name == "remote" else LOCAL_REASON_PROMPTS
-    extract_template = REMOTE_EXTRACT_TEMPLATE if backend_name == "remote" else LOCAL_EXTRACT_TEMPLATE
-    guidance_map = REMOTE_EXTRACT_GUIDANCE if backend_name == "remote" else LOCAL_EXTRACT_GUIDANCE
-    use_aliases = backend_name == "remote"
+    remote_mode = is_remote_backend(backend_name)
+    sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1" if remote_mode else "0.5"))
+    reason_prompts = REMOTE_REASON_PROMPTS if remote_mode else LOCAL_REASON_PROMPTS
+    extract_template = REMOTE_EXTRACT_TEMPLATE if remote_mode else LOCAL_EXTRACT_TEMPLATE
+    guidance_map = REMOTE_EXTRACT_GUIDANCE if remote_mode else LOCAL_EXTRACT_GUIDANCE
+    use_aliases = remote_mode
 
     print(f"Backend: {backend_name} | Runs: {run_count}")
     print("Pipeline: reason -> extract -> score")
@@ -322,4 +324,3 @@ def run_cot(*, backend_name, selected_sheets=None, max_entries_per_sheet=0, num_
         print(f"  Titratable: {tit_stats['correct']}/{tit_stats['entries']} = {tit_stats['correct'] / tit_stats['entries'] * 100:.1f}%")
     if nontit_stats["entries"]:
         print(f"  Non-titratable: {nontit_stats['correct']}/{nontit_stats['entries']} = {nontit_stats['correct'] / nontit_stats['entries'] * 100:.1f}%")
-

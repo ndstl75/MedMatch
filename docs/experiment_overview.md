@@ -14,11 +14,13 @@ The scorer stays strict in all modes: lowercase + whitespace collapse only.
 
 ### Remote scripts
 
-- `scripts/run_baseline.py --backend remote`: baseline across supported categories
-- `scripts/run_tier3.py --backend remote --category oral`: oral Tier 3 for `PO Solid` and `PO liquid`
-- `scripts/run_tier3.py --backend remote --category iv`: IV Tier 3 for `IV intermittent` and `IV push`
-- `scripts/run_cot.py --backend remote`: IV CoT
-- `scripts/run_exemplar_rag.py --backend remote`: IV exemplar-RAG
+- `scripts/run_baseline.py --backend openai|azure|google|remote`: baseline across supported categories
+- `scripts/run_tier3.py --backend openai|azure|google|remote --category oral`: oral Tier 3 for `PO Solid` and `PO liquid`
+- `scripts/run_tier3.py --backend openai|azure|google|remote --category iv`: IV Tier 3 for `IV intermittent` and `IV push`
+- `scripts/run_cot.py --backend openai|azure|google|remote`: IV CoT
+- `scripts/run_exemplar_rag.py --backend openai|azure|google|remote`: IV exemplar-RAG
+
+`remote` remains an alias for the Google-backed path so older unified-runner commands stay valid.
 
 ### Local scripts
 
