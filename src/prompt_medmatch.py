@@ -767,6 +767,274 @@ ROUTE_SELECTION_PROMPT = (
 )
 
 
+COT_REASON_SYSTEM_PROMPT = (
+    "You are a clinical pharmacist. Think step by step and be precise with numbers and units."
+)
+
+COT_REMOTE_REASON_PROMPTS = {
+    "IV intermittent (16)": """\
+You are a clinical pharmacist. Analyze the following IV intermittent medication order step by step.
+
+For each step, state what you find:
+1. Drug name: identify the generic or brand name (lowercase).
+2. Dose: the numeric drug dose and its unit (e.g., mg, g, units).
+3. Diluent: the volume of diluent (numeric, in mL) and the compatible diluent type (e.g., 0.9% sodium chloride, D5W).
+4. Infusion time: how long the infusion runs (e.g., 30 minutes, 1 hour).
+5. Frequency: how often the dose is given (e.g., every 8 hours, once daily). If the order says just "daily", interpret as "once daily".
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+    "IV push (17)": """\
+You are a clinical pharmacist. Analyze the following IV push medication order step by step.
+
+For each step, state what you find:
+1. Drug name: identify the generic or brand name (lowercase).
+2. Dose: the numeric drug dose and its unit (e.g., mg, mcg, units).
+3. Volume: the numeric volume administered (in mL).
+4. Concentration: calculate the concentration per 1 mL. If the order says "20 mg/2 mL", the concentration is 10 mg/mL. If "50 mcg/mL", it is 50 mcg/mL. Always express as [number] [unit]/mL.
+5. Formulation: the dosage form — always "vial solution" if the order mentions a vial.
+6. Frequency: how often the push is given. If the order says just "daily", interpret as "once daily".
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+    "IV continuous (16)": """\
+You are a clinical pharmacist. Analyze the following IV continuous infusion medication order step by step.
+
+For each step, state what you find:
+1. Drug name: identify the generic or brand name (lowercase).
+2. Total dose in the bag: This is the TOTAL amount of drug in the prepared bag, NOT the per-mL concentration.
+3. Diluent volume: the total volume of the bag in mL.
+4. Compatible diluent type: the IV fluid (e.g., 0.9% sodium chloride, D5W).
+5. Starting rate: the initial infusion rate and its unit.
+6. Titratable or non-titratable?
+7. If titratable: titration dose, titration unit, titration frequency, and titration goal.
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+}
+
+COT_LOCAL_REASON_PROMPTS = {
+    "IV intermittent (16)": """\
+You are a clinical pharmacist. Analyze the following IV intermittent medication order step by step.
+
+For each step, state what you find:
+1. Drug name.
+2. Dose (numeric value and unit).
+3. Diluent volume and compatible diluent type.
+4. Infusion time.
+5. Frequency.
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+    "IV push (17)": """\
+You are a clinical pharmacist. Analyze the following IV push medication order step by step.
+
+For each step, state what you find:
+1. Drug name.
+2. Dose (numeric value and unit).
+3. Volume administered.
+4. Concentration of solution.
+5. Formulation in canonical MedMatch wording.
+6. Frequency in canonical MedMatch wording.
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+    "IV continuous (16)": """\
+You are a clinical pharmacist. Analyze the following IV continuous infusion medication order step by step.
+
+For each step, state what you find:
+1. Drug name.
+2. Drug dose in the prepared infusion (numeric value and unit).
+3. Diluent volume.
+4. Compatible diluent type.
+5. Starting rate (value and unit).
+6. Is this order titratable or non-titratable, based on the order text?
+7. If titratable: titration dose, titration unit, titration frequency, and titration goal.
+
+Medication order:
+{prompt}
+
+Think through each step, then summarize your findings clearly.""",
+}
+
+COT_REMOTE_EXTRACT_TEMPLATE = """\
+Based on the clinical analysis below, extract the medication information into the MedMatch JSON format.
+
+ANALYSIS:
+{reasoning}
+
+ORIGINAL ORDER:
+{prompt}
+
+INSTRUCTIONS:
+{base_instruction}
+
+Return one JSON object only.
+Do not wrap the JSON in markdown.
+Use exactly these keys in this order: {keys}.
+{extra_guidance}
+Now produce the MedMatch JSON:"""
+
+COT_LOCAL_EXTRACT_TEMPLATE = """\
+Based on the clinical analysis below, extract the medication information into the MedMatch JSON format.
+
+ANALYSIS:
+{reasoning}
+
+ORIGINAL ORDER:
+{prompt}
+
+INSTRUCTIONS:
+{base_instruction}
+
+Return one JSON object only.
+Do not wrap the JSON in markdown.
+Use exactly these keys in this order: {keys}.
+Now produce the MedMatch JSON:"""
+
+COT_REMOTE_EXTRACT_GUIDANCE = {
+    "IV intermittent (16)": 'If frequency is just "daily", write "once daily".',
+    "IV push (17)": (
+        "For concentration: always convert to per-1-mL basis. "
+        'Formulation should be "vial solution" when a vial is mentioned. '
+        'If frequency is just "daily", write "once daily".'
+    ),
+    "IV continuous (16)": (
+        "Use the TOTAL drug amount in the bag, not the per-mL concentration. "
+        "Normalize hour to hr in rate units. "
+        "For non-titratable infusions, leave titration fields as empty strings."
+    ),
+}
+
+COT_LOCAL_EXTRACT_GUIDANCE = {
+    "IV push (17)": """\
+Canonicalization for IV push:
+- If the source says vial or vial solution, output formulation as "vial solution".
+- Normalize frequency wording to MedMatch canonical form:
+  - daily -> once daily
+  - BID -> twice daily""",
+}
+
+REMOTE_NORMALIZATION_ORAL_INSTRUCTIONS = {
+    "PO Solid (40)": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
+
+The MedMatch JSON format for oral solid dosage form medications is:
+[drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
+
+[drug name]: The generic or brand name of the medication.
+[numerical dose]: The numeric value of the strength per unit.
+[abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose.
+[amount]: The number of dosage units taken per administration.
+[formulation]: The oral solid dosage form. Copy dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
+by mouth: The route of administration, fixed as oral.
+[frequency]: How often the medication is taken. Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.""",
+    "PO liquid (10)": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
+
+The MedMatch JSON format for oral liquid dosage form medications is:
+[drug name][numerical dose][abbreviated unit strength of dose][numerical volume][abbreviated unit strength of volume] of the [concentration of formulation][formulation unit of measure][formulation] by mouth [frequency]
+
+[drug name]: The generic or brand name of the medication.
+[numerical dose]: The numeric amount of drug administered per dose.
+[abbreviated unit strength of dose]: The standardized abbreviated unit for the drug dose.
+[numerical volume]: The numeric volume administered per dose.
+[abbreviated unit strength of volume]: The standardized abbreviated unit for volume.
+[concentration of formulation]: The strength of the medication per 1 mL.
+[formulation unit of measure]: The unit used in the concentration denominator.
+[formulation]: The oral liquid dosage form.
+[route]: The route of administration, fixed as oral.
+[frequency]: How often the medication is administered.""",
+}
+
+REMOTE_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
+
+Apply these normalization rules:
+1. Frequency: If the schedule means once per day, write "once daily" (not just "daily"). Preserve all qualifiers like "as needed", "at bedtime", indication text, and day-of-week schedules.
+2. Formulation: Use hyphens for multi-word dosage forms and singular form unless the amount field is greater than 1.
+3. Route: Always write "by mouth" (not "oral" or "po").
+4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
+5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON only. No extra text."""
+
+REMOTE_IV_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured IV medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
+
+Apply these normalization rules:
+1. Frequency canonical form — write schedules in spelled-out canonical English.
+2. Infusion time — use the noun form "X minutes" or "X hours".
+3. IV push formulation — for IV push orders, the canonical formulation is "vial solution" unless explicitly specified otherwise.
+4. Compound dose units — preserve qualifiers like "/kg" exactly as they appear.
+5. Concentration per 1 mL (IV push only) — if the order expresses X unit / Y mL with Y greater than 1, reduce to per-mL concentration.
+6. Drug name typography — use ASCII hyphens only.
+7. Do not change numeric values (other than rule 5), do not change drug identity, and do not add or remove fields. Return every key that appeared in the input JSON with the same key spelling.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON object only. No extra text, no markdown fences."""
+
+
+def get_cot_reason_system_prompt() -> str:
+    """Return the shared CoT reasoning system prompt."""
+    return COT_REASON_SYSTEM_PROMPT
+
+
+def build_cot_reason_prompt(sheet_name: str, medication_prompt: str, *, remote_mode: bool) -> str:
+    """Return the CoT reasoning prompt for a given IV sheet."""
+    prompts = COT_REMOTE_REASON_PROMPTS if remote_mode else COT_LOCAL_REASON_PROMPTS
+    return prompts[sheet_name].format(prompt=medication_prompt)
+
+
+def build_cot_extract_prompt(
+    sheet_name: str,
+    reasoning: str,
+    medication_prompt: str,
+    base_instruction: str,
+    expected_keys: List[str],
+    *,
+    remote_mode: bool,
+) -> str:
+    """Build the CoT extraction prompt from the centralized prompt definitions."""
+    template = COT_REMOTE_EXTRACT_TEMPLATE if remote_mode else COT_LOCAL_EXTRACT_TEMPLATE
+    guidance_map = COT_REMOTE_EXTRACT_GUIDANCE if remote_mode else COT_LOCAL_EXTRACT_GUIDANCE
+    return template.format(
+        reasoning=reasoning,
+        prompt=medication_prompt,
+        base_instruction=base_instruction,
+        keys=", ".join(expected_keys),
+        extra_guidance=guidance_map.get(sheet_name, ""),
+    )
+
+
+def build_remote_normalization_oral_instruction(sheet_name: str) -> str:
+    """Return the remote oral extraction instruction used by normalization runs."""
+    return REMOTE_NORMALIZATION_ORAL_INSTRUCTIONS[sheet_name]
+
+
+def build_remote_normalization_prompt(sentence: str, raw_json: str, *, family: str) -> str:
+    """Return the remote normalization prompt for oral or IV runs."""
+    template = REMOTE_ORAL_NORMALIZE_PROMPT if family == "oral" else REMOTE_IV_NORMALIZE_PROMPT
+    return template.format(sentence=sentence, raw_json=raw_json)
+
+
 def build_route_selection_messages(medication_prompt: str) -> List[Dict[str, str]]:
     """Build messages for route selection task."""
     return [

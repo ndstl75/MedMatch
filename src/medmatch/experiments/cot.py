@@ -4,6 +4,7 @@ import csv
 import os
 import time
 
+from prompt_medmatch import build_cot_extract_prompt, build_cot_reason_prompt, get_cot_reason_system_prompt
 from medmatch.core.scorer import all_fields_match
 from medmatch.experiments.common import (
     compare_results_backend,
@@ -16,166 +17,6 @@ from medmatch.experiments.common import (
     make_backend,
     timestamp_now,
 )
-
-
-REMOTE_REASON_PROMPTS = {
-    "IV intermittent (16)": """\
-You are a clinical pharmacist. Analyze the following IV intermittent medication order step by step.
-
-For each step, state what you find:
-1. Drug name: identify the generic or brand name (lowercase).
-2. Dose: the numeric drug dose and its unit (e.g., mg, g, units).
-3. Diluent: the volume of diluent (numeric, in mL) and the compatible diluent type (e.g., 0.9% sodium chloride, D5W).
-4. Infusion time: how long the infusion runs (e.g., 30 minutes, 1 hour).
-5. Frequency: how often the dose is given (e.g., every 8 hours, once daily). If the order says just "daily", interpret as "once daily".
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-    "IV push (17)": """\
-You are a clinical pharmacist. Analyze the following IV push medication order step by step.
-
-For each step, state what you find:
-1. Drug name: identify the generic or brand name (lowercase).
-2. Dose: the numeric drug dose and its unit (e.g., mg, mcg, units).
-3. Volume: the numeric volume administered (in mL).
-4. Concentration: calculate the concentration per 1 mL. If the order says "20 mg/2 mL", the concentration is 10 mg/mL. If "50 mcg/mL", it is 50 mcg/mL. Always express as [number] [unit]/mL.
-5. Formulation: the dosage form — always "vial solution" if the order mentions a vial.
-6. Frequency: how often the push is given. If the order says just "daily", interpret as "once daily".
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-    "IV continuous (16)": """\
-You are a clinical pharmacist. Analyze the following IV continuous infusion medication order step by step.
-
-For each step, state what you find:
-1. Drug name: identify the generic or brand name (lowercase).
-2. Total dose in the bag: This is the TOTAL amount of drug in the prepared bag, NOT the per-mL concentration.
-3. Diluent volume: the total volume of the bag in mL.
-4. Compatible diluent type: the IV fluid (e.g., 0.9% sodium chloride, D5W).
-5. Starting rate: the initial infusion rate and its unit.
-6. Titratable or non-titratable?
-7. If titratable: titration dose, titration unit, titration frequency, and titration goal.
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-}
-
-LOCAL_REASON_PROMPTS = {
-    "IV intermittent (16)": """\
-You are a clinical pharmacist. Analyze the following IV intermittent medication order step by step.
-
-For each step, state what you find:
-1. Drug name.
-2. Dose (numeric value and unit).
-3. Diluent volume and compatible diluent type.
-4. Infusion time.
-5. Frequency.
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-    "IV push (17)": """\
-You are a clinical pharmacist. Analyze the following IV push medication order step by step.
-
-For each step, state what you find:
-1. Drug name.
-2. Dose (numeric value and unit).
-3. Volume administered.
-4. Concentration of solution.
-5. Formulation in canonical MedMatch wording.
-6. Frequency in canonical MedMatch wording.
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-    "IV continuous (16)": """\
-You are a clinical pharmacist. Analyze the following IV continuous infusion medication order step by step.
-
-For each step, state what you find:
-1. Drug name.
-2. Drug dose in the prepared infusion (numeric value and unit).
-3. Diluent volume.
-4. Compatible diluent type.
-5. Starting rate (value and unit).
-6. Is this order titratable or non-titratable, based on the order text?
-7. If titratable: titration dose, titration unit, titration frequency, and titration goal.
-
-Medication order:
-{prompt}
-
-Think through each step, then summarize your findings clearly.""",
-}
-
-REMOTE_EXTRACT_TEMPLATE = """\
-Based on the clinical analysis below, extract the medication information into the MedMatch JSON format.
-
-ANALYSIS:
-{reasoning}
-
-ORIGINAL ORDER:
-{prompt}
-
-INSTRUCTIONS:
-{base_instruction}
-
-Return one JSON object only.
-Do not wrap the JSON in markdown.
-Use exactly these keys in this order: {keys}.
-{extra_guidance}
-Now produce the MedMatch JSON:"""
-
-LOCAL_EXTRACT_TEMPLATE = """\
-Based on the clinical analysis below, extract the medication information into the MedMatch JSON format.
-
-ANALYSIS:
-{reasoning}
-
-ORIGINAL ORDER:
-{prompt}
-
-INSTRUCTIONS:
-{base_instruction}
-
-Return one JSON object only.
-Do not wrap the JSON in markdown.
-Use exactly these keys in this order: {keys}.
-Now produce the MedMatch JSON:"""
-
-REMOTE_EXTRACT_GUIDANCE = {
-    "IV intermittent (16)": 'If frequency is just "daily", write "once daily".',
-    "IV push (17)": (
-        "For concentration: always convert to per-1-mL basis. "
-        'Formulation should be "vial solution" when a vial is mentioned. '
-        'If frequency is just "daily", write "once daily".'
-    ),
-    "IV continuous (16)": (
-        "Use the TOTAL drug amount in the bag, not the per-mL concentration. "
-        "Normalize hour to hr in rate units. "
-        "For non-titratable infusions, leave titration fields as empty strings."
-    ),
-}
-
-LOCAL_EXTRACT_GUIDANCE = {
-    "IV push (17)": """\
-Canonicalization for IV push:
-- If the source says vial or vial solution, output formulation as "vial solution".
-- Normalize frequency wording to MedMatch canonical form:
-  - daily -> once daily
-  - BID -> twice daily""",
-}
-
-REASON_SYSTEM_PROMPTS = {
-    "remote": "You are a clinical pharmacist. Think step by step and be precise with numbers and units.",
-    "local": "You are a clinical pharmacist. Think step by step and be precise with numbers and units.",
-}
 
 
 def is_titratable(ground_truth):
@@ -202,9 +43,6 @@ def run_cot(*, backend_name, selected_sheets=None, max_entries_per_sheet=0, num_
     run_count = int(os.environ.get("MEDMATCH_NUM_RUNS", "3") if num_runs is None else num_runs)
     remote_mode = is_remote_backend(backend_name)
     sleep_between = float(os.environ.get("MEDMATCH_SLEEP_SECONDS", "1" if remote_mode else "0.5"))
-    reason_prompts = REMOTE_REASON_PROMPTS if remote_mode else LOCAL_REASON_PROMPTS
-    extract_template = REMOTE_EXTRACT_TEMPLATE if remote_mode else LOCAL_EXTRACT_TEMPLATE
-    guidance_map = REMOTE_EXTRACT_GUIDANCE if remote_mode else LOCAL_EXTRACT_GUIDANCE
     use_aliases = remote_mode
 
     print(f"Backend: {backend_name} | Runs: {run_count}")
@@ -229,16 +67,17 @@ def run_cot(*, backend_name, selected_sheets=None, max_entries_per_sheet=0, num_
                 print(f"  [{idx}/{len(entries)}] {entry['medication']}...", end=" ", flush=True)
                 reasoning = generate_text(
                     backend,
-                    REASON_SYSTEM_PROMPTS[backend_name],
-                    reason_prompts[sheet_name].format(prompt=entry["prompt"]),
+                    get_cot_reason_system_prompt(),
+                    build_cot_reason_prompt(sheet_name, entry["prompt"], remote_mode=remote_mode),
                 )
                 time.sleep(sleep_between)
-                extract_prompt = extract_template.format(
-                    reasoning=reasoning,
-                    prompt=entry["prompt"],
-                    base_instruction=config["instruction"],
-                    keys=", ".join(expected_keys),
-                    extra_guidance=guidance_map.get(sheet_name, ""),
+                extract_prompt = build_cot_extract_prompt(
+                    sheet_name,
+                    reasoning,
+                    entry["prompt"],
+                    config["instruction"],
+                    expected_keys,
+                    remote_mode=remote_mode,
                 )
                 llm_output, raw_extract = generate_json(
                     backend,

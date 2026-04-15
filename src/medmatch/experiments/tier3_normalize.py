@@ -5,6 +5,7 @@ import json
 import os
 import time
 
+from prompt_medmatch import build_remote_normalization_oral_instruction, build_remote_normalization_prompt
 from medmatch.core.scorer import all_fields_match
 from medmatch.experiments.common import (
     compare_results_backend,
@@ -21,87 +22,22 @@ from medmatch.experiments.common import (
 )
 
 
-REMOTE_ORAL_SHEET_CONFIG = {
-    "PO Solid (40)": {
-        "instruction": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
-
-The MedMatch JSON format for oral solid dosage form medications is:
-[drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
-
-[drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric value of the strength per unit.
-[abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose.
-[amount]: The number of dosage units taken per administration.
-[formulation]: The oral solid dosage form. Copy dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
-by mouth: The route of administration, fixed as oral.
-[frequency]: How often the medication is taken. Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.""",
-        "prompt_col": 3,
-        "ground_truth_cols": oral_sheet_config()["PO Solid (40)"]["ground_truth_cols"],
-    },
-    "PO liquid (10)": {
-        "instruction": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
-
-The MedMatch JSON format for oral liquid dosage form medications is:
-[drug name][numerical dose][abbreviated unit strength of dose][numerical volume][abbreviated unit strength of volume] of the [concentration of formulation][formulation unit of measure][formulation] by mouth [frequency]
-
-[drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric amount of drug administered per dose.
-[abbreviated unit strength of dose]: The standardized abbreviated unit for the drug dose.
-[numerical volume]: The numeric volume administered per dose.
-[abbreviated unit strength of volume]: The standardized abbreviated unit for volume.
-[concentration of formulation]: The strength of the medication per 1 mL.
-[formulation unit of measure]: The unit used in the concentration denominator.
-[formulation]: The oral liquid dosage form.
-[route]: The route of administration, fixed as oral.
-[frequency]: How often the medication is administered.""",
-        "prompt_col": 3,
-        "ground_truth_cols": oral_sheet_config()["PO liquid (10)"]["ground_truth_cols"],
-    },
-}
-
-REMOTE_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
-
-Apply these normalization rules:
-1. Frequency: If the schedule means once per day, write "once daily" (not just "daily"). Preserve all qualifiers like "as needed", "at bedtime", indication text, and day-of-week schedules.
-2. Formulation: Use hyphens for multi-word dosage forms and singular form unless the amount field is greater than 1.
-3. Route: Always write "by mouth" (not "oral" or "po").
-4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
-5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
-
-Original medication order sentence:
-{sentence}
-
-Extracted JSON to normalize:
-{raw_json}
-
-Return the normalized JSON only. No extra text."""
-
-REMOTE_IV_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured IV medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
-
-Apply these normalization rules:
-1. Frequency canonical form — write schedules in spelled-out canonical English.
-2. Infusion time — use the noun form "X minutes" or "X hours".
-3. IV push formulation — for IV push orders, the canonical formulation is "vial solution" unless explicitly specified otherwise.
-4. Compound dose units — preserve qualifiers like "/kg" exactly as they appear.
-5. Concentration per 1 mL (IV push only) — if the order expresses X unit / Y mL with Y greater than 1, reduce to per-mL concentration.
-6. Drug name typography — use ASCII hyphens only.
-7. Do not change numeric values (other than rule 5), do not change drug identity, and do not add or remove fields. Return every key that appeared in the input JSON with the same key spelling.
-
-Original medication order sentence:
-{sentence}
-
-Extracted JSON to normalize:
-{raw_json}
-
-Return the normalized JSON object only. No extra text, no markdown fences."""
-
-
 def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, max_entries_per_sheet=0, num_runs=None):
     backend = make_backend(backend_name)
     remote_mode = is_remote_backend(backend_name)
     if category in {"po_solid", "po_liquid", "oral"}:
         family = "oral"
-        sheet_config = REMOTE_ORAL_SHEET_CONFIG if remote_mode else oral_sheet_config()
+        if remote_mode:
+            sheet_config = {
+                name: {
+                    "instruction": build_remote_normalization_oral_instruction(name),
+                    "prompt_col": 3,
+                    "ground_truth_cols": oral_sheet_config()[name]["ground_truth_cols"],
+                }
+                for name in oral_sheet_config()
+            }
+        else:
+            sheet_config = oral_sheet_config()
         if category == "po_solid":
             sheet_names = ["PO Solid (40)"]
         elif category == "po_liquid":
@@ -137,7 +73,7 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
         sheet_config = {name: local_sheet_config[name] for name in sheet_names}
         normalize_prompt = local_module.NORMALIZE_PROMPT if family == "oral" else local_module.IV_NORMALIZE_PROMPT
     else:
-        normalize_prompt = REMOTE_ORAL_NORMALIZE_PROMPT if family == "oral" else REMOTE_IV_NORMALIZE_PROMPT
+        normalize_prompt = None
         sheet_config = {name: sheet_config[name] for name in sheet_names}
 
     dataset = load_experiment_dataset(
@@ -188,7 +124,15 @@ def run_tier3(*, backend_name, category, start_dir=None, selected_sheets=None, m
                 normalize_text = generate_text(
                     backend,
                     "You are a clinical pharmacist who formats medication orders. Only output the MedMatch JSON format.",
-                    normalize_prompt.format(sentence=entry["prompt"], raw_json=json.dumps(raw_obj, indent=2, default=str)),
+                    (
+                        normalize_prompt.format(sentence=entry["prompt"], raw_json=json.dumps(raw_obj, indent=2, default=str))
+                        if normalize_prompt is not None
+                        else build_remote_normalization_prompt(
+                            entry["prompt"],
+                            json.dumps(raw_obj, indent=2, default=str),
+                            family=family,
+                        )
+                    ),
                 )
                 from medmatch.core.scorer import parse_json_response
                 parsed = parse_json_response(normalize_text)
