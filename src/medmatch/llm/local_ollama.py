@@ -12,6 +12,7 @@ from medmatch.llm.base import LLMBackend
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
 OLLAMA_TIMEOUT = float(os.environ.get("OLLAMA_TIMEOUT_SECONDS", "300"))
+OLLAMA_THINK = os.environ.get("OLLAMA_THINK")
 
 
 def chat_completion(system_prompt, user_prompt, *, temperature=0.1, model=None, timeout=None):
@@ -26,6 +27,8 @@ def chat_completion(system_prompt, user_prompt, *, temperature=0.1, model=None, 
             "temperature": temperature,
         },
     }
+    if OLLAMA_THINK is not None:
+        payload["think"] = OLLAMA_THINK.strip().lower() not in {"0", "false", "no", "off"}
     req = request.Request(
         f"{OLLAMA_BASE_URL}/api/chat",
         data=json.dumps(payload).encode("utf-8"),
