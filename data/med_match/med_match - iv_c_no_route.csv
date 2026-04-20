@@ -1,13 +1,13 @@
 Medication,Medication JSON without route,Route
 Epinephrine,Epinephrine 4 mg/250 mL in 0.9% sodium chloride starting at 0.05 mcg/kg/min and titrate by 0.01 mcg/kg/min every 5 minutes to achieve a goal MAP of 65 mmHg or greater.,Intravenous continuous
 Cisatracurium,Cisatracurium 200 mg/100 mL in 0.9% sodium chloride starting at 2 mcg/kg/min and titrate by 25-50% current dose every 2 minutes to achieve a goal of ventilator synchrony,Intravenous continuous
-Nicardapine,Nicardapine 40 mg/200 mL in 0.9% sodium chloride starting at 5 mg/hg and titrate by 2.5 mg/hr every 5 minutes to achieve a goal systolic blood pressure between 90 mmHg and 120 mmHg.,Intravenous continuous
+Nicardapine,Nicardapine 40 mg/200 mL in 0.9% sodium chloride starting at 5 mg/hr and titrate by 2.5 mg/hr every 5 minutes to achieve a goal systolic blood pressure between 90 mmHg and 120 mmHg.,Intravenous continuous
 Propofol,Propofol 10 mg/mL starting at 5 mcg/kg/min and titrate by 5 mcg/kg/min every 5 minutes to achieve a goal RASS of -1 to -2.,Intravenous continuous
 Midazolam,Midazolam 1 mg/mL in 0.9% sodium chloride starting at 0.5 mg/hr and titrate by 0.5 mg/hr every 5 minutes to achieve a goal RASS of -4 to -5.,Intravenous continuous
-Dexmedetomidine,Dexmedetomidine 1000 mcg/250 mL in 0.9% sodium chloride starting at 0.2 mcg/kg/hr and titrate by 0.2 mcg/kg/hr every 20 minutes to achieve a goal RASS of -1 to -2.,Intravenous continuous
+Dexmedetomidine,Dexmedetomidine 1000 mcg/250 mL in 0.9% sodium chloride starting at 0.2 mcg/kg/hr and titrate by 0.2 mcg/kg/hr every 20 minutes  to achieve a goal RASS of -1 to -2.,Intravenous continuous
 Fentanyl,Fentanyl 2500 mcg/50mL starting at 50 mcg/hr and titrate by 25 mcg/hr every 5 minutes to achieve a goal RASS of -1 to -2.,Intravenous continuous
 Lorazepam,Lorazepam 1 mg/mL in D5W starting at 0.5 mg/hr and titrate by 0.5 mg/hr every 10 minutes to achieve a goal RASS of -4 to -5.,Intravenous continuous
-Phenylephrine,Phenylephrine 100 mg/250 mL in 0.9% sodium chloride starting at 0.2 mcg/kg/min and titrate by 0.1 mcg/kg/min every 1 minute to achieve a goal MAP of 65 or greater.,Intravenous continuous
+Phenylephrine,Phenylephrine 100 mg/250 mL  in 0.9% sodium chloride starting at 0.2 mcg/kg/min and titrate by 0.1 mcg/kg/min every 1 minute to achieve a goal MAP of 65 or greater.,Intravenous continuous
 Norepinephrine,Norepinephrine 16 mg/250 mL in 0.9% sodium chloride starting at 0.05 mcg/kg/min and titrate by 0.01 mcg/kg/min every 5 minutes to achieve a goal MAP of 65 mmHg or greater.,Intravenous continuous
 Hydromorphone,Hydromorphone 50 mg/50mL in 0.9% sodium chloride starting at 0.2 mg/hr and titrate by 0.2 mg/hr every 10 minutes to achieve a goal RASS score of -1 to -2.,Intravenous continuous
 Milrinone,Milrinone 20 mg/100 mL in D5W at 0.125 mcg/kg/min.,Intravenous continuous
