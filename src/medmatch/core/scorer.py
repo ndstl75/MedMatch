@@ -3,8 +3,6 @@
 import json
 import re
 
-from medmatch.core.schema import KEY_ALIASES
-
 
 def parse_json_response(text):
     if text is None:
@@ -30,41 +28,10 @@ def parse_json_response(text):
 def normalize_key(key):
     text = str(key).strip().lower()
     text = re.sub(r"\s+", " ", text)
-    return KEY_ALIASES.get(text, text)
+    return text
 
 
-def _resolve_expected_key(raw_key, expected_keys, *, use_aliases=True):
-    expected_set = set(expected_keys)
-    candidates = []
-
-    normalized = str(raw_key).strip().lower()
-    normalized = re.sub(r"\s+", " ", normalized)
-    candidates.extend(
-        [
-            normalized,
-            normalized.replace(" ", "_"),
-            normalized.replace("_", " "),
-        ]
-    )
-
-    if use_aliases:
-        alias = KEY_ALIASES.get(normalized)
-        if alias:
-            candidates.extend(
-                [
-                    alias,
-                    alias.replace(" ", "_"),
-                    alias.replace("_", " "),
-                ]
-            )
-
-    for candidate in candidates:
-        if candidate in expected_set:
-            return candidate
-    return normalized
-
-
-def coerce_output_object(parsed, expected_keys, *, use_aliases=True):
+def coerce_output_object(parsed, expected_keys):
     if parsed is None:
         return {key: "" for key in expected_keys}
     if isinstance(parsed, list):
@@ -77,7 +44,7 @@ def coerce_output_object(parsed, expected_keys, *, use_aliases=True):
 
     normalized = {}
     for key, value in parsed.items():
-        normalized[_resolve_expected_key(key, expected_keys, use_aliases=use_aliases)] = value
+        normalized[normalize_key(key)] = value
     return {key: normalized.get(key, "") for key in expected_keys}
 
 

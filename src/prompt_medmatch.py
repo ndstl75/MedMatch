@@ -1073,6 +1073,35 @@ Extracted JSON to normalize:
 
 Return the normalized JSON object only. No extra text, no markdown fences."""
 
+REMOTE_IV_CONTINUOUS_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured JSON extraction for an intravenous continuous infusion order. The JSON was extracted from a medication order sentence. Your job is to normalize the fields into the MedMatch IV continuous schema without changing the medical meaning.
+
+Apply these IV continuous normalization rules:
+
+1. Titration frequency canonical form — when a titration interval is present, write it as "every X minutes" or "every X hours". Convert bare intervals such as "5 minutes" to "every 5 minutes". Preserve the original number and time unit.
+
+2. Titration goal canonical form — remove filler words like "goal" or "score" when they do not change the meaning. Keep the clinical target itself unchanged. Example: "RASS goal of -4 to -5" -> "RASS of -4 to -5".
+
+3. Percent titration slotting — if the titration increment is expressed as a percentage, put only the numeric portion in "titration dose" and put "%" in "titration unit of measure". Example: "25-50%" -> titration dose = "25-50", titration unit of measure = "%".
+
+4. Concentration-pair decomposition — if the prepared infusion is expressed only as a concentration pair like X [dose unit]/mL and the JSON currently stores that pair in "abbreviated unit strength of dose", split it into the MedMatch bag slots only when the sentence and JSON indicate an explicit prepared infusion with a named diluent (for example "1 mg/mL in D5W" or "1 mg/mL in 0.9% sodium chloride"). In that case:
+   - set "abbreviated unit strength of dose" to the numerator dose unit only (for example "mg")
+   - if "diluent volume" is blank, set it to "1"
+   - if "volume unit of measure" is blank, set it to "mL"
+   - keep the existing "numerical dose" value if it already matches the numerator amount
+   Use this rule only for explicit per-mL concentration pairs already present in the extracted JSON. If there is no named diluent in the sentence or "compatible diluent type" is blank, keep the concentration string unchanged (for example keep "10 mg/mL" as the abbreviated dose unit when no bag diluent is stated). Do not invent a larger bag size such as 100 mL or 250 mL unless that larger volume is explicitly stated in the medication order sentence.
+
+5. Continuous-infusion bag conservatism — do not infer missing total bag contents from standard compounding conventions. If the sentence says only "1 mg/mL in D5W", do not convert it to "100 mg in 100 mL" unless that 100 mL bag is explicitly stated in the sentence.
+
+6. Do not change drug identity, starting rate, titration dose amount, or any other numeric values except for the explicit slotting operations above. Return every key that appeared in the input JSON with the same key spelling.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON object only. No extra text, no markdown fences."""
+
 LOCAL_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured medication order JSON for formatting consistency. The JSON was extracted from a medication order sentence. Your job is to normalize the wording without changing the medical meaning.
 
 Apply these normalization rules:
@@ -1123,6 +1152,35 @@ Extracted JSON to normalize:
 
 Return the normalized JSON object only. No extra text, no markdown fences."""
 
+LOCAL_IV_CONTINUOUS_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a structured JSON extraction for an intravenous continuous infusion order. The JSON was extracted from a medication order sentence. Your job is to normalize the fields into the MedMatch IV continuous schema without changing the medical meaning.
+
+Apply these IV continuous normalization rules:
+
+1. Titration frequency canonical form — when a titration interval is present, write it as "every X minutes" or "every X hours". Convert bare intervals such as "5 minutes" to "every 5 minutes". Preserve the original number and time unit.
+
+2. Titration goal canonical form — remove filler words like "goal" or "score" when they do not change the meaning. Keep the clinical target itself unchanged. Example: "RASS goal of -4 to -5" -> "RASS of -4 to -5".
+
+3. Percent titration slotting — if the titration increment is expressed as a percentage, put only the numeric portion in "titration dose" and put "%" in "titration unit of measure". Example: "25-50%" -> titration dose = "25-50", titration unit of measure = "%".
+
+4. Concentration-pair decomposition — if the prepared infusion is expressed only as a concentration pair like X [dose unit]/mL and the JSON currently stores that pair in "abbreviated unit strength of dose", split it into the MedMatch bag slots only when the sentence and JSON indicate an explicit prepared infusion with a named diluent (for example "1 mg/mL in D5W" or "1 mg/mL in 0.9% sodium chloride"). In that case:
+   - set "abbreviated unit strength of dose" to the numerator dose unit only (for example "mg")
+   - if "diluent volume" is blank, set it to "1"
+   - if "volume unit of measure" is blank, set it to "mL"
+   - keep the existing "numerical dose" value if it already matches the numerator amount
+   Use this rule only for explicit per-mL concentration pairs already present in the extracted JSON. If there is no named diluent in the sentence or "compatible diluent type" is blank, keep the concentration string unchanged (for example keep "10 mg/mL" as the abbreviated dose unit when no bag diluent is stated). Do not invent a larger bag size such as 100 mL or 250 mL unless that larger volume is explicitly stated in the medication order sentence.
+
+5. Continuous-infusion bag conservatism — do not infer missing total bag contents from standard compounding conventions. If the sentence says only "1 mg/mL in D5W", do not convert it to "100 mg in 100 mL" unless that 100 mL bag is explicitly stated in the sentence.
+
+6. Do not change drug identity, starting rate, titration dose amount, or any other numeric values except for the explicit slotting operations above. Return every key that appeared in the input JSON with the same key spelling.
+
+Original medication order sentence:
+{sentence}
+
+Extracted JSON to normalize:
+{raw_json}
+
+Return the normalized JSON object only. No extra text, no markdown fences."""
+
 
 def get_cot_reason_system_prompt() -> str:
     """Return the shared CoT reasoning system prompt."""
@@ -1161,9 +1219,20 @@ def build_remote_normalization_oral_instruction(sheet_name: str) -> str:
     return REMOTE_NORMALIZATION_ORAL_INSTRUCTIONS[sheet_name]
 
 
-def build_remote_normalization_prompt(sentence: str, raw_json: str, *, family: str) -> str:
+def build_remote_normalization_prompt(
+    sentence: str,
+    raw_json: str,
+    *,
+    family: str,
+    sheet_name: str | None = None,
+) -> str:
     """Return the remote normalization prompt for oral or IV runs."""
-    template = REMOTE_ORAL_NORMALIZE_PROMPT if family == "oral" else REMOTE_IV_NORMALIZE_PROMPT
+    if family == "oral":
+        template = REMOTE_ORAL_NORMALIZE_PROMPT
+    elif sheet_name == "IV continuous (16)":
+        template = REMOTE_IV_CONTINUOUS_NORMALIZE_PROMPT
+    else:
+        template = REMOTE_IV_NORMALIZE_PROMPT
     return template.format(sentence=sentence, raw_json=raw_json)
 
 
@@ -1172,9 +1241,14 @@ def build_local_normalization_oral_instruction(sheet_name: str) -> str:
     return LOCAL_NORMALIZATION_ORAL_INSTRUCTIONS[sheet_name]
 
 
-def build_local_normalization_prompt(sentence: str, raw_json: str, *, family: str) -> str:
+def build_local_normalization_prompt(sentence: str, raw_json: str, *, family: str, sheet_name: str | None = None) -> str:
     """Return the local normalization prompt for oral or IV runs."""
-    template = LOCAL_ORAL_NORMALIZE_PROMPT if family == "oral" else LOCAL_IV_NORMALIZE_PROMPT
+    if family == "oral":
+        template = LOCAL_ORAL_NORMALIZE_PROMPT
+    elif sheet_name == "IV continuous (16)":
+        template = LOCAL_IV_CONTINUOUS_NORMALIZE_PROMPT
+    else:
+        template = LOCAL_IV_NORMALIZE_PROMPT
     return template.format(sentence=sentence, raw_json=raw_json)
 
 

@@ -122,7 +122,7 @@ Category support:
 
 - `zero`, `few`, `one_shot`: all five MedMatch CSV tasks
 - `cot`: IV intermittent, IV push, IV continuous
-- `normalization`: PO solid, PO liquid, IV intermittent, IV push
+- `normalization`: PO solid, PO liquid, IV intermittent, IV push, IV continuous
 
 ### Route selection only
 

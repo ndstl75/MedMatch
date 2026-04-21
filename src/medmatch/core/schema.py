@@ -4,15 +4,6 @@ from prompt_medmatch import (
     build_local_normalization_oral_instruction,
 )
 
-KEY_ALIASES = {
-    "rate": "starting rate",
-    "volume amount": "numerical volume",
-    "amount of diluent": "amount of diluent volume",
-    "diluent amount": "amount of diluent volume",
-    "volume unit": "volume unit of measure",
-    "dose unit": "abbreviated unit strength of dose",
-}
-
 PO_SOLID_INSTRUCTION = """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
 
 The MedMatch JSON format for oral solid dosage form medications is:
@@ -298,6 +289,11 @@ LOCAL_NORMALIZATION_IV_SHEET_CONFIG = {
         "instruction": BASELINE_SHEET_CONFIG["IV push (17)"]["instruction"],
         "prompt_col": BASELINE_SHEET_CONFIG["IV push (17)"]["prompt_col"],
         "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["IV push (17)"]["ground_truth_cols"]),
+    },
+    "IV continuous (16)": {
+        "instruction": BASELINE_SHEET_CONFIG["IV continuous (16)"]["instruction"],
+        "prompt_col": BASELINE_SHEET_CONFIG["IV continuous (16)"]["prompt_col"],
+        "ground_truth_cols": dict(BASELINE_SHEET_CONFIG["IV continuous (16)"]["ground_truth_cols"]),
     },
 }
 

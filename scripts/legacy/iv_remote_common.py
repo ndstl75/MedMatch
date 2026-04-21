@@ -16,7 +16,6 @@ from medmatch.core.schema import IV_BASELINE_SHEET_CONFIG as IV_SHEET_CONFIG
 from medmatch.core.schema import IV_CONTINUOUS_INSTRUCTION
 from medmatch.core.schema import IV_INTERMITTENT_INSTRUCTION
 from medmatch.core.schema import IV_PUSH_INSTRUCTION
-from medmatch.core.schema import KEY_ALIASES
 from prompt_medmatch import SYSTEM_PROMPT
 from medmatch.core.scorer import all_fields_match, coerce_output_object, compare_results as _compare_results, normalize_relaxed, parse_json_response
 from medmatch.llm.remote_gemma import RemoteGemmaBackend

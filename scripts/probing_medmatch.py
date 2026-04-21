@@ -52,7 +52,13 @@ from medmatch.core.schema import (
     LOCAL_NORMALIZATION_IV_SHEET_CONFIG,
     LOCAL_NORMALIZATION_ORAL_SHEET_CONFIG,
 )
-from medmatch.core.scorer import all_fields_match, coerce_output_object, compare_results, normalize_strict, parse_json_response
+from medmatch.core.scorer import (
+    all_fields_match,
+    coerce_output_object,
+    compare_results,
+    normalize_strict,
+    parse_json_response,
+)
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
 from medmatch.llm.local_ollama import LocalOllamaBackend
 from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
@@ -318,10 +324,10 @@ def generate_text(runtime: Dict[str, Any], system_prompt: str, user_prompt: str)
     return runtime["backend"].generate_text(system_prompt, user_prompt, temperature=runtime["temperature"])
 
 
-def generate_json(runtime: Dict[str, Any], system_prompt: str, user_prompt: str, expected_keys: List[str], *, use_aliases: bool) -> tuple[Dict[str, Any], str]:
+def generate_json(runtime: Dict[str, Any], system_prompt: str, user_prompt: str, expected_keys: List[str]) -> tuple[Dict[str, Any], str]:
     text = generate_text(runtime, system_prompt, user_prompt)
     parsed = parse_json_response(text)
-    return coerce_output_object(parsed, expected_keys, use_aliases=use_aliases), text
+    return coerce_output_object(parsed, expected_keys), text
 
 
 def select_dataset_keys(prompting_type: str, dataset_keys: Optional[Iterable[str]] = None) -> List[str]:
@@ -331,7 +337,7 @@ def select_dataset_keys(prompting_type: str, dataset_keys: Optional[Iterable[str
     elif prompting_type == "cot":
         allowed = ["iv_intermit", "iv_push", "iv_continuous"]
     elif prompting_type == "normalization":
-        allowed = ["po_solid", "po_liquid", "iv_intermit", "iv_push"]
+        allowed = ["po_solid", "po_liquid", "iv_intermit", "iv_push", "iv_continuous"]
     else:
         raise ValueError(f"Unsupported prompting_type: {prompting_type}")
 
@@ -414,7 +420,6 @@ def process_cot_entry(runtime: Dict[str, Any], mode: str, row: Dict[str, Any], r
         SYSTEM_PROMPT,
         extract_prompt,
         expected_keys,
-        use_aliases=remote_mode,
     )
     comparison = compare_results(llm_output, row["ground_truth"], normalizer=normalize_strict)
     fields_correct = sum(1 for value in comparison.values() if value["match"])
@@ -461,14 +466,18 @@ def process_normalization_entry(runtime: Dict[str, Any], mode: str, row: Dict[st
         SYSTEM_PROMPT,
         extract_prompt,
         expected_keys,
-        use_aliases=remote_mode,
     )
 
     raw_json = json.dumps(raw_obj, indent=2, default=str)
     normalize_prompt = (
-        build_remote_normalization_prompt(row["prompt"], raw_json, family=family)
+        build_remote_normalization_prompt(
+            row["prompt"],
+            raw_json,
+            family=family,
+            sheet_name=sheet_name,
+        )
         if remote_mode
-        else build_local_normalization_prompt(row["prompt"], raw_json, family=family)
+        else build_local_normalization_prompt(row["prompt"], raw_json, family=family, sheet_name=sheet_name)
     )
     normalize_text = generate_text(runtime, SYSTEM_PROMPT, normalize_prompt)
     parsed = parse_json_response(normalize_text)
