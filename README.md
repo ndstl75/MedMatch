@@ -68,9 +68,10 @@ pip install -r requirements.txt
 
 Set credentials in the environment or a `.env` file (never commit secrets):
 
-- **OpenAI-compatible API:** `OPENAI_API_KEY`
+- **OpenAI-compatible API:** `OPENAI_API_KEY` and optionally `OPENAI_BASE_URL`, `OPENAI_MODEL`, `OPENAI_EXTRA_BODY_JSON`
 - **Azure OpenAI:** `AZURE_OPENAI_ENDPOINT` (your resource URL, e.g. `https://<resource-name>.openai.azure.com`) plus Azure identity / CLI login as required by `azure-identity`
 - **Google-backed remote path:** `GOOGLE_API_KEY`
+- **Local Qwen 3.6 via vLLM-MLX OpenAI API:** `LOCAL_OPENAI_BASE_URL`, `LOCAL_OPENAI_API_KEY`, `LOCAL_OPENAI_MODEL_NAME`, `LOCAL_OPENAI_EXTRA_BODY` (falls back to `OPENAI_*`)
 
 For vLLM, install the optional `vllm` / `transformers` stack in the same environment.
 
@@ -117,6 +118,22 @@ python scripts/probing_medmatch.py \
   --num_runs 1 \
   --subset_size 1
 ```
+
+Local Qwen 3.6 over your OpenAI-compatible vLLM-MLX endpoint:
+
+```bash
+export LOCAL_OPENAI_BASE_URL="http://127.0.0.1:8011/v1"
+export LOCAL_OPENAI_API_KEY="local-qwen"
+export LOCAL_OPENAI_MODEL_NAME="Qwen/Qwen3.6-35B-A3B"
+
+python scripts/probing_medmatch.py \
+  --mode qwen_local \
+  --prompting_type zero \
+  --num_runs 1 \
+  --subset_size 1
+```
+
+`qwen_local` automatically sends `chat_template_kwargs.enable_thinking=false` unless you override it with `LOCAL_OPENAI_EXTRA_BODY`.
 
 Category support:
 
