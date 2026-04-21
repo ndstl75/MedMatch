@@ -28,6 +28,13 @@ def default_model_name(backend: str) -> str:
         return os.environ.get("GOOGLE_MODEL_NAME", "gemma-3-27b-it")
     if backend == "azure":
         return os.environ.get("AZURE_OPENAI_DEPLOYMENT") or os.environ.get("AZURE_MODEL_NAME", "gpt-4o-mini")
+    if backend == "qwen_local":
+        return (
+            os.environ.get("LOCAL_OPENAI_MODEL_NAME")
+            or os.environ.get("OPENAI_MODEL")
+            or os.environ.get("OPENAI_MODEL_NAME")
+            or "Qwen/Qwen3.6-35B-A3B"
+        )
     return os.environ.get("OPENAI_MODEL_NAME", "gpt-4o-mini")
 
 
@@ -79,7 +86,7 @@ def main():
     parser.add_argument("--backend", choices=SUPPORTED_BACKENDS, required=True)
     parser.add_argument(
         "--category",
-        choices=["oral", "po_solid", "po_liquid", "iv", "iv_push", "iv_intermittent"],
+        choices=["oral", "po_solid", "po_liquid", "iv", "iv_push", "iv_intermittent", "iv_continuous"],
         required=True,
     )
     parser.add_argument("--model_name")
@@ -92,6 +99,7 @@ def main():
         "iv": ["iv_intermit", "iv_push"],
         "iv_push": ["iv_push"],
         "iv_intermittent": ["iv_intermit"],
+        "iv_continuous": ["iv_continuous"],
     }
 
     rows_by_sheet = run_medmatch_pipeline(

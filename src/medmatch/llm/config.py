@@ -1,7 +1,7 @@
 """Shared backend selection helpers."""
 
-SUPPORTED_BACKENDS = ("local", "remote", "google", "openai", "azure")
-REMOTE_BACKENDS = {"remote", "google", "openai", "azure"}
+SUPPORTED_BACKENDS = ("local", "remote", "google", "openai", "azure", "qwen_local")
+REMOTE_BACKENDS = {"remote", "google", "openai", "azure", "qwen_local"}
 
 
 def canonical_backend_name(name):

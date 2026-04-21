@@ -61,7 +61,7 @@ from medmatch.core.scorer import (
 )
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
 from medmatch.llm.local_ollama import LocalOllamaBackend
-from medmatch.llm.remote_api import AzureOpenAIBackend, OpenAICompatibleBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, LocalQwenOpenAIBackend, OpenAICompatibleBackend
 from medmatch.llm.remote_gemma import RemoteGemmaBackend
 
 try:
@@ -84,7 +84,7 @@ except ImportError:
 
 PROMPTING_CHOICES = ("zero", "few", "one_shot", "cot", "normalization")
 MODE_CHOICES = tuple(SUPPORTED_BACKENDS) + ("vllm",)
-REMOTE_STYLE_MODES = {"openai", "azure", "remote", "google"}
+REMOTE_STYLE_MODES = {"openai", "azure", "remote", "google", "qwen_local"}
 DATASET_ORDER = ["po_solid", "po_liquid", "iv_intermit", "iv_push", "iv_continuous"]
 OUTPUT_SUBDIRS = {
     "zero": "zero-shot",
@@ -161,6 +161,24 @@ BASELINE_BUILDERS = {
 
 def sanitize_model_name(model_name: str) -> str:
     return model_name.replace("/", "_").replace(" ", "_")
+
+
+def default_model_name_for_mode(mode: str) -> str:
+    normalized_mode = canonical_backend_name(mode)
+    if normalized_mode == "local":
+        return os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
+    if normalized_mode in {"remote", "google"}:
+        return os.environ.get("GOOGLE_MODEL_NAME", "gemma-3-27b-it")
+    if normalized_mode == "azure":
+        return os.environ.get("AZURE_OPENAI_DEPLOYMENT") or os.environ.get("AZURE_MODEL_NAME", "gpt-4o-mini")
+    if normalized_mode == "qwen_local":
+        return (
+            os.environ.get("LOCAL_OPENAI_MODEL_NAME")
+            or os.environ.get("OPENAI_MODEL")
+            or os.environ.get("OPENAI_MODEL_NAME")
+            or "Qwen/Qwen3.6-35B-A3B"
+        )
+    return os.environ.get("OPENAI_MODEL_NAME") or os.environ.get("OPENAI_MODEL") or "gpt-4o-mini"
 
 
 def sheet_safe_name(sheet_name: str) -> str:
@@ -244,6 +262,8 @@ def create_backend(mode: str, model_name: str, temperature: float):
         selected_model = None
     if mode == "local":
         return LocalOllamaBackend(model=selected_model, temperature=temperature)
+    if mode == "qwen_local":
+        return LocalQwenOpenAIBackend(model=selected_model, temperature=temperature)
     if mode == "openai":
         return OpenAICompatibleBackend(model=selected_model, temperature=temperature)
     if mode == "azure":
@@ -512,7 +532,7 @@ def process_normalization_entry(runtime: Dict[str, Any], mode: str, row: Dict[st
 def run_medmatch_pipeline(
     *,
     mode: str,
-    model_name: str,
+    model_name: Optional[str],
     prompting_type: str,
     num_runs: int,
     temperature: float,
@@ -528,10 +548,11 @@ def run_medmatch_pipeline(
     max_model_len: int = 4096,
 ) -> Dict[str, List[Dict[str, Any]]]:
     del batch_size
+    resolved_model_name = model_name or default_model_name_for_mode(mode)
 
     runtime_args = argparse.Namespace(
         mode=mode,
-        model_name=model_name,
+        model_name=resolved_model_name,
         temperature=temperature,
         number_gpus=number_gpus,
         gpu_memory_utilization=gpu_memory_utilization,
@@ -551,7 +572,7 @@ def run_medmatch_pipeline(
         output_path = None
         output_handle = None
         if output_dir:
-            output_path = os.path.join(output_dir, f"{sanitize_model_name(model_name)}_run{run_id}.jsonl")
+            output_path = os.path.join(output_dir, f"{sanitize_model_name(resolved_model_name)}_run{run_id}.jsonl")
             output_handle = open(output_path, "w", encoding="utf-8")
 
         try:
@@ -559,7 +580,7 @@ def run_medmatch_pipeline(
                 sheet_name = DATASET_SPECS[dataset_key]["sheet_name"]
                 for row in datasets[sheet_name]:
                     if prompting_type in {"zero", "few", "one_shot"}:
-                        record = process_baseline_entry(runtime, prompting_type, row, model_name, run_id)
+                        record = process_baseline_entry(runtime, prompting_type, row, resolved_model_name, run_id)
                     elif prompting_type == "cot":
                         record = process_cot_entry(runtime, mode, row, run_id)
                     else:
@@ -581,9 +602,9 @@ def build_args() -> argparse.ArgumentParser:
         "--mode",
         choices=MODE_CHOICES,
         default="openai",
-        help="openai | azure | local | remote | google | vllm.",
+        help="openai | azure | local | remote | google | qwen_local | vllm.",
     )
-    parser.add_argument("--model_name", default="gpt-4o-mini")
+    parser.add_argument("--model_name")
     parser.add_argument(
         "--prompting_type",
         choices=PROMPTING_CHOICES,
