@@ -69,26 +69,26 @@ by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours). Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.
 
 Example of input:
-Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily.
+Gabapentin 2 capsules (total dose 600mg) by mouth three times daily.
 Example of MedMatch JSON format:
-{ "drug name": "hydroxyurea",
-"numerical dose": 1000,
+{ "drug name": "gabapentin",
+"numerical dose": 600,
 "abbreviated unit strength of dose": "mg",
 "amount": 2,
 "formulation": "capsules",
 "route": "by mouth",
-"frequency": "once daily"}
+"frequency": "three times daily"}
 
 Example of preserving full frequency text while keeping total dose:
-Give the patient a total dose of methocarbamol 1500mg by giving 3 x 500mg tablets by mouth three times daily as needed for muscle spasms.
+Give the patient a total dose of acetaminophen 1000mg by giving 2 x 500mg tablets by mouth every 8 hours as needed for pain.
 Example of MedMatch JSON format:
-{ "drug name": "methocarbamol",
-"numerical dose": 1500,
+{ "drug name": "acetaminophen",
+"numerical dose": 1000,
 "abbreviated unit strength of dose": "mg",
-"amount": 3,
+"amount": 2,
 "formulation": "tablets",
 "route": "by mouth",
-"frequency": "three times daily as needed for muscle spasms"}
+"frequency": "every 8 hours as needed for pain"}
 """
 
 PO_LIQUID_INSTRUCTION = """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.

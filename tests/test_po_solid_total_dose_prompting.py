@@ -19,15 +19,15 @@ from prompt_medmatch import (
 )
 
 
-HYDROXYUREA_SENTENCE = "Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily."
+GABAPENTIN_SENTENCE = "Gabapentin 2 capsules (total dose 600mg) by mouth three times daily."
 RAW_JSON = """{
-  "drug name": "hydroxyurea",
-  "numerical dose": "500",
+  "drug name": "gabapentin",
+  "numerical dose": "300",
   "abbreviated unit strength of dose": "mg",
   "amount": "2",
   "formulation": "capsules",
   "route": "by mouth",
-  "frequency": "once daily"
+  "frequency": "three times daily"
 }"""
 
 
@@ -40,8 +40,8 @@ class POSolidTotalDosePromptingTests(unittest.TestCase):
     def test_one_shot_example_teaches_multi_unit_total_dose(self):
         messages = build_po_solid_messages_one_shot_multi_turn("dummy oral prompt")
         assistant_example = messages[2]["content"]
-        self.assertIn('"drug_name": "hydroxyurea"', assistant_example)
-        self.assertIn('"numerical_dose": "1000"', assistant_example)
+        self.assertIn('"drug_name": "gabapentin"', assistant_example)
+        self.assertIn('"numerical_dose": "600"', assistant_example)
         self.assertIn('"amount": "2"', assistant_example)
 
     def test_normalization_extract_instructions_match_total_dose_semantics(self):
@@ -52,8 +52,8 @@ class POSolidTotalDosePromptingTests(unittest.TestCase):
             self.assertIn("2 capsules of 500 mg each -> numerical dose 1000, amount 2", instruction)
 
     def test_oral_normalizers_allow_explicit_total_dose_rewrite(self):
-        remote_prompt = build_remote_normalization_prompt(HYDROXYUREA_SENTENCE, RAW_JSON, family="oral")
-        local_prompt = build_local_normalization_prompt(HYDROXYUREA_SENTENCE, RAW_JSON, family="oral")
+        remote_prompt = build_remote_normalization_prompt(GABAPENTIN_SENTENCE, RAW_JSON, family="oral")
+        local_prompt = build_local_normalization_prompt(GABAPENTIN_SENTENCE, RAW_JSON, family="oral")
         for prompt in (remote_prompt, local_prompt):
             self.assertIn("Oral solid total dose", prompt)
             self.assertIn("set numerical dose to the total drug amount per administration", prompt)

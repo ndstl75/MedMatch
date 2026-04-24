@@ -163,7 +163,7 @@ Oral solid preferred computer-generated order format
 [drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
 
 [drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).
+[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 300 mg each -> numerical dose 600, amount 2).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
 [formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).

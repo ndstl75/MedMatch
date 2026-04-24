@@ -56,5 +56,5 @@ These model-side changes do not modify the scorer, but were updated alongside th
 
 - `src/prompt_medmatch.py`: oral normalization guidance now preserves dosage-form wording and hyphenation from the source order instead of forcing hyphen insertion.
 - `src/medmatch/core/schema.py`: oral formulation examples now use the unhyphenated `medmatch2` dosage-form spelling.
-- `src/medmatch/core/schema.py`, `src/prompt_medmatch.py`, and `scripts/survey2gpt5.py`: `PO Solid` now defines `numerical dose` as the total drug amount administered per dose, with explicit multi-unit examples (for example `Hydroxyurea` `2 capsules` -> `numerical dose 1000`, `amount 2`) so active prompts align with the `medmatch2` oral-solid ground truth.
+- `src/medmatch/core/schema.py`, `src/prompt_medmatch.py`, and `scripts/survey2gpt5.py`: `PO Solid` now defines `numerical dose` as the total drug amount administered per dose, with held-out synthetic multi-unit examples (for example `gabapentin` `2 capsules` -> `numerical dose 600`, `amount 2`) so active prompts teach the rule without reusing benchmark medications.
 - `src/prompt_medmatch.py`: oral normalization prompts now allow `PO Solid` total-dose correction only when the sentence explicitly gives a total dose or multiple identical units with a per-unit strength; this is a model-side prompt change, not a scorer change.
