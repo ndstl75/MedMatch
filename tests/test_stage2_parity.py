@@ -10,6 +10,9 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PRE_STAGE2 = REPO_ROOT.parent / "MedMatch-pre-stage2"
+# These parity tests intentionally pin the legacy CSV fixture so we can verify
+# stage-2 behavior against the original pre-medmatch2 benchmark surface.
+LEGACY_DATA_DIR = REPO_ROOT / "data" / "med_match"
 SAMPLE_PROMPT = "A total of 6mg of adenosine (2 ml) of the 3 mg/ml vial solution intravenous was pushed once."
 SAMPLE_REASONING = "stub reasoning"
 SAMPLE_JSON = json.dumps({"drug name": "adenosine"}, indent=2)
@@ -66,6 +69,17 @@ class StubBackend:
 
 class Stage2ParityTests(unittest.TestCase):
     def test_prompt_strings_match_pre_stage2(self):
+        # The medmatch2 cutover intentionally updated the active oral
+        # normalization prompts to stop forcing hyphen insertion for dosage
+        # forms. Keep parity coverage for every unchanged surface, but allow
+        # those specific oral prompt helpers to diverge from the pre-stage2
+        # snapshot.
+        allowed_prompt_drift = {
+            "norm_remote_oral_instruction:PO Solid (40)",
+            "norm_remote_oral_prompt",
+            "norm_local_oral_extract",
+            "norm_local_oral_prompt",
+        }
         current = {}
         for remote_mode in (False, True):
             for sheet_name in ["IV intermittent (16)", "IV push (17)", "IV continuous (16)"]:
@@ -188,10 +202,29 @@ print(json.dumps(out))
 """
         )
 
-        self.assertEqual(current, old)
+        comparable_current = {key: value for key, value in current.items() if key not in allowed_prompt_drift}
+        comparable_old = {key: value for key, value in old.items() if key not in allowed_prompt_drift}
+
+        self.assertEqual(comparable_current, comparable_old)
+
+        for key in allowed_prompt_drift:
+            self.assertNotEqual(current[key], old[key])
+
+        self.assertIn(
+            "Preserve the dosage-form wording and hyphenation from the source order.",
+            current["norm_remote_oral_prompt"],
+        )
+        self.assertIn(
+            "Preserve the dosage-form wording and hyphenation from the source order.",
+            current["norm_local_oral_prompt"],
+        )
+        self.assertIn(
+            "Copy the dosage-form wording from the order as closely as possible, preserving the source spelling and hyphenation.",
+            current["norm_local_oral_extract"],
+        )
 
     def test_cot_row_schema_matches_pre_stage2(self):
-        row = new_runner.load_csv_rows(str(REPO_ROOT / "data" / "med_match"), "iv_continuous", None)[0]
+        row = new_runner.load_csv_rows(str(LEGACY_DATA_DIR), "iv_continuous", None)[0]
         current_record = new_runner.process_cot_entry(
             {"kind": "backend", "backend": StubBackend(), "temperature": 0.1},
             "local",
@@ -258,14 +291,14 @@ print(json.dumps({"keys": list(record.keys()), "types": {key: type(value).__name
     def test_normalization_row_schema_matches_pre_stage2(self):
         runtime = {"kind": "backend", "backend": StubBackend(), "temperature": 0.1}
 
-        oral_row = new_runner.load_csv_rows(str(REPO_ROOT / "data" / "med_match"), "po_solid", None)[0]
+        oral_row = new_runner.load_csv_rows(str(LEGACY_DATA_DIR), "po_solid", None)[0]
         current_oral = new_runner.process_normalization_entry(runtime, "local", oral_row, 1)
         current_oral_schema = {
             "keys": list(current_oral.keys()),
             "types": {key: type(value).__name__ for key, value in current_oral.items()},
         }
 
-        iv_row = new_runner.load_csv_rows(str(REPO_ROOT / "data" / "med_match"), "iv_push", None)[0]
+        iv_row = new_runner.load_csv_rows(str(LEGACY_DATA_DIR), "iv_push", None)[0]
         current_iv = new_runner.process_normalization_entry(runtime, "local", iv_row, 1)
         current_iv_schema = {
             "keys": list(current_iv.keys()),

@@ -52,6 +52,12 @@ from medmatch.core.schema import (
     LOCAL_NORMALIZATION_IV_SHEET_CONFIG,
     LOCAL_NORMALIZATION_ORAL_SHEET_CONFIG,
 )
+from medmatch.core.paths import (
+    SCORER_VERSION,
+    current_results_root,
+    dataset_version_for_path,
+    default_data_dir,
+)
 from medmatch.core.scorer import (
     all_fields_match,
     coerce_output_object,
@@ -93,6 +99,8 @@ OUTPUT_SUBDIRS = {
     "cot": "cot",
     "normalization": "normalization",
 }
+DEFAULT_DATA_DIR = default_data_dir()
+DEFAULT_RESULTS_ROOT = current_results_root()
 
 
 DATASET_SPECS = {
@@ -376,6 +384,41 @@ def write_record(handle, record: Dict[str, Any]) -> None:
     handle.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+def write_run_metadata(
+    output_dir: str,
+    *,
+    mode: str,
+    model_name: str,
+    prompting_type: str,
+    num_runs: int,
+    data_dir: str,
+    dataset_keys: List[str],
+    datasets: Dict[str, List[Dict[str, Any]]],
+) -> None:
+    dataset_version = dataset_version_for_path(data_dir)
+    metadata = {
+        "dataset_version": dataset_version,
+        "dataset_dir": os.path.abspath(data_dir),
+        "scorer_version": SCORER_VERSION,
+        "prompting_type": prompting_type,
+        "mode": mode,
+        "model_name": model_name,
+        "num_runs": num_runs,
+        "dataset_keys": dataset_keys,
+        "row_counts_by_dataset": {
+            dataset_key: len(datasets[DATASET_SPECS[dataset_key]["sheet_name"]])
+            for dataset_key in dataset_keys
+        },
+        "comparison_notice": (
+            f"Do not compare {dataset_version} outputs directly against results computed on "
+            "other MedMatch dataset versions without explicit dataset-version disclosure."
+        ),
+    }
+    metadata_path = os.path.join(output_dir, f"{sanitize_model_name(model_name)}_run_metadata.json")
+    with open(metadata_path, "w", encoding="utf-8") as handle:
+        json.dump(metadata, handle, indent=2)
+
+
 def titration_fields_present(ground_truth: Dict[str, Any]) -> bool:
     fields = [
         "titration dose",
@@ -593,6 +636,18 @@ def run_medmatch_pipeline(
             if output_handle is not None:
                 output_handle.close()
 
+    if output_dir:
+        write_run_metadata(
+            output_dir,
+            mode=mode,
+            model_name=resolved_model_name,
+            prompting_type=prompting_type,
+            num_runs=num_runs,
+            data_dir=data_dir,
+            dataset_keys=selected_keys,
+            datasets=datasets,
+        )
+
     return results_by_sheet
 
 
@@ -617,9 +672,9 @@ def build_args() -> argparse.ArgumentParser:
     parser.add_argument("--max_new_tokens", type=int, default=512)
     parser.add_argument(
         "--data_dir",
-        default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "med_match")),
+        default=DEFAULT_DATA_DIR,
     )
-    parser.add_argument("--output_dir", default="./results/med_match")
+    parser.add_argument("--output_dir", default=DEFAULT_RESULTS_ROOT)
     parser.add_argument("--subset_size", type=int, default=None, help="Optional subset size for quick tests.")
     parser.add_argument("--batch_size", type=int, default=10, help="Reserved for compatibility.")
     parser.add_argument("--number_gpus", type=int, default=2, help="Tensor parallel size for vLLM.")

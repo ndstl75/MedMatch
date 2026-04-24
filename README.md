@@ -34,7 +34,8 @@ MedMatch/
 │   ├── run_tier3.py             # Compatibility alias for normalization
 │   └── run_single.py            # Single-case debugging helper
 ├── data/
-│   ├── med_match/               # MedMatch CSV benchmarks
+│   ├── medmatch2/               # Current MedMatch CSV benchmarks
+│   ├── med_match/               # Legacy/original MedMatch CSV benchmarks
 │   ├── survey1/                 # RougeRx CSV
 │   └── survey2/                 # Second-survey CSVs
 ├── datasets/                    # Workbook inputs retained for legacy/reference scripts
@@ -49,10 +50,15 @@ The primary workflow is now centralized in `scripts/probing_medmatch.py`. The `r
 
 ## Data layout
 
-- **`data/med_match/`** — Per-task CSVs (oral solid/liquid, IV push/intermittent/continuous, with or without route columns). `scripts/probing_medmatch.py` uses these CSVs as the canonical MedMatch benchmark source.
+- **`data/medmatch2/`** — Current per-task CSV benchmark folder used by default across the main runners and evaluation utilities.
+- **`data/med_match/`** — Legacy/original MedMatch CSV benchmark folder retained for reference and back-compat.
 - **`data/survey2/`** — CSVs for the “computer-generated survey” appropriateness task consumed by `scripts/survey2gpt5.py`.
 - **`data/survey1/rougerx.csv`** — RougeRx respondent data for `scripts/rougerx.py`.
 - **`datasets/MedMatch Dataset for Experiment_ Final.xlsx`** — Workbook retained for legacy/reference scripts.
+- **`datasets/MedMatch2.xlsx`** — Source workbook for the current `data/medmatch2/` exports.
+- **`docs/DATA_CHANGELOG.md`** — Field-level changelog for dataset edits between MedMatch benchmark versions.
+
+Important: `medmatch2` results are not directly comparable to `med_match` results because the ground truth changed. Report the dataset version whenever you cite MedMatch numbers.
 
 ---
 
@@ -99,7 +105,7 @@ python scripts/probing_medmatch.py \
   --batch_size 10
 ```
 
-Outputs default to `results/med_match/` (override with `--output_dir`). Use `--data_dir` to point at another MedMatch CSV folder.
+Outputs default to `results/medmatch2/` (override with `--output_dir`). By default the runner reads `data/medmatch2/`; use `--data_dir` to point at another MedMatch CSV folder.
 
 CoT and normalization use the same runner:
 
@@ -148,7 +154,7 @@ python scripts/probing_medmatch_route_selection_test.py \
   --mode openai \
   --model_name gpt-4o-mini \
   --num_runs 3 \
-  --output_dir results/route
+  --output_dir results/medmatch2/route
 ```
 
 ### Survey 2 (appropriateness / Percentage Appropriate table)

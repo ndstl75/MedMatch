@@ -21,7 +21,7 @@ Definitions for each slot:
   "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
-  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).",
+  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
   "route": "The route of administration, fixed as oral.",
   "frequency": "How often the medication is taken (e.g., once daily, twice daily, every 8 hours)."
 }}
@@ -41,7 +41,7 @@ Definitions for each slot:
   "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
-  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).",
+  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
   "route": "The route of administration, fixed as oral.",
   "frequency": "How often the medication is taken (e.g., once daily, twice daily, every 8 hours)."
 }}
@@ -73,7 +73,7 @@ Definitions for each slot:
   "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
-  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).",
+  "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
   "route": "The route of administration, fixed as by mouth.",
   "frequency": "How often the medication is taken (e.g., once daily, twice daily, every 8 hours)."
 }}
@@ -935,7 +935,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [numerical dose]: The numeric value of the strength per unit.
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose.
 [amount]: The number of dosage units taken per administration.
-[formulation]: The oral solid dosage form. Copy dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
+[formulation]: The oral solid dosage form. Copy dosage-form wording from the order as closely as possible, preserving the source spelling and hyphenation.
 by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken. Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.""",
     "PO liquid (10)": """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.
@@ -965,7 +965,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
-[formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet). Copy the dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
+[formulation]: The oral solid dosage form (e.g., tablet, capsule, extended release tablet). Copy the dosage-form wording from the order as closely as possible, preserving the source spelling and hyphenation.
 by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours). Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.
 
@@ -1041,7 +1041,7 @@ REMOTE_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a stru
 
 Apply these normalization rules:
 1. Frequency: If the schedule means once per day, write "once daily" (not just "daily"). Preserve all qualifiers like "as needed", "at bedtime", indication text, and day-of-week schedules.
-2. Formulation: Use hyphens for multi-word dosage forms and singular form unless the amount field is greater than 1.
+2. Formulation: Preserve the dosage-form wording and hyphenation from the source order. Use singular form unless the amount field is greater than 1.
 3. Route: Always write "by mouth" (not "oral" or "po").
 4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
 5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
@@ -1106,7 +1106,7 @@ LOCAL_ORAL_NORMALIZE_PROMPT = """You are a clinical pharmacist reviewing a struc
 
 Apply these normalization rules:
 1. Frequency: If the schedule means once per day, write "once daily" (not just "daily"). Preserve all qualifiers like "as needed", "at bedtime", indication text (e.g., "as needed for pain"), and day-of-week schedules. Keep the order: frequency first, then qualifiers (e.g., "every 4 hours as needed for pain", not "as needed for pain every 4 hours"). If the order specifies specific days, write as "once daily on [days]".
-2. Formulation: Use hyphens for multi-word dosage forms: "extended-release tablet" not "extended release tablet". Use singular form (e.g., "tablet" not "tablets", "capsule" not "capsules") unless the amount field is greater than 1, in which case use plural.
+2. Formulation: Preserve the dosage-form wording and hyphenation from the source order. Use singular form (e.g., "tablet" not "tablets", "capsule" not "capsules") unless the amount field is greater than 1, in which case use plural.
 3. Route: Always write "by mouth" (not "oral" or "po").
 4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
 5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.

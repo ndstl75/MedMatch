@@ -17,8 +17,13 @@ for candidate in (ROOT, SRC):
     if candidate not in sys.path:
         sys.path.insert(0, candidate)
 
+from medmatch.core.paths import current_results_root, default_data_dir
 from medmatch.llm.config import SUPPORTED_BACKENDS
 from probing_medmatch import run_medmatch_pipeline, sheet_safe_name
+
+
+DEFAULT_DATA_DIR = default_data_dir()
+DEFAULT_RESULTS_DIR = current_results_root()
 
 
 def default_model_name(backend: str) -> str:
@@ -88,12 +93,12 @@ def main():
         temperature=float(os.environ.get("MEDMATCH_TEMPERATURE", "0.1")),
         top_p=float(os.environ.get("MEDMATCH_TOP_P", "0.95")),
         max_new_tokens=int(os.environ.get("MEDMATCH_MAX_NEW_TOKENS", "512")),
-        data_dir=os.path.join(ROOT, "data", "med_match"),
+        data_dir=DEFAULT_DATA_DIR,
         output_dir=None,
         subset_size=int(os.environ.get("MEDMATCH_MAX_ENTRIES", "0")) or None,
         dataset_keys=category_map[args.category],
     )
-    write_legacy_outputs(os.path.join(ROOT, "results"), args.backend, rows_by_sheet)
+    write_legacy_outputs(DEFAULT_RESULTS_DIR, args.backend, rows_by_sheet)
 
 
 if __name__ == "__main__":

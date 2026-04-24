@@ -7,7 +7,7 @@ selection using the route selection prompt.
 Examples (from repository root):
 
     python scripts/probing_medmatch_route_selection_test.py --mode openai \\
-        --model_name gpt-4o-mini --num_runs 3 --output_dir results/route
+        --model_name gpt-4o-mini --num_runs 3 --output_dir results/medmatch2/route
 
     CUDA_VISIBLE_DEVICES=0,1 python scripts/probing_medmatch_route_selection_test.py \\
         --mode vllm --model_name meta-llama/Llama-3.3-70B-Instruct --batch_size 30
@@ -29,7 +29,17 @@ sys.path.insert(0, _REPO_ROOT)
 import pandas as pd
 from tqdm import tqdm
 
+from medmatch.core.paths import (
+    SCORER_VERSION,
+    current_results_root,
+    dataset_version_for_path,
+    default_data_dir,
+)
 from src.prompt_medmatch import build_route_selection_messages
+
+
+DEFAULT_DATA_DIR = default_data_dir()
+DEFAULT_OUTPUT_DIR = os.path.join(current_results_root(), "route")
 
 # Optional providers
 try:
@@ -201,6 +211,25 @@ def write_record(f, record: Dict):
     f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+def write_run_metadata(output_dir: str, *, model_name: str, mode: str, num_runs: int, data_dir: str) -> None:
+    dataset_version = dataset_version_for_path(data_dir)
+    metadata = {
+        "dataset_version": dataset_version,
+        "dataset_dir": os.path.abspath(data_dir),
+        "scorer_version": SCORER_VERSION,
+        "mode": mode,
+        "model_name": model_name,
+        "num_runs": num_runs,
+        "comparison_notice": (
+            f"Do not compare {dataset_version} route-selection outputs directly against results "
+            "computed on other MedMatch dataset versions without explicit dataset-version disclosure."
+        ),
+    }
+    path = os.path.join(output_dir, f"{sanitize_model_name(model_name)}_run_metadata.json")
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(metadata, handle, indent=2)
+
+
 def chunked(iterable, size: int):
     for i in range(0, len(iterable), size):
         yield i, iterable[i : i + size]
@@ -214,10 +243,10 @@ def main():
     parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--top_p", type=float, default=0.95)
     parser.add_argument("--max_new_tokens", type=int, default=50)  # Shorter for route selection
-    parser.add_argument("--data_dir", default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "med_match")))
+    parser.add_argument("--data_dir", default=DEFAULT_DATA_DIR)
     parser.add_argument(
         "--output_dir",
-        default=os.path.join(_REPO_ROOT, "results", "route"),
+        default=DEFAULT_OUTPUT_DIR,
     )
     parser.add_argument("--subset_size", type=int, default=None, help="Optional subset size for quick tests.")
     parser.add_argument("--batch_size", type=int, default=10, help="vLLM batch size (if used).")
@@ -356,6 +385,14 @@ def main():
                                 "response": response,
                             }
                             write_record(f, record)
+
+    write_run_metadata(
+        args.output_dir,
+        model_name=args.model_name,
+        mode=args.mode,
+        num_runs=args.num_runs,
+        data_dir=args.data_dir,
+    )
 
 
 if __name__ == "__main__":

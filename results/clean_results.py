@@ -13,10 +13,19 @@ import re
 import json
 import csv
 import os
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import statistics
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+SRC_ROOT = REPO_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from medmatch.core.paths import current_results_root, default_data_dir
 
 # ============================================================================
 # CONFIGURATION
@@ -288,9 +297,8 @@ def evaluate_run(jsonl_path: Path, all_gt: Dict[str, Dict[str, Dict[str, str]]])
             for ds, data in results.items()}
 
 def main():
-    script_dir = Path(__file__).parent
-    data_dir = script_dir.parent / 'data' / 'med_match'
-    results_dir = script_dir / 'one-shot'
+    data_dir = Path(default_data_dir())
+    results_dir = Path(current_results_root()) / 'one-shot'
     
     all_gt = load_ground_truth(data_dir)
     

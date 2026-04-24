@@ -1,0 +1,54 @@
+# Data Changelog
+
+## Versioning Note
+
+- `medmatch2` is the current default MedMatch benchmark dataset.
+- `medmatch2` and `med_match` are not directly comparable in exact-match tables because the ground truth changed.
+- Route-selection `*_no_route.csv` files in `data/medmatch2/` were regenerated from the updated source rows so they stay aligned with the route-bearing CSVs.
+- Source workbook for `data/medmatch2/`: `datasets/MedMatch2.xlsx`.
+
+## 2026-04-23: `medmatch2` Cutover
+
+The table below records the substantive dataset edits introduced when `data/medmatch2/` was created from the updated workbook.
+
+| Dataset file | Medication | Field | Old value | New value | Reason |
+| --- | --- | --- | --- | --- | --- |
+| `med_match - po_solid.csv` | Duloxetine | `formulation` | `delayed-release capsule` | `delayed release capsule` | Updated workbook canonicalized the dosage-form spelling to the unhyphenated form. |
+| `med_match - po_solid.csv` | Duloxetine | `Medication JSON (ground truth)` | `Duloxetine 30 mg 1 delayed-release capsule by mouth once daily` | `Duloxetine 30 mg 1 delayed release capsule by mouth once daily` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Duloxetine | `Medication prompt (sentence format)` | `A total dose of 30mg of duloxetine delayed-release capsule (quantity: 1) is given by mouth once daily` | `A total dose of 30mg of duloxetine delayed release capsule (quantity: 1) is given by mouth once daily` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Omeprazole | `formulation` | `delayed-release tablet` | `delayed release tablet` | Updated workbook canonicalized the dosage-form spelling to the unhyphenated form. |
+| `med_match - po_solid.csv` | Omeprazole | `Medication JSON (ground truth)` | `Omeprazole 20 mg 1 delayed-release tablet by mouth once daily` | `Omeprazole 20 mg 1 delayed release tablet by mouth once daily` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Omeprazole | `Medication prompt (sentence format)` | `Administer 20mg omeprazole (1 delayed-release tablet) once daily by mouth` | `Administer 20mg omeprazole (1 delayed release tablet) once daily by mouth` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Ondansetron | `formulation` | `orally-disintegrating tablet` | `orally disintegrating tablet` | Updated workbook canonicalized the dosage-form spelling to the unhyphenated form. |
+| `med_match - po_solid.csv` | Ondansetron | `Medication JSON (ground truth)` | `Ondansetron 8 mg 1 orally-disintegrating tablet by mouth every 8 hours as needed for vomiting` | `Ondansetron 8 mg 1 orally disintegrating tablet by mouth every 8 hours as needed for vomiting` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Ondansetron | `Medication prompt (sentence format)` | `The patient is receiving ondansetron as needed for vomiting every 8 hours using 8 mg orally-disintegrating tablets (1 tablet per dose)` | `The patient is receiving ondansetron as needed for vomiting every 8 hours using 8 mg orally disintegrating tablets (1 tablet per dose)` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Quetiapine | `formulation` | `extended-release tablet` | `extended release tablet` | Updated workbook canonicalized the dosage-form spelling to the unhyphenated form. |
+| `med_match - po_solid.csv` | Tolterodine | `formulation` | `extended-release capsule` | `extended release capsule` | Updated workbook canonicalized the dosage-form spelling to the unhyphenated form. |
+| `med_match - po_solid.csv` | Tolterodine | `Medication JSON (ground truth)` | `Tolterodine 2 mg 1 extended-release capsule by mouth once daily` | `Tolterodine 2 mg 1 extended release capsule by mouth once daily` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - po_solid.csv` | Tolterodine | `Medication prompt (sentence format)` | `Administer an extended-release capsule of tolterodine 2 mg to the patient by mouth once daily` | `Administer an extended release capsule of tolterodine 2 mg to the patient by mouth once daily` | Dataset export aligned the prompt-text column with the unhyphenated dosage-form spelling used in the structured field. |
+| `med_match - iv_i.csv` | Sodium Phosphate | `Medication JSON` | `Sodium Phosphate 15 mmol in 100 mL of D5W intravenously infused over 2 hours as needed for phosphorus replacement` | `Sodium Phosphate 15 mmol in 100 mL of D5W intravenously infused over 2 hours every 6 hours as needed for phosphorus replacement` | Updated workbook adds the scheduled component to the order text. |
+| `med_match - iv_i.csv` | Sodium Phosphate | `Medication prompt (sentence format)` | `For the patients low electrolytes they received 15 mmol of sodium phosphate as needed for phosphorus replacement, which was intravenously infused over 2 hours and prepared in 100 mL of D5W.` | `For the patients low electrolytes they received 15 mmol of sodium phosphate every 6 hours as needed for phosphorus replacement, which was intravenously infused over 2 hours and prepared in 100 mL of D5W.` | Updated workbook adds the scheduled component to the prompt text. |
+| `med_match - iv_i.csv` | Sodium Phosphate | `frequency` | `as needed for phosphorus replacement` | `every 6 hours as needed for phosphorus replacement` | Updated workbook adds the scheduled component to the structured frequency field. |
+| `med_match - iv_c.csv` | Nicardipine | `Medication` | `Nicardapine` | `Nicardipine` | Corrected ground-truth drug-name typo in the source row. |
+| `med_match - iv_c.csv` | Nicardipine | `Medication JSON` | `Nicardapine 40 mg/200 mL in 0.9% sodium chloride continuous intravenous infusion starting at 5 mg/hr and titrate by 2.5 mg/hr every 5 minutes to achieve a goal systolic blood pressure between 90 mmHg and 120 mmHg.` | `Nicardipine 40 mg/200 mL in 0.9% sodium chloride continuous intravenous infusion starting at 5 mg/hr and titrate by 2.5 mg/hr every 5 minutes to achieve a goal systolic blood pressure between 90 mmHg and 120 mmHg.` | Corrected ground-truth drug-name typo in the source row. |
+| `med_match - iv_c.csv` | Nicardipine | `Medication prompt (sentence format)` | `A nicardapine infusion, prepared as 40 mg/200mL in 0.9% sodium chloride, was started at 5 mg/hr continuous intravenous infusion and titrated by another 2.5 mg/hr every 5 minutes to maintain a systolic blood pressure goal between 90 mmHg and 120 mmHg.` | `A nicardipine infusion, prepared as 40 mg/200mL in 0.9% sodium chloride, was started at 5 mg/hr continuous intravenous infusion and titrated by another 2.5 mg/hr every 5 minutes to maintain a systolic blood pressure goal between 90 mmHg and 120 mmHg.` | Corrected ground-truth drug-name typo in the source row. |
+| `med_match - iv_c.csv` | Nicardipine | `drug` | `Nicardapine` | `Nicardipine` | Corrected ground-truth drug-name typo in the structured field. |
+| `med_match - iv_c.csv` | Midazolam | `Medication JSON` | `Midazolam 1 mg/mL in 0.9% sodium chloride continuous intravenous infusion starting at 0.5 mg/hr and titrate by 0.5 mg/hr every 5 minutes to achieve a goal RASS of -4 to -5.` | `Midazolam 100 mg/100mL in 0.9% sodium chloride continuous intravenous infusion starting at 0.5 mg/hr and titrate by 0.5 mg/hr every 5 minutes to achieve a goal RASS of -4 to -5.` | Updated workbook aligns the narrative bag description with the structured bag fields already present in the row. |
+| `med_match - iv_c.csv` | Midazolam | `Medication prompt (sentence format)` | `The patient received a continuous intravenous infusion of midazolam at a starting rate of 0.5 mg/hr (1 mg/mL in 0.9% sodium chloride), and the infusion was titrated by 0.5 mg/hr every 5 minutes to achieve a RASS goal of -4 to -5.` | `The patient received a continuous intravenous infusion of midazolam at a starting rate of 0.5 mg/hr (100mg in 100mL 0.9% sodium chloride), and the infusion was titrated by 0.5 mg/hr every 5 minutes to achieve a RASS goal of -4 to -5.` | Updated workbook aligns the prompt narrative with the structured bag fields already present in the row. |
+| `med_match - iv_c.csv` | Lidocaine | `Medication JSON` | `Lidocaine 4 mg/mL in D5W continuous intravenous infusion at 1 mg/min.` | `Lidocaine 1000 mg/250 mL in D5W continuous intravenous infusion at 1 mg/min.` | Updated workbook aligns the narrative bag description with the structured bag fields already present in the row. |
+| `med_match - iv_c.csv` | Lidocaine | `Medication prompt (sentence format)` | `Lidocaine, prepared at 4 mg/mL in D5W, was administered as a continuous intravenous infusion at 1 mg/min.` | `Lidocaine, prepared as 1000mg in 250mL of D5W, was administered as a continuous intravenous infusion at 1 mg/min.` | Updated workbook aligns the prompt narrative with the structured bag fields already present in the row. |
+
+## Whitespace-Only Cleanup
+
+The following rows changed only by trimming or collapsing whitespace and were not intended to alter meaning:
+
+- `med_match - po_liquid_no_route.csv`: `Valproic acid` medication name and dose narrative spacing cleanup.
+- `med_match - iv_c_no_route.csv`: `Dexmedetomidine` double-space cleanup.
+- `med_match - iv_c_no_route.csv`: `Phenylephrine` double-space cleanup.
+
+## Related Prompt-Side Alignment
+
+These model-side changes do not modify the scorer, but were updated alongside the `medmatch2` cutover so active prompts reflect the dataset wording:
+
+- `src/prompt_medmatch.py`: oral normalization guidance now preserves dosage-form wording and hyphenation from the source order instead of forcing hyphen insertion.
+- `src/medmatch/core/schema.py`: oral formulation examples now use the unhyphenated `medmatch2` dosage-form spelling.

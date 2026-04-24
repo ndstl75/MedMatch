@@ -13,7 +13,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
-[formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).
+[formulation]: The oral solid dosage form (e.g., tablet, capsule, extended release tablet).
 by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours).
 

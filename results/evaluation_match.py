@@ -84,10 +84,24 @@ import re
 import json
 import csv
 import os
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional, Any, Set
 import statistics
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+SRC_ROOT = REPO_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from medmatch.core.paths import (
+    SCORER_VERSION,
+    current_results_root,
+    dataset_version_for_path,
+    default_data_dir,
+)
 
 
 # ============================================================================
@@ -1291,6 +1305,23 @@ def save_results_to_json(aggregated_results: Dict[str, Any], output_path: str) -
     print(f"\nResults saved to: {output_path}")
 
 
+def save_metadata_to_json(results_dir: Path, data_dir: Path, output_path: Path) -> None:
+    metadata = {
+        "dataset_version": dataset_version_for_path(data_dir),
+        "dataset_dir": str(data_dir.resolve()),
+        "results_dir": str(results_dir.resolve()),
+        "scorer_version": SCORER_VERSION,
+        "comparison_notice": (
+            "Do not compare MedMatch results across dataset versions without explicit "
+            "dataset-version disclosure."
+        ),
+    }
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(metadata, f, indent=2)
+
+    print(f"Metadata saved to: {output_path}")
+
+
 def print_overall_results_table(aggregated_results: Dict[str, Any]) -> None:
     """
     Print overall results table matching Table 4 format.
@@ -1745,11 +1776,11 @@ def main():
     # ------------------------------------
     # Define paths
     # ------------------------------------
-    script_dir = Path(__file__).parent
-    results_dir = script_dir / 'one-shot'
-    # Fixed data directory path to match the actual location
-    data_dir = script_dir.parent / 'data' / 'med_match'
-    output_path = script_dir / 'evaluation_results.json'
+    results_root = Path(current_results_root())
+    results_dir = results_root / 'one-shot'
+    data_dir = Path(default_data_dir())
+    output_path = results_root / 'evaluation_results.json'
+    metadata_path = results_root / 'evaluation_results.metadata.json'
     
     # ------------------------------------
     # Verify directories exist
@@ -1777,11 +1808,12 @@ def main():
     print_evaluation_report(aggregated_results)
     print_overall_results_table(aggregated_results)
     save_results_to_json(aggregated_results, str(output_path))
+    save_metadata_to_json(results_dir, data_dir, metadata_path)
     
     # ------------------------------------
     # Generate CSV file with entity-level accuracy
     # ------------------------------------
-    csv_path = script_dir / 'entity_accuracy_table.csv'
+    csv_path = results_root / 'entity_accuracy_table.csv'
     
     generate_entity_accuracy_csv(aggregated_results, str(csv_path))
 

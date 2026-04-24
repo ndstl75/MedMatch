@@ -37,9 +37,18 @@ Author: Auto-generated evaluation script
 import json
 import os
 import csv
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+SRC_ROOT = REPO_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from medmatch.core.paths import current_results_root
 
 
 # ============================================================================
@@ -442,7 +451,7 @@ def generate_table(data: Dict[str, Dict[int, List[Dict]]]) -> str:
 
 def main():
     """Main evaluation function."""
-    results_root = Path(__file__).resolve().parent
+    results_root = Path(current_results_root())
     data_dir = str(results_root / "route")
 
     # Load all data

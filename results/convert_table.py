@@ -6,11 +6,11 @@ Usage:
     python convert_table.py --prompting_type few   # Process few-shot results
 
 For each dataset (po, iv_i, iv_p, iv_c):
-- Load ground-truth CSV from data/med_match.
-- Load all JSONL outputs in results/med_match/{prompting_type}-shot/.
+- Load ground-truth CSV from the current MedMatch CSV directory.
+- Load all JSONL outputs in results/<dataset_version>/{prompting_type}-shot/.
 - Convert JSON responses to readable strings by concatenating values only.
 - Pivot responses into columns per model/run (e.g., llama3 run1/run2/run3).
-- Write one CSV per dataset into results/med_match/{prompting_type}-shot-tables/.
+- Write one CSV per dataset into results/<dataset_version>/{prompting_type}-shot-tables/.
 
 From the ``results/`` directory (or pass paths via script defaults):
 
@@ -21,9 +21,18 @@ From the ``results/`` directory (or pass paths via script defaults):
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 import pandas as pd
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+SRC_ROOT = REPO_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from medmatch.core.paths import current_results_root, default_data_dir
 
 # Templates for converting JSON back to string format
 STRING_TEMPLATES = {
@@ -191,9 +200,9 @@ def main():
     args = parser.parse_args()
 
     # Set up directories based on prompting type
-    base_dir = Path(__file__).parent
-    input_dir = base_dir / f"{args.prompting_type}-shot"
-    output_dir = base_dir / f"{args.prompting_type}-shot-tables"
+    results_root = Path(current_results_root())
+    input_dir = results_root / f"{args.prompting_type}-shot"
+    output_dir = results_root / f"{args.prompting_type}-shot-tables"
     output_dir.mkdir(exist_ok=True)
 
     print(f"Processing {args.prompting_type}-shot results from {input_dir}")
@@ -204,7 +213,7 @@ def main():
         print(f"No JSONL files found in {input_dir}; nothing to convert.")
         return
 
-    data_dir = base_dir.parent.parent / "data" / "med_match"
+    data_dir = Path(default_data_dir())
 
     for dataset, meta in DATASET_CSVS.items():
         table = build_dataset_table(df_runs, dataset, meta, data_dir)
