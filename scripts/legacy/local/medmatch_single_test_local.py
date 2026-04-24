@@ -51,7 +51,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
 
 [drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
+[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
 [formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet). Copy the dosage-form wording from the order as closely as possible, including qualifiers such as extended-release or delayed-release.
@@ -142,24 +142,24 @@ continuous intravenous infusion: The fixed route and method of administration.
 ONE_SHOT = {
     "PO Solid": ZERO_SHOT["PO Solid"] + """
 Example of input:
-Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet).
+Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily.
 Example of MedMatch JSON format:
-{ "drug name": "benztropine",
-"numerical dose": 1,
+{ "drug name": "hydroxyurea",
+"numerical dose": 1000,
 "abbreviated unit strength of dose": "mg",
-"amount": 1,
-"formulation": "tablet",
+"amount": 2,
+"formulation": "capsules",
 "route": "by mouth",
-"frequency": "four times daily as needed"}
+"frequency": "once daily"}
 
-Example of preserving full frequency text:
-Administer oral methocarbamol, 750 mg (1 tablet), three times daily as needed for muscle spasms.
+Example of preserving full frequency text while keeping total dose:
+Give the patient a total dose of methocarbamol 1500mg by giving 3 x 500mg tablets by mouth three times daily as needed for muscle spasms.
 Example of MedMatch JSON format:
 { "drug name": "methocarbamol",
-"numerical dose": 750,
+"numerical dose": 1500,
 "abbreviated unit strength of dose": "mg",
-"amount": 1,
-"formulation": "tablet",
+"amount": 3,
+"formulation": "tablets",
 "route": "by mouth",
 "frequency": "three times daily as needed for muscle spasms"}
 """,

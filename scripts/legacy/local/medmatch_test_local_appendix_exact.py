@@ -40,7 +40,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
 
 [drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
+[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
 [formulation]: The oral solid dosage form (e.g., tablet, capsule, extended-release tablet).
@@ -48,15 +48,15 @@ by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours).
 
 Example of input:
-Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet).
+Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily.
 Example of MedMatch JSON format:
-{ "drug name": "benztropine",
-"numerical dose": 1,
+{ "drug name": "hydroxyurea",
+"numerical dose": 1000,
 "abbreviated unit strength of dose": "mg",
-"amount": 1,
-"formulation": "tablet",
+"amount": 2,
+"formulation": "capsules",
 "route": "by mouth",
-"frequency": "four times daily as needed"}
+"frequency": "once daily"}
 """
 
 PO_LIQUID_INSTRUCTION = """Please review the narratives about medications and format them into the MedMatch JSON format. Follow this exact slot order; if a slot is unknown, use an empty string and do not fabricate.

@@ -18,7 +18,7 @@ The MedMatch JSON format for oral medications is:
 Definitions for each slot:
 {{
   "drug_name": "The generic or brand name of the medication.",
-  "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
+  "numerical_dose": "The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
   "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
@@ -38,7 +38,7 @@ The MedMatch JSON format for oral medications is:
 Definitions for each slot:
 {{
   "drug_name": "The generic or brand name of the medication.",
-  "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
+  "numerical_dose": "The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
   "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
@@ -49,16 +49,16 @@ Definitions for each slot:
 NOTE: Output only a single valid JSON object with the medication information, containing no explanations, additional text, examples, or commentary."""
 
 # PO_solid - Example for multi-turn one-shot prompting
-PO_SOLID_EXAMPLE_USER = "Query: Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet)."
+PO_SOLID_EXAMPLE_USER = "Query: Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily."
 
 PO_SOLID_EXAMPLE_ASSISTANT = """{{
-  "drug_name": "benztropine",
-  "numerical_dose": "1",
+  "drug_name": "hydroxyurea",
+  "numerical_dose": "1000",
   "abbreviated_unit_strength_of_dose": "mg",
-  "amount": "1",
-  "formulation": "tablet",
+  "amount": "2",
+  "formulation": "capsules",
   "route": "by mouth",
-  "frequency": "four times daily as needed"
+  "frequency": "once daily"
 }}"""
 
 # PO_solid - Backward compatible single-turn one-shot instruction (deprecated)
@@ -70,7 +70,7 @@ The MedMatch JSON format for oral medications is:
 Definitions for each slot:
 {{
   "drug_name": "The generic or brand name of the medication.",
-  "numerical_dose": "The numeric value of the strength per unit (e.g., 5, 10, 500).",
+  "numerical_dose": "The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).",
   "abbreviated_unit_strength_of_dose": "The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).",
   "amount": "The number of dosage units taken per administration (e.g., 1, 2).",
   "formulation": "The oral solid dosage form (e.g., tablet, capsule, extended release tablet).",
@@ -82,17 +82,17 @@ NOTE: Output only a single valid JSON object with the medication information, co
 
 ### Example:
 
-Query: Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet).
+Query: Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily.
 
 Output:
 {{
-  "drug_name": "benztropine",
-  "numerical_dose": "1",
+  "drug_name": "hydroxyurea",
+  "numerical_dose": "1000",
   "abbreviated_unit_strength_of_dose": "mg",
-  "amount": "1",
-  "formulation": "tablet",
+  "amount": "2",
+  "formulation": "capsules",
   "route": "by mouth",
-  "frequency": "four times daily as needed"
+  "frequency": "once daily"
 }}
 """
 
@@ -932,7 +932,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
 
 [drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric value of the strength per unit.
+[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration. For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose.
 [amount]: The number of dosage units taken per administration.
 [formulation]: The oral solid dosage form. Copy dosage-form wording from the order as closely as possible, preserving the source spelling and hyphenation.
@@ -962,7 +962,7 @@ The MedMatch JSON format for oral solid dosage form medications is:
 [drug name][numerical dose][abbreviated unit strength of dose][amount][formulation] by mouth [frequency]
 
 [drug name]: The generic or brand name of the medication.
-[numerical dose]: The numeric value of the strength per unit (e.g., 5, 10, 500).
+[numerical dose]: The numeric amount of drug administered per dose, representing the total drug amount for that administration (e.g., 5, 10, 500). For orders with multiple identical tablets or capsules, multiply the per-unit strength by the amount (e.g., 2 capsules of 500 mg each -> numerical dose 1000, amount 2).
 [abbreviated unit strength of dose]: The standardized abbreviated unit associated with the dose (e.g., mg, mcg, g).
 [amount]: The number of dosage units taken per administration (e.g., 1, 2).
 [formulation]: The oral solid dosage form (e.g., tablet, capsule, extended release tablet). Copy the dosage-form wording from the order as closely as possible, preserving the source spelling and hyphenation.
@@ -970,24 +970,24 @@ by mouth: The route of administration, fixed as oral.
 [frequency]: How often the medication is taken (e.g., once daily, twice daily, every 8 hours). Preserve the full schedule phrase, including qualifiers such as as needed, at bedtime, or indication text if present.
 
 Example of input:
-Administer oral benztropine four times daily as needed, a dose of 1mg (1 tablet).
+Hydroxyurea 2 capsules (total dose 1000mg) by mouth once daily.
 Example of MedMatch JSON format:
-{ "drug name": "benztropine",
-"numerical dose": 1,
+{ "drug name": "hydroxyurea",
+"numerical dose": 1000,
 "abbreviated unit strength of dose": "mg",
-"amount": 1,
-"formulation": "tablet",
+"amount": 2,
+"formulation": "capsules",
 "route": "by mouth",
-"frequency": "four times daily as needed"}
+"frequency": "once daily"}
 
-Example of preserving full frequency text:
-Administer oral methocarbamol, 750 mg (1 tablet), three times daily as needed for muscle spasms.
+Example of preserving full frequency text while keeping total dose:
+Give the patient a total dose of methocarbamol 1500mg by giving 3 x 500mg tablets by mouth three times daily as needed for muscle spasms.
 Example of MedMatch JSON format:
 { "drug name": "methocarbamol",
-"numerical dose": 750,
+"numerical dose": 1500,
 "abbreviated unit strength of dose": "mg",
-"amount": 1,
-"formulation": "tablet",
+"amount": 3,
+"formulation": "tablets",
 "route": "by mouth",
 "frequency": "three times daily as needed for muscle spasms"}
 """,
@@ -1044,7 +1044,8 @@ Apply these normalization rules:
 2. Formulation: Preserve the dosage-form wording and hyphenation from the source order. Use singular form unless the amount field is greater than 1.
 3. Route: Always write "by mouth" (not "oral" or "po").
 4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
-5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
+5. Oral solid total dose: For oral solid orders only, if the source sentence explicitly states a total dose or gives multiple identical tablets/capsules with a per-unit strength, set numerical dose to the total drug amount per administration and keep amount as the dosage-unit count. Example: 2 capsules of 500 mg each -> numerical dose 1000, amount 2. Do not infer missing strengths or counts.
+6. Otherwise, do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
 
 Original medication order sentence:
 {sentence}
@@ -1109,7 +1110,8 @@ Apply these normalization rules:
 2. Formulation: Preserve the dosage-form wording and hyphenation from the source order. Use singular form (e.g., "tablet" not "tablets", "capsule" not "capsules") unless the amount field is greater than 1, in which case use plural.
 3. Route: Always write "by mouth" (not "oral" or "po").
 4. Units: Use standard abbreviations: mg, mcg, g, mL, mg/mL.
-5. Do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
+5. Oral solid total dose: For oral solid orders only, if the source sentence explicitly states a total dose or gives multiple identical tablets/capsules with a per-unit strength, set numerical dose to the total drug amount per administration and keep amount as the dosage-unit count. Example: 2 capsules of 500 mg each -> numerical dose 1000, amount 2. Do not infer missing strengths or counts.
+6. Otherwise, do not change numeric values, drug names, or any medical content. Only fix formatting and wording.
 
 Original medication order sentence:
 {sentence}
