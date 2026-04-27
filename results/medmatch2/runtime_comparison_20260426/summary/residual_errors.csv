@@ -1,0 +1,21 @@
+model,category,medication,field,expected,actual
+Gemma4 26B Ollama,PO solid,Bisoprolol,frequency,once daily,once daily for hypertension
+Gemma4 26B Ollama,IV continuous,Epinephrine,"titration goal based on physiologic response, laboratory result, or assessment score",map of at least 65mmhg,map of 65 mmhg or greater
+Gemma4 26B Ollama,IV continuous,Nicardipine,"titration goal based on physiologic response, laboratory result, or assessment score",systolic blood pressure between 90 mmhg and 120mmhg,systolic blood pressure between 90 mmhg and 120 mmhg
+Gemma4 26B Ollama,IV continuous,Phenylephrine,"titration goal based on physiologic response, laboratory result, or assessment score",map ≥ 65 mmhg,map of 65 mmhg or greater
+Gemma4 26B Ollama,IV continuous,Furosemide,starting rate,20,
+Gemma4 26B Ollama,IV continuous,Heparin,abbreviated unit strength of dose,unit,units
+Gemma4 26B vLLM-MLX,PO solid,Bisoprolol,frequency,once daily,once daily for hypertension
+Gemma4 26B vLLM-MLX,PO liquid,Valproic acid,concentration of formulation,50,250
+Gemma4 26B vLLM-MLX,IV continuous,Epinephrine,"titration goal based on physiologic response, laboratory result, or assessment score",map of at least 65mmhg,map of 65 mmhg or greater
+Gemma4 26B vLLM-MLX,IV continuous,Nicardipine,"titration goal based on physiologic response, laboratory result, or assessment score",systolic blood pressure between 90 mmhg and 120mmhg,systolic blood pressure between 90 mmhg and 120 mmhg
+Gemma4 26B vLLM-MLX,IV continuous,Propofol,numerical dose,10,
+Gemma4 26B vLLM-MLX,IV continuous,Propofol,abbreviated unit strength of dose,mg/ml,10 mg/ml
+Gemma4 26B vLLM-MLX,IV continuous,Phenylephrine,"titration goal based on physiologic response, laboratory result, or assessment score",map ≥ 65 mmhg,map of 65 mmhg or greater
+Gemma4 26B vLLM-MLX,IV continuous,Milrinone,starting rate,0.125,
+Gemma4 26B vLLM-MLX,IV continuous,Dobutamine,starting rate,5,
+Gemma4 26B vLLM-MLX,IV continuous,Octreotide,starting rate,50,50 mcg/hr
+Gemma4 26B vLLM-MLX,IV continuous,Lidocaine,starting rate,1,
+Gemma4 26B vLLM-MLX,IV continuous,Furosemide,starting rate,20,20 mg/hr
+Gemma4 26B vLLM-MLX,IV continuous,Heparin,abbreviated unit strength of dose,unit,units
+Gemma4 26B vLLM-MLX,IV continuous,Heparin,starting rate,500,500 units/hr

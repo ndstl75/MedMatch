@@ -103,7 +103,12 @@ class OpenAICompatibleBackend(LLMBackend):
                 response = self.client.chat.completions.create(
                     **request,
                 )
-                return (response.choices[0].message.content or "").strip()
+                message = response.choices[0].message
+                content = getattr(message, "content", None)
+                if content:
+                    return content.strip()
+                reasoning_content = getattr(message, "reasoning_content", None)
+                return (reasoning_content or "").strip()
             except Exception:
                 if attempt == self.retries - 1:
                     raise
@@ -136,6 +141,34 @@ class LocalQwenOpenAIBackend(OpenAICompatibleBackend):
                 "LOCAL_OPENAI_BASE_URL",
                 "OPENAI_BASE_URL",
                 default="http://127.0.0.1:8011/v1",
+            ),
+            extra_body=extra_body,
+        )
+
+
+class LocalOpenAIBackend(OpenAICompatibleBackend):
+    """Generic local OpenAI-compatible backend for non-Qwen local servers."""
+
+    def __init__(self, model=None, temperature=None, retries=None, retry_delay=None):
+        extra_body = None
+        raw_extra_body = _first_configured_value("LOCAL_OPENAI_EXTRA_BODY", "OPENAI_EXTRA_BODY_JSON", default="").strip()
+        if raw_extra_body:
+            extra_body = json.loads(raw_extra_body)
+        super().__init__(
+            model=model or _first_configured_value(
+                "LOCAL_OPENAI_MODEL_NAME",
+                "OPENAI_MODEL",
+                "OPENAI_MODEL_NAME",
+                default="google/gemma-4-26B-A4B-it",
+            ),
+            temperature=temperature,
+            retries=retries,
+            retry_delay=retry_delay,
+            api_key=_first_configured_value("LOCAL_OPENAI_API_KEY", "OPENAI_API_KEY", default="local-gemma4"),
+            base_url=_first_configured_value(
+                "LOCAL_OPENAI_BASE_URL",
+                "OPENAI_BASE_URL",
+                default="http://127.0.0.1:8013/v1",
             ),
             extra_body=extra_body,
         )

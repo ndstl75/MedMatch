@@ -1,0 +1,11 @@
+model,category,entries_correct,entries_total,entry_accuracy,fields_correct,fields_total,field_accuracy
+Gemma4 26B Ollama,PO solid,39,40,0.975,279,280,0.9964
+Gemma4 26B Ollama,PO liquid,10,10,1.0,100,100,1.0
+Gemma4 26B Ollama,IV intermittent,17,17,1.0,136,136,1.0
+Gemma4 26B Ollama,IV push,17,17,1.0,153,153,1.0
+Gemma4 26B Ollama,IV continuous,12,17,0.7059,199,204,0.9755
+Gemma4 26B vLLM-MLX,PO solid,39,40,0.975,279,280,0.9964
+Gemma4 26B vLLM-MLX,PO liquid,9,10,0.9,99,100,0.99
+Gemma4 26B vLLM-MLX,IV intermittent,17,17,1.0,136,136,1.0
+Gemma4 26B vLLM-MLX,IV push,17,17,1.0,153,153,1.0
+Gemma4 26B vLLM-MLX,IV continuous,7,17,0.4118,192,204,0.9412

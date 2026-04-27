@@ -1,6 +1,6 @@
 """Shared backend selection helpers."""
 
-SUPPORTED_BACKENDS = ("local", "remote", "google", "openai", "azure", "qwen_local")
+SUPPORTED_BACKENDS = ("local", "local_openai", "remote", "google", "openai", "azure", "qwen_local")
 REMOTE_BACKENDS = {"remote", "google", "openai", "azure", "qwen_local"}
 
 

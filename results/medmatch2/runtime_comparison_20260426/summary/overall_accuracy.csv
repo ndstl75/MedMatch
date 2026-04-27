@@ -1,0 +1,3 @@
+model,status,entries_correct,entries_total,entry_accuracy,fields_correct,fields_total,field_accuracy,raw_entries_correct,raw_entry_accuracy,raw_fields_correct,raw_field_accuracy
+Gemma4 26B Ollama,completed,95,101,0.9406,867,873,0.9931,71,0.703,835,0.9565
+Gemma4 26B vLLM-MLX,completed,89,101,0.8812,859,873,0.984,70,0.6931,837,0.9588

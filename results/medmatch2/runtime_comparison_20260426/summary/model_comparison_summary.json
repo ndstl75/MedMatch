@@ -1,0 +1,533 @@
+{
+  "title": "Gemma4 26B Ollama vs vLLM-MLX runtime comparison",
+  "created_at": "2026-04-26T21:24:51-06:00",
+  "dataset_version": [
+    "medmatch2"
+  ],
+  "scorer_version": [
+    "v1"
+  ],
+  "overall_accuracy": [
+    {
+      "model": "Gemma4 26B Ollama",
+      "status": "completed",
+      "entries_correct": 95,
+      "entries_total": 101,
+      "entry_accuracy": 0.9406,
+      "fields_correct": 867,
+      "fields_total": 873,
+      "field_accuracy": 0.9931,
+      "raw_entries_correct": 71,
+      "raw_entry_accuracy": 0.703,
+      "raw_fields_correct": 835,
+      "raw_field_accuracy": 0.9565
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "status": "completed",
+      "entries_correct": 89,
+      "entries_total": 101,
+      "entry_accuracy": 0.8812,
+      "fields_correct": 859,
+      "fields_total": 873,
+      "field_accuracy": 0.984,
+      "raw_entries_correct": 70,
+      "raw_entry_accuracy": 0.6931,
+      "raw_fields_correct": 837,
+      "raw_field_accuracy": 0.9588
+    }
+  ],
+  "category_accuracy": [
+    {
+      "model": "Gemma4 26B Ollama",
+      "category": "PO solid",
+      "entries_correct": 39,
+      "entries_total": 40,
+      "entry_accuracy": 0.975,
+      "fields_correct": 279,
+      "fields_total": 280,
+      "field_accuracy": 0.9964
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "category": "PO liquid",
+      "entries_correct": 10,
+      "entries_total": 10,
+      "entry_accuracy": 1.0,
+      "fields_correct": 100,
+      "fields_total": 100,
+      "field_accuracy": 1.0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "category": "IV intermittent",
+      "entries_correct": 17,
+      "entries_total": 17,
+      "entry_accuracy": 1.0,
+      "fields_correct": 136,
+      "fields_total": 136,
+      "field_accuracy": 1.0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "category": "IV push",
+      "entries_correct": 17,
+      "entries_total": 17,
+      "entry_accuracy": 1.0,
+      "fields_correct": 153,
+      "fields_total": 153,
+      "field_accuracy": 1.0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "category": "IV continuous",
+      "entries_correct": 12,
+      "entries_total": 17,
+      "entry_accuracy": 0.7059,
+      "fields_correct": 199,
+      "fields_total": 204,
+      "field_accuracy": 0.9755
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "category": "PO solid",
+      "entries_correct": 39,
+      "entries_total": 40,
+      "entry_accuracy": 0.975,
+      "fields_correct": 279,
+      "fields_total": 280,
+      "field_accuracy": 0.9964
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "category": "PO liquid",
+      "entries_correct": 9,
+      "entries_total": 10,
+      "entry_accuracy": 0.9,
+      "fields_correct": 99,
+      "fields_total": 100,
+      "field_accuracy": 0.99
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "category": "IV intermittent",
+      "entries_correct": 17,
+      "entries_total": 17,
+      "entry_accuracy": 1.0,
+      "fields_correct": 136,
+      "fields_total": 136,
+      "field_accuracy": 1.0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "category": "IV push",
+      "entries_correct": 17,
+      "entries_total": 17,
+      "entry_accuracy": 1.0,
+      "fields_correct": 153,
+      "fields_total": 153,
+      "field_accuracy": 1.0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "category": "IV continuous",
+      "entries_correct": 7,
+      "entries_total": 17,
+      "entry_accuracy": 0.4118,
+      "fields_correct": 192,
+      "fields_total": 204,
+      "field_accuracy": 0.9412
+    }
+  ],
+  "field_accuracy": [
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "abbreviated unit strength of dose",
+      "correct": 100,
+      "total": 101,
+      "accuracy": 0.9901,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "amount",
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "amount of diluent volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "amount of volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "compatible diluent type",
+      "correct": 34,
+      "total": 34,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "concentration of formulation",
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "concentration of solution",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "concentration unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "diluent volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "drug name",
+      "correct": 101,
+      "total": 101,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "formulation",
+      "correct": 67,
+      "total": 67,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "formulation unit of measure",
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "frequency",
+      "correct": 83,
+      "total": 84,
+      "accuracy": 0.9881,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "infusion time",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "numerical dose",
+      "correct": 101,
+      "total": 101,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "numerical volume",
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "route",
+      "correct": 50,
+      "total": 50,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "starting rate",
+      "correct": 16,
+      "total": 17,
+      "accuracy": 0.9412,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "titration dose",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "titration frequency",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "titration goal based on physiologic response, laboratory result, or assessment score",
+      "correct": 14,
+      "total": 17,
+      "accuracy": 0.8235,
+      "errors": 3
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "titration unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B Ollama",
+      "field": "volume unit of measure",
+      "correct": 61,
+      "total": 61,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "abbreviated unit strength of dose",
+      "correct": 99,
+      "total": 101,
+      "accuracy": 0.9802,
+      "errors": 2
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "amount",
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "amount of diluent volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "amount of volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "compatible diluent type",
+      "correct": 34,
+      "total": 34,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "concentration of formulation",
+      "correct": 9,
+      "total": 10,
+      "accuracy": 0.9,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "concentration of solution",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "concentration unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "diluent volume",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "drug name",
+      "correct": 101,
+      "total": 101,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "formulation",
+      "correct": 67,
+      "total": 67,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "formulation unit of measure",
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "frequency",
+      "correct": 83,
+      "total": 84,
+      "accuracy": 0.9881,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "infusion time",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "numerical dose",
+      "correct": 100,
+      "total": 101,
+      "accuracy": 0.9901,
+      "errors": 1
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "numerical volume",
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "route",
+      "correct": 50,
+      "total": 50,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "starting rate",
+      "correct": 11,
+      "total": 17,
+      "accuracy": 0.6471,
+      "errors": 6
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "titration dose",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "titration frequency",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "titration goal based on physiologic response, laboratory result, or assessment score",
+      "correct": 14,
+      "total": 17,
+      "accuracy": 0.8235,
+      "errors": 3
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "titration unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "unit of measure",
+      "correct": 17,
+      "total": 17,
+      "accuracy": 1.0,
+      "errors": 0
+    },
+    {
+      "model": "Gemma4 26B vLLM-MLX",
+      "field": "volume unit of measure",
+      "correct": 61,
+      "total": 61,
+      "accuracy": 1.0,
+      "errors": 0
+    }
+  ],
+  "residual_error_count": 20,
+  "notes": [
+    "These tables report v1 strict exact-match results only.",
+    "Do not mix these v1 rows with any future v2 abbreviation-equivalency summaries."
+  ]
+}

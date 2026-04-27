@@ -1,0 +1,11 @@
+model,category,field_family,errors
+Gemma4 26B vLLM-MLX,IV continuous,starting rate,6
+Gemma4 26B Ollama,IV continuous,titration goal,3
+Gemma4 26B vLLM-MLX,IV continuous,titration goal,3
+Gemma4 26B vLLM-MLX,IV continuous,dose unit,2
+Gemma4 26B Ollama,PO solid,frequency,1
+Gemma4 26B Ollama,IV continuous,starting rate,1
+Gemma4 26B Ollama,IV continuous,dose unit,1
+Gemma4 26B vLLM-MLX,PO solid,frequency,1
+Gemma4 26B vLLM-MLX,PO liquid,formulation concentration,1
+Gemma4 26B vLLM-MLX,IV continuous,numerical dose,1

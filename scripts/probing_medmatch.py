@@ -14,6 +14,8 @@ import json
 import os
 import random
 import sys
+import time
+from datetime import datetime
 from typing import Any, Dict, Iterable, List, Optional
 
 
@@ -67,7 +69,7 @@ from medmatch.core.scorer import (
 )
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
 from medmatch.llm.local_ollama import LocalOllamaBackend
-from medmatch.llm.remote_api import AzureOpenAIBackend, LocalQwenOpenAIBackend, OpenAICompatibleBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, LocalOpenAIBackend, LocalQwenOpenAIBackend, OpenAICompatibleBackend
 from medmatch.llm.remote_gemma import RemoteGemmaBackend
 
 try:
@@ -175,6 +177,13 @@ def default_model_name_for_mode(mode: str) -> str:
     normalized_mode = canonical_backend_name(mode)
     if normalized_mode == "local":
         return os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
+    if normalized_mode == "local_openai":
+        return (
+            os.environ.get("LOCAL_OPENAI_MODEL_NAME")
+            or os.environ.get("OPENAI_MODEL")
+            or os.environ.get("OPENAI_MODEL_NAME")
+            or "google/gemma-4-26B-A4B-it"
+        )
     if normalized_mode in {"remote", "google"}:
         return os.environ.get("GOOGLE_MODEL_NAME", "gemma-3-27b-it")
     if normalized_mode == "azure":
@@ -270,6 +279,8 @@ def create_backend(mode: str, model_name: str, temperature: float):
         selected_model = None
     if mode == "local":
         return LocalOllamaBackend(model=selected_model, temperature=temperature)
+    if mode == "local_openai":
+        return LocalOpenAIBackend(model=selected_model, temperature=temperature)
     if mode == "qwen_local":
         return LocalQwenOpenAIBackend(model=selected_model, temperature=temperature)
     if mode == "openai":
@@ -394,6 +405,12 @@ def write_run_metadata(
     data_dir: str,
     dataset_keys: List[str],
     datasets: Dict[str, List[Dict[str, Any]]],
+    temperature: float,
+    top_p: float,
+    max_new_tokens: int,
+    started_at: str,
+    completed_at: str,
+    elapsed_seconds: float,
 ) -> None:
     dataset_version = dataset_version_for_path(data_dir)
     metadata = {
@@ -404,6 +421,12 @@ def write_run_metadata(
         "mode": mode,
         "model_name": model_name,
         "num_runs": num_runs,
+        "temperature": temperature,
+        "top_p": top_p,
+        "max_new_tokens": max_new_tokens,
+        "started_at": started_at,
+        "completed_at": completed_at,
+        "elapsed_seconds": round(elapsed_seconds, 3),
         "dataset_keys": dataset_keys,
         "row_counts_by_dataset": {
             dataset_key: len(datasets[DATASET_SPECS[dataset_key]["sheet_name"]])
@@ -592,6 +615,9 @@ def run_medmatch_pipeline(
 ) -> Dict[str, List[Dict[str, Any]]]:
     del batch_size
     resolved_model_name = model_name or default_model_name_for_mode(mode)
+    started_at_dt = datetime.now().astimezone()
+    started_at = started_at_dt.isoformat(timespec="seconds")
+    started_perf = time.perf_counter()
 
     runtime_args = argparse.Namespace(
         mode=mode,
@@ -637,6 +663,8 @@ def run_medmatch_pipeline(
                 output_handle.close()
 
     if output_dir:
+        completed_at = datetime.now().astimezone().isoformat(timespec="seconds")
+        elapsed_seconds = time.perf_counter() - started_perf
         write_run_metadata(
             output_dir,
             mode=mode,
@@ -646,6 +674,12 @@ def run_medmatch_pipeline(
             data_dir=data_dir,
             dataset_keys=selected_keys,
             datasets=datasets,
+            temperature=temperature,
+            top_p=top_p,
+            max_new_tokens=max_new_tokens,
+            started_at=started_at,
+            completed_at=completed_at,
+            elapsed_seconds=elapsed_seconds,
         )
 
     return results_by_sheet
@@ -657,7 +691,7 @@ def build_args() -> argparse.ArgumentParser:
         "--mode",
         choices=MODE_CHOICES,
         default="openai",
-        help="openai | azure | local | remote | google | qwen_local | vllm.",
+        help="openai | azure | local | local_openai | remote | google | qwen_local | vllm.",
     )
     parser.add_argument("--model_name")
     parser.add_argument(

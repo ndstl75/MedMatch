@@ -1,0 +1,30 @@
+{
+  "dataset_version": "medmatch2",
+  "dataset_dir": "/Users/tianleli/Desktop/Boulder2/MedMatch-gemma4-vllm-mlx/data/medmatch2",
+  "scorer_version": "v1",
+  "prompting_type": "normalization",
+  "mode": "local_openai",
+  "model_name": "google/gemma-4-26B-A4B-it",
+  "num_runs": 1,
+  "temperature": 0.7,
+  "top_p": 0.95,
+  "max_new_tokens": 512,
+  "started_at": "2026-04-26T21:17:06-06:00",
+  "completed_at": "2026-04-26T21:24:12-06:00",
+  "elapsed_seconds": 426.298,
+  "dataset_keys": [
+    "po_solid",
+    "po_liquid",
+    "iv_intermit",
+    "iv_push",
+    "iv_continuous"
+  ],
+  "row_counts_by_dataset": {
+    "po_solid": 40,
+    "po_liquid": 10,
+    "iv_intermit": 17,
+    "iv_push": 17,
+    "iv_continuous": 17
+  },
+  "comparison_notice": "Do not compare medmatch2 outputs directly against results computed on other MedMatch dataset versions without explicit dataset-version disclosure."
+}

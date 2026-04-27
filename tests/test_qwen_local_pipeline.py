@@ -37,6 +37,37 @@ class QwenLocalPipelineConfigTests(unittest.TestCase):
 
         backend_cls.assert_called_once_with(model="gpt-4o-mini", temperature=0.2)
 
+    def test_local_openai_default_model_name_uses_gemma4_local_endpoint(self):
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(
+                probing_medmatch.default_model_name_for_mode("local_openai"),
+                "google/gemma-4-26B-A4B-it",
+            )
+            self.assertEqual(run_cot.default_model_name("local_openai"), "google/gemma-4-26B-A4B-it")
+            self.assertEqual(
+                run_normalization.default_model_name("local_openai"),
+                "google/gemma-4-26B-A4B-it",
+            )
+
+    def test_local_openai_default_model_name_respects_local_openai_model_name(self):
+        env = {"LOCAL_OPENAI_MODEL_NAME": "local/custom-gemma"}
+        with patch.dict(os.environ, env, clear=True):
+            self.assertEqual(
+                probing_medmatch.default_model_name_for_mode("local_openai"),
+                "local/custom-gemma",
+            )
+            self.assertEqual(run_cot.default_model_name("local_openai"), "local/custom-gemma")
+            self.assertEqual(run_normalization.default_model_name("local_openai"), "local/custom-gemma")
+
+    def test_local_openai_create_backend_preserves_explicit_model_name(self):
+        with patch.object(probing_medmatch, "LocalOpenAIBackend") as backend_cls:
+            probing_medmatch.create_backend("local_openai", "google/gemma-4-26B-A4B-it", 0.2)
+
+        backend_cls.assert_called_once_with(model="google/gemma-4-26B-A4B-it", temperature=0.2)
+
+    def test_local_openai_uses_local_prompt_style(self):
+        self.assertFalse(probing_medmatch.is_remote_style_mode("local_openai"))
+
 
 if __name__ == "__main__":
     unittest.main()

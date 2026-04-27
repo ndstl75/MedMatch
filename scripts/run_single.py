@@ -19,7 +19,7 @@ for candidate in (ROOT, SRC):
 from medmatch.core.scorer import compare_results, normalize_strict
 from medmatch.llm.config import SUPPORTED_BACKENDS, canonical_backend_name
 from medmatch.llm.local_ollama import LocalOllamaBackend
-from medmatch.llm.remote_api import AzureOpenAIBackend, LocalQwenOpenAIBackend, OpenAICompatibleBackend
+from medmatch.llm.remote_api import AzureOpenAIBackend, LocalOpenAIBackend, LocalQwenOpenAIBackend, OpenAICompatibleBackend
 from medmatch.llm.remote_gemma import RemoteGemmaBackend
 from prompt_medmatch import (
     SYSTEM_PROMPT,
@@ -168,6 +168,8 @@ def make_backend(name: str):
     mode = canonical_backend_name(name)
     if mode == "local":
         return LocalOllamaBackend()
+    if mode == "local_openai":
+        return LocalOpenAIBackend()
     if mode == "qwen_local":
         return LocalQwenOpenAIBackend()
     if mode == "openai":

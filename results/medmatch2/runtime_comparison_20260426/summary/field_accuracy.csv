@@ -1,0 +1,49 @@
+model,field,correct,total,accuracy,errors
+Gemma4 26B Ollama,abbreviated unit strength of dose,100,101,0.9901,1
+Gemma4 26B Ollama,amount,40,40,1.0,0
+Gemma4 26B Ollama,amount of diluent volume,17,17,1.0,0
+Gemma4 26B Ollama,amount of volume,17,17,1.0,0
+Gemma4 26B Ollama,compatible diluent type,34,34,1.0,0
+Gemma4 26B Ollama,concentration of formulation,10,10,1.0,0
+Gemma4 26B Ollama,concentration of solution,17,17,1.0,0
+Gemma4 26B Ollama,concentration unit of measure,17,17,1.0,0
+Gemma4 26B Ollama,diluent volume,17,17,1.0,0
+Gemma4 26B Ollama,drug name,101,101,1.0,0
+Gemma4 26B Ollama,formulation,67,67,1.0,0
+Gemma4 26B Ollama,formulation unit of measure,10,10,1.0,0
+Gemma4 26B Ollama,frequency,83,84,0.9881,1
+Gemma4 26B Ollama,infusion time,17,17,1.0,0
+Gemma4 26B Ollama,numerical dose,101,101,1.0,0
+Gemma4 26B Ollama,numerical volume,10,10,1.0,0
+Gemma4 26B Ollama,route,50,50,1.0,0
+Gemma4 26B Ollama,starting rate,16,17,0.9412,1
+Gemma4 26B Ollama,titration dose,17,17,1.0,0
+Gemma4 26B Ollama,titration frequency,17,17,1.0,0
+Gemma4 26B Ollama,"titration goal based on physiologic response, laboratory result, or assessment score",14,17,0.8235,3
+Gemma4 26B Ollama,titration unit of measure,17,17,1.0,0
+Gemma4 26B Ollama,unit of measure,17,17,1.0,0
+Gemma4 26B Ollama,volume unit of measure,61,61,1.0,0
+Gemma4 26B vLLM-MLX,abbreviated unit strength of dose,99,101,0.9802,2
+Gemma4 26B vLLM-MLX,amount,40,40,1.0,0
+Gemma4 26B vLLM-MLX,amount of diluent volume,17,17,1.0,0
+Gemma4 26B vLLM-MLX,amount of volume,17,17,1.0,0
+Gemma4 26B vLLM-MLX,compatible diluent type,34,34,1.0,0
+Gemma4 26B vLLM-MLX,concentration of formulation,9,10,0.9,1
+Gemma4 26B vLLM-MLX,concentration of solution,17,17,1.0,0
+Gemma4 26B vLLM-MLX,concentration unit of measure,17,17,1.0,0
+Gemma4 26B vLLM-MLX,diluent volume,17,17,1.0,0
+Gemma4 26B vLLM-MLX,drug name,101,101,1.0,0
+Gemma4 26B vLLM-MLX,formulation,67,67,1.0,0
+Gemma4 26B vLLM-MLX,formulation unit of measure,10,10,1.0,0
+Gemma4 26B vLLM-MLX,frequency,83,84,0.9881,1
+Gemma4 26B vLLM-MLX,infusion time,17,17,1.0,0
+Gemma4 26B vLLM-MLX,numerical dose,100,101,0.9901,1
+Gemma4 26B vLLM-MLX,numerical volume,10,10,1.0,0
+Gemma4 26B vLLM-MLX,route,50,50,1.0,0
+Gemma4 26B vLLM-MLX,starting rate,11,17,0.6471,6
+Gemma4 26B vLLM-MLX,titration dose,17,17,1.0,0
+Gemma4 26B vLLM-MLX,titration frequency,17,17,1.0,0
+Gemma4 26B vLLM-MLX,"titration goal based on physiologic response, laboratory result, or assessment score",14,17,0.8235,3
+Gemma4 26B vLLM-MLX,titration unit of measure,17,17,1.0,0
+Gemma4 26B vLLM-MLX,unit of measure,17,17,1.0,0
+Gemma4 26B vLLM-MLX,volume unit of measure,61,61,1.0,0

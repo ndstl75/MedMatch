@@ -68,3 +68,52 @@ class OpenAIBackendTests(unittest.TestCase):
             FakeOpenAIClient.last_request["extra_body"],
             {"chat_template_kwargs": {"enable_thinking": False}},
         )
+
+    def test_local_openai_backend_has_gemma4_defaults_and_no_default_extra_body(self):
+        with patch.dict(os.environ, {}, clear=True):
+            with patch.object(remote_api, "OPENAI_SDK_AVAILABLE", True):
+                with patch.object(remote_api, "OpenAI", FakeOpenAIClient):
+                    backend = remote_api.LocalOpenAIBackend()
+                    backend.generate_text("system", "user", temperature=0)
+
+        self.assertEqual(backend.model, "google/gemma-4-26B-A4B-it")
+        self.assertEqual(
+            FakeOpenAIClient.last_init,
+            {"api_key": "local-gemma4", "base_url": "http://127.0.0.1:8013/v1"},
+        )
+        self.assertNotIn("extra_body", FakeOpenAIClient.last_request)
+
+    def test_local_openai_backend_accepts_local_extra_body_env(self):
+        env = {
+            "LOCAL_OPENAI_EXTRA_BODY": '{"enable_thinking":false,"chat_template_kwargs":{"enable_thinking":false}}',
+        }
+        with patch.dict(os.environ, env, clear=True):
+            with patch.object(remote_api, "OPENAI_SDK_AVAILABLE", True):
+                with patch.object(remote_api, "OpenAI", FakeOpenAIClient):
+                    backend = remote_api.LocalOpenAIBackend()
+                    backend.generate_text("system", "user", temperature=0)
+
+        self.assertEqual(
+            FakeOpenAIClient.last_request["extra_body"],
+            {"enable_thinking": False, "chat_template_kwargs": {"enable_thinking": False}},
+        )
+
+    def test_openai_backend_falls_back_to_reasoning_content_when_content_empty(self):
+        class FakeReasoningClient(FakeOpenAIClient):
+            def create(self, **kwargs):
+                FakeOpenAIClient.last_request = kwargs
+                return SimpleNamespace(
+                    choices=[
+                        SimpleNamespace(
+                            message=SimpleNamespace(content=None, reasoning_content='{"drug_name":"adenosine"}')
+                        )
+                    ]
+                )
+
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-key"}, clear=True):
+            with patch.object(remote_api, "OPENAI_SDK_AVAILABLE", True):
+                with patch.object(remote_api, "OpenAI", FakeReasoningClient):
+                    backend = remote_api.OpenAICompatibleBackend()
+                    text = backend.generate_text("system", "user", temperature=0)
+
+        self.assertEqual(text, '{"drug_name":"adenosine"}')

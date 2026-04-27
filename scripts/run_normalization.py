@@ -29,6 +29,13 @@ DEFAULT_RESULTS_DIR = current_results_root()
 def default_model_name(backend: str) -> str:
     if backend == "local":
         return os.environ.get("OLLAMA_MODEL", "gemma4:e4b")
+    if backend == "local_openai":
+        return (
+            os.environ.get("LOCAL_OPENAI_MODEL_NAME")
+            or os.environ.get("OPENAI_MODEL")
+            or os.environ.get("OPENAI_MODEL_NAME")
+            or "google/gemma-4-26B-A4B-it"
+        )
     if backend in {"remote", "google"}:
         return os.environ.get("GOOGLE_MODEL_NAME", "gemma-3-27b-it")
     if backend == "azure":
